@@ -46,6 +46,7 @@ u16  flag_state=0;
 u8 flag_fasong;
 extern u32 flag_ls_set;
 extern char temp_lala[43];
+extern char temp_nb[];
 
 //底部显示的变量
 u16 LCD_dizhi;
@@ -227,12 +228,13 @@ void ReadParameters_wuxian(void)
 	delay_ms(100);
 	
 	deviceidNum = ParameterRead[6]*65536 + ParameterRead[7]*4096 + ParameterRead[8]*256 + ParameterRead[9];
-	sprintf(temp_lala,"AT+CIPSTART=\"TCP\",\"%d.%d.%d.%d\",%d\r",ParameterRead[0],ParameterRead[1],ParameterRead[2],ParameterRead[3],(ParameterRead[4]*256+ParameterRead[5]));
-	deviceidArr[0] = deviceidNum/10000;
-	deviceidArr[1] = deviceidNum%10000/1000;
-	deviceidArr[2] = deviceidNum%1000/100;
-	deviceidArr[3] = deviceidNum%100/10;
-	deviceidArr[4] = deviceidNum%10;
+	//sprintf(temp_lala,"AT+CIPSTART=\"TCP\",\"%d.%d.%d.%d\",%d\r",ParameterRead[0],ParameterRead[1],ParameterRead[2],ParameterRead[3],(ParameterRead[4]*256+ParameterRead[5]));
+	sprintf(temp_nb,"AT+SKTCONNECT=1,%d.%d.%d.%d,%d\r\n",ParameterRead[0],ParameterRead[1],ParameterRead[2],ParameterRead[3],(ParameterRead[4]*256+ParameterRead[5]));
+	deviceidArr[0] = deviceidNum/10000 + 48;
+	deviceidArr[1] = deviceidNum%10000/1000 + 48;
+	deviceidArr[2] = deviceidNum%1000/100 + 48;
+	deviceidArr[3] = deviceidNum%100/10 + 48;
+	deviceidArr[4] = deviceidNum%10 + 48;
 	flag_ls_set = ParameterRead[10]*256 + ParameterRead[11];
 	
 }
@@ -7455,14 +7457,14 @@ int main(void)
 					case 2:
 						GetRSSI();
 						DisplayRssi(RssiGrade);
-						Connect();
-	//					Wifi_Connect();
-	//					Nb_Connect();
+//						Connect();
+//					Wifi_Connect();
+						Nb_Connect();
 						break;
 					case 3:
 						//Wifi_Startsend();
-						//Nb_SendData("12345678");
-						Send_Str(deviceidArr);
+						Nb_SendData(deviceidArr);
+						//Send_Str(deviceidArr);
 						break;
 				case 4:
 						NumToArr(TmpArr, (int)(Temperature_Load*10));
@@ -7490,14 +7492,15 @@ int main(void)
 						TxData[19] = NULL;
 						
 						CleanRXBUF();
-						//Nb_SendData(TxData);
-						Send_Str(TxData);
+						Nb_SendData(TxData);
+						//Send_Str(TxData);
 						break;
 					case 5:
-						DisConnect();		
+						//DisConnect();		
 						//Wifi_DisConnect();	
-						//Nb_DisConnect();
+						Nb_DisConnect();
 						flag_fasong = 0;
+						flag_state = 0;
 						GPIO_ResetBits(GPIOA,GPIO_Pin_1);
 						break;								 
 					default:

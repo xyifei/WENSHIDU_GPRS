@@ -1325,17 +1325,23 @@ void DisplayRssi(int rssi)
 	if(rssi == 1)
 	{
 		write_addr_dat_n_char(7,2,1);
+		write_addr_dat_n_char(7,4,0);
+		write_addr_dat_n_char(6,2,0);
+		write_addr_dat_n_char(6,1,0);
 	}
 	else if(rssi == 2)
 	{
 		write_addr_dat_n_char(7,2,1);
 		write_addr_dat_n_char(7,4,1);
+		write_addr_dat_n_char(6,2,0);
+		write_addr_dat_n_char(6,1,0);
 	}
 	else if(rssi == 3)
 	{
 		write_addr_dat_n_char(7,2,1);
 		write_addr_dat_n_char(7,4,1);
 		write_addr_dat_n_char(6,2,1);
+		write_addr_dat_n_char(6,1,0);
 	}
 	else
 	{

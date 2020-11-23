@@ -205,6 +205,11 @@
           <WinNumber>1</WinNumber>
           <ItemText>RecordTiming,0x0A</ItemText>
         </Ww>
+        <Ww>
+          <count>9</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>deviceidArr</ItemText>
+        </Ww>
       </WatchWindow1>
       <Tracepoint>
         <THDelay>0</THDelay>

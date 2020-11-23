@@ -633,8 +633,8 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 		{
 			if(flag_state >= 2)
 			{
-				DisConnect();
-//			Nb_DisConnect();
+				//DisConnect();
+  			Nb_DisConnect();
 				GPIO_ResetBits(GPIOA,GPIO_Pin_1);
 			}
 				
@@ -644,8 +644,8 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 			ip4 = RxData[5];
 			port = RxData[6]*256+RxData[7];
 			
-			sprintf(temp_lala,"AT+CIPSTART=\"TCP\",\"%d.%d.%d.%d\",%d\r",RxData[2],RxData[3],RxData[4],RxData[5],(RxData[6]*256+RxData[7]));
-			//sprintf(temp_nb,"AT+SKTCONNECT=1,%d.%d.%d.%d,%d\r\n",RxData[2],RxData[3],RxData[4],RxData[5],(RxData[6]*256+RxData[7]));
+			//sprintf(temp_lala,"AT+CIPSTART=\"TCP\",\"%d.%d.%d.%d\",%d\r",RxData[2],RxData[3],RxData[4],RxData[5],(RxData[6]*256+RxData[7]));
+			sprintf(temp_nb,"AT+SKTCONNECT=1,%d.%d.%d.%d,%d\r\n",RxData[2],RxData[3],RxData[4],RxData[5],(RxData[6]*256+RxData[7]));
 			flag_state = 0;
 			flag_1s_nnn = 0;
 			timetick = 0;
@@ -660,68 +660,68 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 			TxData[8] = 0x0d;
 			TxData[9] = 0x0a;
 			
-			//2G模块
-			for(i=19;i<=42;i++)
-			{
-				if((temp_lala[i] != '.') && (temp_lala[i] != '"'))
-				{
-					TxData[n] = TxData[n]*10 + temp_lala[i]-48;
-				}
-				else
-				{
-					n++;
-				}
-					
-				if(temp_lala[i] == ',')
-				{
-					n = i;
-					break;
-				}					
-			}
-			
-			for(i=n+1;i<=42;i++)
-			{
-				if(temp_lala[i] != 0x0d)
-				{
-					m = m*10 + temp_lala[i]-48;
-				}
-				else
-				{
-					break;
-				}
-			}
-			
-			TxData[6] = m/256;
-			TxData[7] = m%256;
-			
-//			//NB模块
-//			for(i=16;i<41;i++)
+//			//2G模块
+//			for(i=19;i<=42;i++)
 //			{
-//				if(temp_nb[i] == '\r')
+//				if((temp_lala[i] != '.') && (temp_lala[i] != '"'))
 //				{
-//					break;
-//				}
-//				
-//				if((temp_nb[i]!='.') && (temp_nb[i]!=','))
-//				{
-//					if(n<=5)
-//					{
-//						TxData[n] = TxData[n]*10 + temp_nb[i]-48;
-//					}
-//					else
-//					{
-//						m = m*10 + temp_nb[i]-48;
-//					}
+//					TxData[n] = TxData[n]*10 + temp_lala[i]-48;
 //				}
 //				else
 //				{
 //					n++;
 //				}
-//				
+//					
+//				if(temp_lala[i] == ',')
+//				{
+//					n = i;
+//					break;
+//				}					
+//			}
+//			
+//			for(i=n+1;i<=42;i++)
+//			{
+//				if(temp_lala[i] != 0x0d)
+//				{
+//					m = m*10 + temp_lala[i]-48;
+//				}
+//				else
+//				{
+//					break;
+//				}
 //			}
 //			
 //			TxData[6] = m/256;
 //			TxData[7] = m%256;
+			
+			//NB模块
+			for(i=16;i<41;i++)
+			{
+				if(temp_nb[i] == '\r')
+				{
+					break;
+				}
+				
+				if((temp_nb[i]!='.') && (temp_nb[i]!=','))
+				{
+					if(n<=5)
+					{
+						TxData[n] = TxData[n]*10 + temp_nb[i]-48;
+					}
+					else
+					{
+						m = m*10 + temp_nb[i]-48;
+					}
+				}
+				else
+				{
+					n++;
+				}
+				
+			}
+			
+			TxData[6] = m/256;
+			TxData[7] = m%256;
 			
 			for(i=0;i<10;i++)
 			{
@@ -736,8 +736,8 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 		{
 			if(flag_state >= 2)
 			{
-				DisConnect();
-//				Nb_DisConnect();
+				//DisConnect();
+				Nb_DisConnect();
 				GPIO_ResetBits(GPIOA,GPIO_Pin_1);
 			}
 				

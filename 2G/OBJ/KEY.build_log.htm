@@ -21,36 +21,17 @@ Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.1.0
 Dialog DLL:      TARMSTM.DLL V1.66.0.0
  
 <h2>Project:</h2>
-C:\Users\XYF\Desktop\2019-12-8µÁ—π0-5V\USER\KEY.uvprojx
+C:\Users\XYF\Desktop\WENSHIDU_GPRS\2G\USER\KEY.uvprojx
 Project File Date:  11/22/2020
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'KEY'
-compiling main.c...
-..\HARDWARE\KEY\key.h(35): warning:  #1295-D: Deprecated declaration KEY_Scan - give arg types
-  void KEY_Scan();  	//∞¥º¸…®√Ë∫Ø ˝			
-..\HARDWARE\SD3078\sd3078.h(24): warning:  #47-D: incompatible redefinition of macro "SDA_IN"  (declared at line 21 of "..\HARDWARE\IIC\myiic.h")
-  #define SDA_IN  {GPIOB->CRL&=0XFFFF0FFF;GPIOB->CRL|=(u32)8<<12;}
-..\HARDWARE\SD3078\sd3078.h(25): warning:  #47-D: incompatible redefinition of macro "SDA_OUT"  (declared at line 22 of "..\HARDWARE\IIC\myiic.h")
-  #define SDA_OUT {GPIOB->CRL&=0XFFFF0FFF;GPIOB->CRL|=(u32)3<<12;}
-..\HARDWARE\SD3078\sd3078.h(34): warning:  #1295-D: Deprecated declaration i2cInit - give arg types
-  void i2cInit();
-main.c(6321): warning:  #940-D: missing return statement at end of non-void function "Temperature_Warning_Data" 
-  }
-main.c(6437): warning:  #940-D: missing return statement at end of non-void function "Humitidy_Warning_Data" 
-  }
-main.c(7465): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "char *"
-  						Send_Str(deviceidArr);
-main.c(7494): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "char *"
-  						Send_Str(TxData);
-main.c(6671): warning:  #177-D: variable "BUFFER_SIZE2"  was declared but never referenced
-  	u8 BUFFER_SIZE2;
-main.c: 9 warnings, 0 errors
+compiling timer.c...
 linking...
-Program Size: Code=75450 RO-data=462 RW-data=1224 ZI-data=3128  
+Program Size: Code=75466 RO-data=462 RW-data=1224 ZI-data=3128  
 FromELF: creating hex file...
-"..\OBJ\KEY.axf" - 0 Error(s), 9 Warning(s).
+"..\OBJ\KEY.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -64,7 +45,7 @@ Package Vendor: Keil
   D:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

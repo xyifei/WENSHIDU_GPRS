@@ -16,7 +16,7 @@ char temp_lala[43] = {0};
 //char temp_lala[]={"AT+CIPSTART=\"TCP\",\"049.233.217.195\",50001\r"};
 //char temp_lala[]={"AT+CIPSTART=\"TCP\",\"103.046.128.045\",18631\r"};
 //char temp_nb[]={"AT+SKTCONNECT=1,122.51.118.117,50001\r\n"};
-char temp_nb[41]={"AT+SKTCONNECT=1,103.46.128.21,17354\r\n"};
+char temp_nb[41]={0};
 char routerSet[40]={"AT+CWJAP=\"Tcp\",\"12345678\"\r\n"};
 
 extern unsigned char RXBUF[255];//接收GPRS模组返回的数据

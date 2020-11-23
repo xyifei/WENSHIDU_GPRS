@@ -228,11 +228,11 @@ void ReadParameters_wuxian(void)
 	
 	deviceidNum = ParameterRead[6]*65536 + ParameterRead[7]*4096 + ParameterRead[8]*256 + ParameterRead[9];
 	sprintf(temp_lala,"AT+CIPSTART=\"TCP\",\"%d.%d.%d.%d\",%d\r",ParameterRead[0],ParameterRead[1],ParameterRead[2],ParameterRead[3],(ParameterRead[4]*256+ParameterRead[5]));
-	deviceidArr[0] = deviceidNum/10000;
-	deviceidArr[1] = deviceidNum%10000/1000;
-	deviceidArr[2] = deviceidNum%1000/100;
-	deviceidArr[3] = deviceidNum%100/10;
-	deviceidArr[4] = deviceidNum%10;
+	deviceidArr[0] = deviceidNum/10000 + 48;
+	deviceidArr[1] = deviceidNum%10000/1000 + 48;
+	deviceidArr[2] = deviceidNum%1000/100 + 48;
+	deviceidArr[3] = deviceidNum%100/10 + 48;
+	deviceidArr[4] = deviceidNum%10 + 48;
 	flag_ls_set = ParameterRead[10]*256 + ParameterRead[11];
 	
 }
@@ -7498,6 +7498,7 @@ int main(void)
 						//Wifi_DisConnect();	
 						//Nb_DisConnect();
 						flag_fasong = 0;
+						flag_state = 0;
 						GPIO_ResetBits(GPIOA,GPIO_Pin_1);
 						break;								 
 					default:
