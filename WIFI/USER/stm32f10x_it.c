@@ -633,7 +633,8 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 		{
 			if(flag_state >= 2)
 			{
-				DisConnect();
+				Wifi_DisConnect();
+//				DisConnect();
 //			Nb_DisConnect();
 				GPIO_ResetBits(GPIOA,GPIO_Pin_1);
 			}
@@ -644,7 +645,8 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 			ip4 = RxData[5];
 			port = RxData[6]*256+RxData[7];
 			
-			sprintf(temp_lala,"AT+CIPSTART=\"TCP\",\"%d.%d.%d.%d\",%d\r",RxData[2],RxData[3],RxData[4],RxData[5],(RxData[6]*256+RxData[7]));
+			sprintf(temp_lala,"AT+CIPSTART=\"TCP\",\"%d.%d.%d.%d\",%d\r\n",RxData[2],RxData[3],RxData[4],RxData[5],(RxData[6]*256+RxData[7]));
+			//sprintf(temp_lala,"AT+CIPSTART=\"TCP\",\"%d.%d.%d.%d\",%d\r",RxData[2],RxData[3],RxData[4],RxData[5],(RxData[6]*256+RxData[7]));
 			//sprintf(temp_nb,"AT+SKTCONNECT=1,%d.%d.%d.%d,%d\r\n",RxData[2],RxData[3],RxData[4],RxData[5],(RxData[6]*256+RxData[7]));
 			flag_state = 0;
 			flag_1s_nnn = 0;
@@ -736,7 +738,8 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 		{
 			if(flag_state >= 2)
 			{
-				DisConnect();
+				Wifi_DisConnect();
+//				DisConnect();
 //				Nb_DisConnect();
 				GPIO_ResetBits(GPIOA,GPIO_Pin_1);
 			}
@@ -769,8 +772,11 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 		//读取路由器名字
 		if(RxData[1] == 0x05)
 		{
-			if(flag_state >= 2)
-				Wifi_DisConnect();
+//			if(flag_state >= 2)
+//				Wifi_DisConnect();
+//			else if(flag_state == 0)
+				GPIO_SetBits(GPIOA,GPIO_Pin_1);
+			delay_ms(1000);
 			
 			for(i=0;i<Rec_counter-4;i++)
 			{
@@ -781,13 +787,17 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 			sprintf(routerSet,"AT+CWJAP=\"%s\",\"%s\"\r\n",wifiName,wifiPassword);
 			
 			Wifi_Setrouter();
+			GPIO_ResetBits(GPIOA,GPIO_Pin_1);
 		}
 		
 		//读取路由器密码
 		if(RxData[1] == 0x06)
 		{
-			if(flag_state >= 2)
-				Wifi_DisConnect();
+//			if(flag_state >= 2)
+//				Wifi_DisConnect();
+//			else if(flag_state == 0)
+				GPIO_SetBits(GPIOA,GPIO_Pin_1);
+			delay_ms(1000);
 			
 			for(i=0;i<Rec_counter-4;i++)
 			{
@@ -798,6 +808,7 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 			sprintf(routerSet,"AT+CWJAP=\"%s\",\"%s\"\r\n",wifiName,wifiPassword);
 			
 			Wifi_Setrouter();
+			GPIO_ResetBits(GPIOA,GPIO_Pin_1);
 		}
 	}
 

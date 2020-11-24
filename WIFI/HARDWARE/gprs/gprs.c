@@ -296,7 +296,7 @@ void Nb_SendData(char *data)
 void Wifi_Setrouter()
 {
 	Send_AT("AT+CWMODE=3\r\n","OK"); 
-	Send_AT(routerSet,"OK");
+	Send_AT(routerSet,0);
 }
 
 

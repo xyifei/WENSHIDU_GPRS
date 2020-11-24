@@ -86,7 +86,7 @@ int TimingReadSensor=0;  //定义温湿度读取时间变量，2S读取一次
 int Menu_mode=0;         //默认为0，代表正常测温湿度的模式。1-15分别代表不同的功能设置
 //设置的参数
 u8 address=0x01;          //485设备地址
-int BaudRate=9600;       //通信波特率，默认为9600
+int BaudRate=115200;       //通信波特率，默认为9600
 int BaudRateNum=3;       
 int BaudRateArray[5]={1200,2400,4800,9600,19200};
 int Warning=1;           //报警使能标志位，0：OFF,1:ON
@@ -227,7 +227,8 @@ void ReadParameters_wuxian(void)
 	delay_ms(100);
 	
 	deviceidNum = ParameterRead[6]*65536 + ParameterRead[7]*4096 + ParameterRead[8]*256 + ParameterRead[9];
-	sprintf(temp_lala,"AT+CIPSTART=\"TCP\",\"%d.%d.%d.%d\",%d\r",ParameterRead[0],ParameterRead[1],ParameterRead[2],ParameterRead[3],(ParameterRead[4]*256+ParameterRead[5]));
+	sprintf(temp_lala,"AT+CIPSTART=\"TCP\",\"%d.%d.%d.%d\",%d\r\n",ParameterRead[0],ParameterRead[1],ParameterRead[2],ParameterRead[3],(ParameterRead[4]*256+ParameterRead[5]));
+	//sprintf(temp_lala,"AT+CIPSTART=\"TCP\",\"%d.%d.%d.%d\",%d\r",ParameterRead[0],ParameterRead[1],ParameterRead[2],ParameterRead[3],(ParameterRead[4]*256+ParameterRead[5]));
 	deviceidArr[0] = deviceidNum/10000 + 48;
 	deviceidArr[1] = deviceidNum%10000/1000 + 48;
 	deviceidArr[2] = deviceidNum%1000/100 + 48;
@@ -6730,10 +6731,10 @@ int main(void)
 	//		else 
 	//			GPIO_SetBits(GPIOC,GPIO_Pin_10);
 
-	//lcd_clr();		
+	lcd_clr();		
 
-	GetRSSI();
-	DisplayRssi(RssiGrade);
+//	GetRSSI();
+//	DisplayRssi(RssiGrade);
 	GPIO_ResetBits(GPIOA,GPIO_Pin_1);
 	
 	//StorgeNum=50;
@@ -7453,10 +7454,10 @@ int main(void)
 						GPIO_SetBits(GPIOA,GPIO_Pin_1);
 						break;
 					case 2:
-						GetRSSI();
-						DisplayRssi(RssiGrade);
-						Connect();
-	//					Wifi_Connect();
+//						GetRSSI();
+//						DisplayRssi(RssiGrade);
+//						Connect();
+	  					Wifi_Connect();
 	//					Nb_Connect();
 						break;
 					case 3:
@@ -7494,8 +7495,8 @@ int main(void)
 						Send_Str(TxData);
 						break;
 					case 5:
-						DisConnect();		
-						//Wifi_DisConnect();	
+						//DisConnect();		
+						Wifi_DisConnect();	
 						//Nb_DisConnect();
 						flag_fasong = 0;
 						flag_state = 0;
