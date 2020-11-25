@@ -24,6 +24,7 @@ u16 timetick = 0;
 extern u8 flag_fasong;
 extern u8  flag_1s;
 extern u32 flag_ls_set;
+extern u32 flag_ls_set_dangqian;
 
 
 extern u16 LCD_dizhi;
@@ -190,7 +191,7 @@ void TIM2_IRQHandler(void) //设置为1s进一次中断
 		LED1=!LED1;
 		
 		timetick++;
-		if(timetick == flag_ls_set)
+		if(timetick == (flag_ls_set_dangqian*60))
 		{
 			flag_fasong = 1;
 			flag_1s_nnn = 0;

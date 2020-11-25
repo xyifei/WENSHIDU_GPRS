@@ -168,12 +168,12 @@
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>flag_ls_set,0x0A</ItemText>
+          <ItemText>flag_ls_set_dangqian*60,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>deviceidNum,0x0A</ItemText>
+          <ItemText>DeviceID,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
@@ -209,6 +209,11 @@
           <count>9</count>
           <WinNumber>1</WinNumber>
           <ItemText>deviceidArr</ItemText>
+        </Ww>
+        <Ww>
+          <count>10</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ip1,0x0A</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>

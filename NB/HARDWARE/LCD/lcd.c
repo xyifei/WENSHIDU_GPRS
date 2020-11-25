@@ -16,6 +16,7 @@ int ii;
 int j;
 u8 i;
 
+extern u8 DeviceID;
 
 extern u16 count;  //底部循环的计数器，定义在timer.c里
 
@@ -1008,7 +1009,7 @@ void Display_Shidu(int Humi)
 void Clr_Wendu(void)
 {
 	write_addr_dat_n(0, 0x00, 6);
-	
+	write_addr_dat_n_char(6,0x0C,0);
 	
 }
 
@@ -1032,7 +1033,8 @@ void Clr_Wendu2(void) //不清除摄氏度符号
 void Clr_Shidu(void)
 {
 	write_addr_dat_n(26, 0x00, 6);
-	
+	write_addr_dat_n_char(7,0x08,0);
+	write_addr_dat_n_char(10,0x08,0);
 }
 
 
@@ -1133,8 +1135,6 @@ void OnlyDisplayTime(int RTC_Selected,unsigned short     int year,unsigned char 
 //显示底部时间等信息（横线以下信息）
 void DisplayTime(void)
 {
-
-
 	TIM_Cmd(TIM2, ENABLE);
 	if(RTC_Get()==0)
 		{
@@ -1195,45 +1195,19 @@ void DisplayTime(void)
 				Clr_Others();
 				for(i=0;i<100;i++)
 				{
-					Display_CHARS(dizhi,1);
-					Display_Others_1(11, LCD_dizhi/100);
-					Display_Others_1(13, LCD_dizhi%100/10);
-					Display_Others_1(15, LCD_dizhi%10/1);
+					Display_CHARS(ID,1);
+					Display_Others_1(11, DeviceID/100);
+					Display_Others_1(13, DeviceID%100/10);
+					Display_Others_1(15, DeviceID%10/1);
 				}
 
 			}
-			else if(count>=10&&count<20)  //显示波特率
+			else if (count>=10&&count<20)//显示存储
 			{
 				
 				Clr_Others();
 				for(i=0;i<100;i++){
-					Display_CHARS(dizhi,0);
-					Display_CHARS(botelv,1);
-					if(LCD_botelv>10000)
-					{
-					Display_Others_1(11, LCD_botelv/10000);
-					Display_Others_1(13, LCD_botelv%10000/1000);
-					Display_Others_1(15, LCD_botelv%1000/100);
-					Display_Others_1(17, LCD_botelv%100/10);
-					Display_Others_1(19, LCD_botelv%10);
-					}
-					else if(LCD_botelv<10000)  
-					{				
-					Display_Others_1(11, LCD_botelv/1000);
-					Display_Others_1(13, LCD_botelv%1000/100);
-					Display_Others_1(15, LCD_botelv%100/10);
-					Display_Others_1(17, LCD_botelv%10/1);
-					}
-					
-				}
-
-			}
-			else if (count>=20&&count<30)//显示存储
-			{
-				
-				Clr_Others();
-				for(i=0;i<100;i++){
-					Display_CHARS(botelv,0);
+					Display_CHARS(ID,0);
 					Display_CHARS(yicunchu,1);
 					Display_Others_1(11, LCD_yicunchu/10000);
 					Display_Others_1(13, LCD_yicunchu%10000/1000);
@@ -1243,7 +1217,7 @@ void DisplayTime(void)
 				}
 
 			}
-			else if (count>=30&&count<40)  //显示模式
+			else if (count>=20&&count<30)  //显示模式
 			{
 				Clr_Others();
 				for(i=0;i<100;i++)
@@ -1254,30 +1228,7 @@ void DisplayTime(void)
 					Display_Others_1(13, LCD_moshi%10);
 				}
 			}
-			else if (count>=40&&count<50)  //显示信道
-			{
-				Clr_Others();
-				for(i=0;i<100;i++)
-				{
-					Display_CHARS(moshi,0);
-					Display_CHARS(xindao,1);
-					Display_Others_1(11, LCD_xindao/100);
-					Display_Others_1(13, LCD_xindao%100/10);
-					Display_Others_1(15, LCD_xindao%10/1);
-				}
-			}
-			else if(count>=50&&count<60) //显示ID
-			{
-				Clr_Others();
-				for(i=0;i<100;i++)
-				{
-					Display_CHARS(xindao,0);
-					Display_CHARS(ID,1);
-					Display_Others_1(11, LCD_ID/100%10);
-					Display_Others_1(13, LCD_ID%10);
-				}
-			}
-			else if(count>=60&&count<70)   //显示年月日
+			else if(count>=30&&count<40)   //显示年月日
 			{
 					Clr_Others();
 					for(i=0;i<100;i++)
@@ -1295,7 +1246,7 @@ void DisplayTime(void)
 						Display_CHARS(youyiheng,1);
 					}
 			}
-			else if (count>=70&&count<80)    //显示时分秒时间
+			else if (count>=40&&count<50)    //显示时分秒时间
 			{
 					Clr_Others();
 					for(i=0;i<100;i++)
@@ -1313,7 +1264,7 @@ void DisplayTime(void)
 				
 			}
 		
-			else if (count>=80)
+			else if (count>=50)
 			{
 				count=0;
 			}

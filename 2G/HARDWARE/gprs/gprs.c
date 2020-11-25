@@ -116,7 +116,7 @@ u8 Send_AT( char *Str, char *Str2)
 		delay_ms(1000);//延时等待回复
 		//    Delay(1000);//延时等待回复
 		Loop_Count++;
-		if(Loop_Count >= 10)
+		if(Loop_Count >= 5)
 		{
 			ReSend_Count++;
 			if(ReSend_Count < 3)

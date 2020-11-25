@@ -328,3 +328,24 @@ void Wifi_DisConnect(void)
 	CleanRXBUF();
 	Send_AT("AT+CIPCLOSE\r\n","OK");
 }
+
+void GetRSSI_Wifi(void)
+{
+  unsigned char num;
+  
+  Send_AT("AT+CWLAP\r","OK");
+  num=Compare_str(RXBUF,"+CWLAP:");
+  if(num!=255)     //
+  {
+     rssi=(RXBUF[num+0]-0x30)*10+(RXBUF[num+1]-0x30);
+  }
+	
+  if(rssi>28)
+    RssiGrade=4;
+  if(rssi>15&rssi<=28)
+    RssiGrade=3;
+  if(rssi>2&rssi<=15)
+    RssiGrade=2;
+  if(rssi<=2)
+    RssiGrade=1;
+}

@@ -35,6 +35,7 @@ void Wifi_Setrouter(void);
 void Wifi_Connect(void);
 //void Wifi_Startsend(void);
 void Wifi_DisConnect(void);
+void GetRSSI_Wifi(void);
 
 
 void GetRSSI(void);

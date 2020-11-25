@@ -168,12 +168,12 @@
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>flag_ls_set,0x0A</ItemText>
+          <ItemText>flag_ls_set_dangqian*60,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>deviceidNum,0x0A</ItemText>
+          <ItemText>DeviceID,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
@@ -214,6 +214,11 @@
           <count>10</count>
           <WinNumber>1</WinNumber>
           <ItemText>deviceidArr</ItemText>
+        </Ww>
+        <Ww>
+          <count>11</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>rssi</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>
@@ -543,7 +548,7 @@
       <GroupNumber>2</GroupNumber>
       <FileNumber>22</FileNumber>
       <FileType>1</FileType>
-      <tvExp>0</tvExp>
+      <tvExp>1</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\HARDWARE\gprs\gprs.c</PathWithFileName>

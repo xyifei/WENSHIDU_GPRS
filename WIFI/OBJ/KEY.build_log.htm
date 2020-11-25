@@ -36,25 +36,19 @@ compiling main.c...
   #define SDA_OUT {GPIOB->CRL&=0XFFFF0FFF;GPIOB->CRL|=(u32)3<<12;}
 ..\HARDWARE\SD3078\sd3078.h(34): warning:  #1295-D: Deprecated declaration i2cInit - give arg types
   void i2cInit();
-main.c(6322): warning:  #940-D: missing return statement at end of non-void function "Temperature_Warning_Data" 
+main.c(6543): warning:  #940-D: missing return statement at end of non-void function "Temperature_Warning_Data" 
   }
-main.c(6438): warning:  #940-D: missing return statement at end of non-void function "Humitidy_Warning_Data" 
+main.c(6659): warning:  #940-D: missing return statement at end of non-void function "Humitidy_Warning_Data" 
   }
-main.c(7472): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "char *"
-  						Send_Str(deviceidArr);
-main.c(6744): warning:  #177-D: variable "TxData"  was declared but never referenced
-  		u8 TxData[20];
-main.c(6745): warning:  #177-D: variable "TmpArr"  was declared but never referenced
-  		u8 TmpArr[4];
-main.c(6746): warning:  #177-D: variable "HumArr"  was declared but never referenced
-  		u8 HumArr[4];
-main.c(6672): warning:  #177-D: variable "BUFFER_SIZE2"  was declared but never referenced
-  	u8 BUFFER_SIZE2;
-main.c: 11 warnings, 0 errors
+main.c(7735): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "char *"
+  						Send_Str(TxData);
+main.c(7764): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "char *"
+  						Send_Str(TxData);
+main.c: 8 warnings, 0 errors
 linking...
-Program Size: Code=75242 RO-data=462 RW-data=1224 ZI-data=3128  
+Program Size: Code=74354 RO-data=462 RW-data=1180 ZI-data=3164  
 FromELF: creating hex file...
-"..\OBJ\KEY.axf" - 0 Error(s), 11 Warning(s).
+"..\OBJ\KEY.axf" - 0 Error(s), 8 Warning(s).
 
 <h2>Software Packages used:</h2>
 

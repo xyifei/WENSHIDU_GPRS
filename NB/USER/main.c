@@ -32,8 +32,7 @@ extern u8 RssiGrade;
 unsigned char RXBUF[255];//接收GPRS模组返回的数据
 u8 RIDLE=0;  //接收完毕的标志
 u8 RXNum=0;  //接收数目
-u8 deviceidArr[5] = {0};
-u32 deviceidNum = 0;
+u8 DeviceID = 0;
 u8 ip1 = 0;
 u8 ip2 = 0;
 u8 ip3 = 0;
@@ -44,9 +43,12 @@ u16 port = 0;
 u8  flag_1s=0;
 u16  flag_state=0;
 u8 flag_fasong;
+u32 flag_ls_set_dangqian;
 extern u32 flag_ls_set;
-extern char temp_lala[43];
 extern char temp_nb[];
+extern u8 flag_cunchu;
+extern u16 timetick;
+extern u16 flag_1s_nnn;
 
 //底部显示的变量
 u16 LCD_dizhi;
@@ -220,23 +222,27 @@ void NumToArr(uint8_t *Arr, uint32_t data)
 void ReadParameters_wuxian(void)
 {
 	uint16_t BUFFER_SIZE1;
-	BUFFER_SIZE1=12;
+	BUFFER_SIZE1=9;
 	NumDataRead=BUFFER_SIZE1;
 	EEPROM1024Part(1);
 	//sEE_ReadBuffer(ParameterRead,0,(uint16_t *)(&BUFFER_SIZE1));
 	AT24CXX_Read(0,ParameterRead,BUFFER_SIZE1);
 	delay_ms(100);
 	
-	deviceidNum = ParameterRead[6]*65536 + ParameterRead[7]*4096 + ParameterRead[8]*256 + ParameterRead[9];
-	//sprintf(temp_lala,"AT+CIPSTART=\"TCP\",\"%d.%d.%d.%d\",%d\r",ParameterRead[0],ParameterRead[1],ParameterRead[2],ParameterRead[3],(ParameterRead[4]*256+ParameterRead[5]));
-	sprintf(temp_nb,"AT+SKTCONNECT=1,%d.%d.%d.%d,%d\r\n",ParameterRead[0],ParameterRead[1],ParameterRead[2],ParameterRead[3],(ParameterRead[4]*256+ParameterRead[5]));
-	deviceidArr[0] = deviceidNum/10000 + 48;
-	deviceidArr[1] = deviceidNum%10000/1000 + 48;
-	deviceidArr[2] = deviceidNum%1000/100 + 48;
-	deviceidArr[3] = deviceidNum%100/10 + 48;
-	deviceidArr[4] = deviceidNum%10 + 48;
-	flag_ls_set = ParameterRead[10]*256 + ParameterRead[11];
+	ip1 = ParameterRead[0];
+	ip2 = ParameterRead[1];
+	ip3 = ParameterRead[2];
+	ip4 = ParameterRead[3];
+	port = ParameterRead[4]*256+ParameterRead[5];
+	sprintf(temp_nb,"AT+SKTCONNECT=1,%d.%d.%d.%d,%d\r\n",ip1,ip2,ip3,ip4,port);
 	
+//	DeviceID = ParameterRead[6]*65536 + ParameterRead[7]*4096 + ParameterRead[8]*256 + ParameterRead[9];
+//	flag_ls_set = ParameterRead[10]*256 + ParameterRead[11];
+	
+	DeviceID = ParameterRead[6];
+	flag_ls_set = ParameterRead[7]*256 + ParameterRead[8];
+	
+	flag_ls_set_dangqian=flag_ls_set;
 }
 
 void StorageParameters_wuxian(void)
@@ -249,13 +255,16 @@ void StorageParameters_wuxian(void)
 	ParameterStorage[3]=ip4;
 	ParameterStorage[4]=port/256;
 	ParameterStorage[5]=port%256;
-	ParameterStorage[6]=deviceidNum/65536;
-	ParameterStorage[7]=deviceidNum%65536/4096;
-	ParameterStorage[8]=deviceidNum%4096/256;
-	ParameterStorage[9]=deviceidNum%256;
-	ParameterStorage[10]=flag_ls_set/256;
-	ParameterStorage[11]=flag_ls_set%256;
-	BUFFER_SIZE1=12;
+	ParameterStorage[6]=DeviceID;
+	ParameterStorage[7]=flag_ls_set/256;
+	ParameterStorage[8]=flag_ls_set%256;
+//	ParameterStorage[6]=DeviceID/65536;
+//	ParameterStorage[7]=DeviceID%65536/4096;
+//	ParameterStorage[8]=DeviceID%4096/256;
+//	ParameterStorage[9]=DeviceID%256;
+//	ParameterStorage[10]=flag_ls_set/256;
+//	ParameterStorage[11]=flag_ls_set%256;
+	BUFFER_SIZE1=9;
 	EEPROM1024Part(1);
 	AT24CXX_Write(0,(u8*)ParameterStorage,BUFFER_SIZE1);
 	delay_ms(100);
@@ -354,6 +363,7 @@ void ReadParameters(void)
 		}
 		else{Adjust_Hum_10v=ParameterRead[44]+10*ParameterRead[45]+100*ParameterRead[46]+1000*ParameterRead[47];}
 		
+		ReadParameters_wuxian();
 }
 //按下确认键或超时返回时
 void StorageParameters(void)
@@ -423,6 +433,8 @@ void StorageParameters(void)
 		//sEE_WriteBuffer((u8*)ParameterStorage,0 , BUFFER_SIZE1);
 		AT24CXX_Write(0,(u8*)ParameterStorage,BUFFER_SIZE1);
 		delay_ms(100);
+		
+		StorageParameters_wuxian();
 }
 
 void gpInit(void)
@@ -471,6 +483,8 @@ void Beep(int ms)
 
 void ModeSwitch(int mode,int UP_Dowm)//UP_Dowm：0：减小，1：增大
 {
+	
+		TIM_Cmd(TIM2, DISABLE);
 		//DisplayTime();
     switch(mode)
 		{
@@ -489,37 +503,36 @@ void ModeSwitch(int mode,int UP_Dowm)//UP_Dowm：0：减小，1：增大
 				Display_Wendu_1(4, 1);//显示十位
 				//显示第二行
 				Clr_Shidu();
-				Display_Shidu_3(26,address%100%10);//显示个位
+				Display_Shidu_3(26,DeviceID%100%10);//显示个位
 				//write_addr_dat_n_1bit(28,0x00, 1);//不显示小数点
-				Display_Shidu_3(28,  address%100/10);//显示十位
-				Display_Shidu_3(30,  address/100);//显示百位	
+				Display_Shidu_3(28,  DeviceID%100/10);//显示十位
+				Display_Shidu_3(30,  DeviceID/100);//显示百位	
 				switch(UP_Dowm)
 					{
 						case 0:
 									{
 											
-										   address--;
-											if(address<1) 
-											address=254;
+										   DeviceID--;
+											if(DeviceID<1) 
+											DeviceID=255;
 											//显示第二行
 											Clr_Shidu();
-											Display_Shidu_3(26, address%100%10);//显示个位
+											Display_Shidu_3(26,DeviceID%100%10);//显示个位
 											//write_addr_dat_n_1bit(28,0x00, 1);//不显示小数点
-											Display_Shidu_3(28,  address%100/10);//显示十位
-											Display_Shidu_3(30,  address/100);//显示百位	
+											Display_Shidu_3(28,  DeviceID%100/10);//显示十位
+											Display_Shidu_3(30,  DeviceID/100);//显示百位	
 											break;
 									}
 						case 1:
 									{
-											address++;
-											if(address>254) 
-											address=1;
+											DeviceID++;
+											if(DeviceID>255) 
+											DeviceID=1;
 											//显示第二行
-											Clr_Shidu();
-											Display_Shidu_3(26, address%100%10);//显示个位
+											Display_Shidu_3(26,DeviceID%100%10);//显示个位
 											//write_addr_dat_n_1bit(28,0x00, 1);//不显示小数点
-											Display_Shidu_3(28,  address%100/10);//显示十位
-											Display_Shidu_3(30,  address/100);//显示百位	
+											Display_Shidu_3(28,  DeviceID%100/10);//显示十位
+											Display_Shidu_3(30,  DeviceID/100);//显示百位	
 											break;
 									}
 					
@@ -537,41 +550,52 @@ void ModeSwitch(int mode,int UP_Dowm)//UP_Dowm：0：减小，1：增大
 					Display_Wendu_1(4, 2);//显示十位
 					//显示第二行
 					Clr_Shidu();
-					BaudRate=BaudRateArray[BaudRateNum];
-					Display_Shidu_3(26, BaudRate/100%10);//显示个位
-					//write_addr_dat_n_1bit(28,0x00, 1);//显示小数点
-					Display_Shidu_3(28,  BaudRate/100/10%10);//显示十位
-					Display_Shidu_3(30, BaudRate/10000);//显示百位	
+					Display_Shidu_3(26,flag_ls_set%100%10);//显示个位
+					//write_addr_dat_n_1bit(28,0x00, 1);//不显示小数点
+					Display_Shidu_3(28,  flag_ls_set%100/10);//显示十位
+					Display_Shidu_3(30,  flag_ls_set/100);//显示百位	
 					switch(UP_Dowm)
 					{
 							case 0:
 						{
-								BaudRateNum--;
-								if(BaudRateNum<0)
-								{BaudRateNum=4;}
-								BaudRate=BaudRateArray[BaudRateNum];
-								uart2_init(BaudRate);
+//								BaudRateNum--;
+//								if(BaudRateNum<0)
+//								{BaudRateNum=4;}
+//								BaudRate=BaudRateArray[BaudRateNum];
+//								uart2_init(BaudRate);
+								flag_ls_set--;
+								if(flag_ls_set<1)
+								{flag_ls_set=999;}
 								//显示第二行
 								Clr_Shidu();
-								Display_Shidu_3(26, BaudRate/100%10);//显示个位
+								Display_Shidu_3(26,flag_ls_set%100%10);//显示个位
 								//write_addr_dat_n_1bit(28,0x00, 1);//不显示小数点
-								Display_Shidu_3(28,  BaudRate/100/10%10);//显示十位
-								Display_Shidu_3(30, BaudRate/10000);//显示百位	
+								Display_Shidu_3(28,  flag_ls_set%100/10);//显示十位
+								Display_Shidu_3(30,  flag_ls_set/100);//显示百位	
 								break;
 						}
 						case 1:
 						{
-								BaudRateNum++;
-								if(BaudRateNum>4)
-								{BaudRateNum=0;}
-								BaudRate=BaudRateArray[BaudRateNum];
-								uart2_init(BaudRate);
+//								BaudRateNum++;
+//								if(BaudRateNum>4)
+//								{BaudRateNum=0;}
+//								BaudRate=BaudRateArray[BaudRateNum];
+//								uart2_init(BaudRate);
+//								//显示第二行
+//								Clr_Shidu();
+//								Display_Shidu_3(26, BaudRate/100%10);//显示个位
+//								//write_addr_dat_n_1bit(28,0x00, 1);//显示小数点write_addr_dat_n_char
+//								Display_Shidu_3(28,  BaudRate/100/10%10);//显示十位
+//								Display_Shidu_3(30, BaudRate/10000);//显示百位	
+								flag_ls_set++;
+								if(flag_ls_set>999)
+								{flag_ls_set=1;}
 								//显示第二行
 								Clr_Shidu();
-								Display_Shidu_3(26, BaudRate/100%10);//显示个位
-								//write_addr_dat_n_1bit(28,0x00, 1);//显示小数点write_addr_dat_n_char
-								Display_Shidu_3(28,  BaudRate/100/10%10);//显示十位
-								Display_Shidu_3(30, BaudRate/10000);//显示百位	
+								Display_Shidu_3(26,flag_ls_set%100%10);//显示个位
+								//write_addr_dat_n_1bit(28,0x00, 1);//不显示小数点
+								Display_Shidu_3(28,  flag_ls_set%100/10);//显示十位
+								Display_Shidu_3(30,  flag_ls_set/100);//显示百位	
 								break;
 						}	
 					}
@@ -1660,7 +1684,7 @@ void ModeSwitch(int mode,int UP_Dowm)//UP_Dowm：0：减小，1：增大
 					break;
 			}
 
-			case 19://C08温度4ma       17--19  CO.8--9C.0   ---AC.O
+			case 19://IP1
 			{
 					/*
 				  //显示第一行
@@ -1675,225 +1699,292 @@ void ModeSwitch(int mode,int UP_Dowm)//UP_Dowm：0：减小，1：增大
 				  //显示第一行
 					Clr_Wendu();
 					Display_Wendu_1(0, 0);//显示小数
-				  write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
-					//write_addr_dat_n_1bit(2,0x08, 1);//显示小数点
+					write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
 					Display_Wendu_2(2, 3);//显示个位
-					//Display_Wendu_1(4, 9);//显示十位
+					Display_Wendu_1(4, 9);//显示十位
 				
-				  Display_Wendu_2(4, 7);//显示十位
-				
-				
-					Display_CHARS(sheshidu,1);//显示温湿度的符号
-				
-				  
-					//显示第二行
 					Clr_Shidu();
-					if(Temperature_4ma<0)
-					{
-					  write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
-						TemperatureDisplay_4ma=0-Temperature_4ma;
-					}
-					else
-					{
-						TemperatureDisplay_4ma=Temperature_4ma;
-						write_addr_dat_n_char(7,0x08, 0);//不显示负号
-					}
-					Display_Shidu_3(26,0);//显示分位
-					write_addr_dat_n_char(28,0x01, 1);//P2
-					//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-					Display_Shidu_1(28,TemperatureDisplay_4ma%10);//显示个位
-					Display_Shidu_3(30, TemperatureDisplay_4ma/10);//显示十位	
-			/*		*/
+					Display_Shidu_3(26,ip1%100%10);//显示个位
+					Display_Shidu_3(28,ip1%100/10);//显示十位
+					Display_Shidu_3(30,ip1/100);//显示百位	
 					
-					/*
 					switch(UP_Dowm)
 					{
 						case 0:
 									{
-									
-									if(Temperature_4ma>Temperature_20ma)//下限大于上限的情况
-									{
-										//显示第二行Err
-										Clr_Shidu();
-										if(Temperature_4ma<0)
-										{
-											write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
-											TemperatureDisplay_4ma=0-Temperature_4ma;
-										}
-										else
-										{
-											TemperatureDisplay_4ma=Temperature_4ma;
-											write_addr_dat_n_char(7,0x08, 0);//不显示负号
-										}
-										Display_Shidu_2(26,8);//显示分位
-										//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-										Display_Shidu_2(28,8);//显示个位
-										Display_Shidu_2(30,6);//显示十位		
-									}
-										
-									else
-									{
-										Temperature_4ma--; 
-										if(Temperature_4ma<-40) 
-										Temperature_4ma=-40;
-										//显示第二行
-										Clr_Shidu();
-										if(Temperature_4ma<0)
-										{
-											write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
-											TemperatureDisplay_4ma=0-Temperature_4ma;
-										}
-										else
-										{
-											TemperatureDisplay_4ma=Temperature_4ma;
-											write_addr_dat_n_char(7,0x08, 0);//不显示负号
-										}
-										Display_Shidu_3(26,0);//显示分位
-										write_addr_dat_n_char(28,0x01, 1);//P2
-										//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-										Display_Shidu_1(28,TemperatureDisplay_4ma%10);//显示个位
-										Display_Shidu_3(30, TemperatureDisplay_4ma/10);//显示十位	
-									}
-									break;
-									}
-						case 1:
-									{
-									Temperature_4ma++;
-									if(Temperature_4ma>80)
-									Temperature_4ma=80;
-									//显示第二行
-									Clr_Shidu();
-									Display_Shidu_3(26,0);//显示分位
-									write_addr_dat_n_char(28,0x01, 1);//P2
-									//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-									Display_Shidu_1(28,TemperatureDisplay_4ma%10);//显示个位
-									Display_Shidu_3(30, TemperatureDisplay_4ma/10);//显示十位	
-									break;
-									}
-					}
-					
-					*/
-					switch(UP_Dowm)
-					{
-						case 0:
-									{
-									/*
-									if(Temperature_4ma>Temperature_20ma)//下限大于上限的情况
-									{
-										//显示第二行Err
-										Clr_Shidu();
-										if(Temperature_4ma<0)
-										{
-											write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
-											TemperatureDisplay_4ma=0-Temperature_4ma;
-										}
-										else
-										{
-											TemperatureDisplay_4ma=Temperature_4ma;
-											write_addr_dat_n_char(7,0x08, 0);//不显示负号
-										}
-										Display_Shidu_2(26,8);//显示分位
-										//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-										Display_Shidu_2(28,8);//显示个位
-										Display_Shidu_2(30,6);//显示十位		
-									}
-									*/	
-									//else
-											{
-												Temperature_4ma--; 
-												if(Temperature_4ma<-40) 
-												Temperature_4ma=-40;
-												
-											
-												//显示第二行
-												Clr_Shidu();
-												if(Temperature_4ma<0)
-												{
-													write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
-													TemperatureDisplay_4ma=0-Temperature_4ma;
-												}
-												else
-												{
-													TemperatureDisplay_4ma=Temperature_4ma;
-													write_addr_dat_n_char(7,0x08, 0);//不显示负号
-												}
-												Display_Shidu_3(26,0);//显示分位
-												write_addr_dat_n_char(28,0x01, 1);//P2
-												//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-												Display_Shidu_1(28,TemperatureDisplay_4ma%10);//显示个位
-												Display_Shidu_3(30, TemperatureDisplay_4ma/10);//显示十位	
-											/*		*/
-											}
+											ip1--;
+											if(ip1<1) 
+												ip1=255;
+											//显示第二行
+											Clr_Shidu();
+											Display_Shidu_3(26,ip1%100%10);//显示个位
+											Display_Shidu_3(28,ip1%100/10);//显示十位
+											Display_Shidu_3(30,ip1/100);//显示百位	
 											break;
 									}
 						case 1:
 									{
-											if(Temperature_4ma>=Temperature_20ma)//下限大于上限的情况
-											{	
-												Clr_Shidu();
-												if(Temperature_4ma<0)
-												{
-													write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
-													TemperatureDisplay_4ma=0-Temperature_4ma;
-												}
-												else
-												{
-													TemperatureDisplay_4ma=Temperature_4ma;
-													write_addr_dat_n_char(7,0x08, 0);//不显示负号
-												}
-												//test 添加
-												write_addr_dat_n_char(7,0x08, 0);//不显示负号
-												
-												//test 添加
-												
-												
-												
-												Display_Shidu_2(26,8);//显示分位
-												//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-												Display_Shidu_2(28,8);//显示个位
-												Display_Shidu_2(30,6);//显示十位			
-											}
-											else
-											{
-											Temperature_4ma++;
-											if(Temperature_4ma>80)
-											Temperature_4ma=80;
-											/*
+											ip1++;
+											if(ip1>255) 
+												ip1=1;
 											//显示第二行
 											Clr_Shidu();
-											Display_Shidu_3(26,0);//显示分位
-											write_addr_dat_n_char(28,0x01, 1);//P2
-											//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-											Display_Shidu_1(28,TemperatureDisplay_4ma%10);//显示个位
-											Display_Shidu_3(30, TemperatureDisplay_4ma/10);//显示十位
-											*/	
-											//显示第二行
-											Clr_Shidu();
-											if(Temperature_4ma<0)
-											{
-												write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
-												TemperatureDisplay_4ma=0-Temperature_4ma;
-											}
-											else
-											{
-												TemperatureDisplay_4ma=Temperature_4ma;
-												write_addr_dat_n_char(7,0x08, 0);//不显示负号
-											}
-											Display_Shidu_3(26,0);//显示分位
-											write_addr_dat_n_char(28,0x01, 1);//P2
-											//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-											Display_Shidu_1(28,TemperatureDisplay_4ma%10);//显示个位
-											Display_Shidu_3(30, TemperatureDisplay_4ma/10);//显示十位	
-											
-											}
+											Display_Shidu_3(26,ip1%100%10);//显示个位
+											Display_Shidu_3(28,ip1%100/10);//显示十位
+											Display_Shidu_3(30,ip1/100);//显示百位	
 											break;
 									}
-					}
 					
-					break;		
+					}
+					break;
+//					//显示第二行
+//					Clr_Shidu();
+//					if(Temperature_4ma<0)
+//					{
+//					  write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+//						TemperatureDisplay_4ma=0-Temperature_4ma;
+//					}
+//					else
+//					{
+//						TemperatureDisplay_4ma=Temperature_4ma;
+//						write_addr_dat_n_char(7,0x08, 0);//不显示负号
+//					}
+//					Display_Shidu_3(26,0);//显示分位
+//					write_addr_dat_n_char(28,0x01, 1);//P2
+//					//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+//					Display_Shidu_1(28,TemperatureDisplay_4ma%10);//显示个位
+//					Display_Shidu_3(30, TemperatureDisplay_4ma/10);//显示十位	
+//			/*		*/
+//					
+//					/*
+//					switch(UP_Dowm)
+//					{
+//						case 0:
+//									{
+//									
+//									if(Temperature_4ma>Temperature_20ma)//下限大于上限的情况
+//									{
+//										//显示第二行Err
+//										Clr_Shidu();
+//										if(Temperature_4ma<0)
+//										{
+//											write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+//											TemperatureDisplay_4ma=0-Temperature_4ma;
+//										}
+//										else
+//										{
+//											TemperatureDisplay_4ma=Temperature_4ma;
+//											write_addr_dat_n_char(7,0x08, 0);//不显示负号
+//										}
+//										Display_Shidu_2(26,8);//显示分位
+//										//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+//										Display_Shidu_2(28,8);//显示个位
+//										Display_Shidu_2(30,6);//显示十位		
+//									}
+//										
+//									else
+//									{
+//										Temperature_4ma--; 
+//										if(Temperature_4ma<-40) 
+//										Temperature_4ma=-40;
+//										//显示第二行
+//										Clr_Shidu();
+//										if(Temperature_4ma<0)
+//										{
+//											write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+//											TemperatureDisplay_4ma=0-Temperature_4ma;
+//										}
+//										else
+//										{
+//											TemperatureDisplay_4ma=Temperature_4ma;
+//											write_addr_dat_n_char(7,0x08, 0);//不显示负号
+//										}
+//										Display_Shidu_3(26,0);//显示分位
+//										write_addr_dat_n_char(28,0x01, 1);//P2
+//										//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+//										Display_Shidu_1(28,TemperatureDisplay_4ma%10);//显示个位
+//										Display_Shidu_3(30, TemperatureDisplay_4ma/10);//显示十位	
+//									}
+//									break;
+//									}
+//						case 1:
+//									{
+//									Temperature_4ma++;
+//									if(Temperature_4ma>80)
+//									Temperature_4ma=80;
+//									//显示第二行
+//									Clr_Shidu();
+//									Display_Shidu_3(26,0);//显示分位
+//									write_addr_dat_n_char(28,0x01, 1);//P2
+//									//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+//									Display_Shidu_1(28,TemperatureDisplay_4ma%10);//显示个位
+//									Display_Shidu_3(30, TemperatureDisplay_4ma/10);//显示十位	
+//									break;
+//									}
+//					}
+//					
+//					*/
+//					switch(UP_Dowm)
+//					{
+//						case 0:
+//									{
+//									/*
+//									if(Temperature_4ma>Temperature_20ma)//下限大于上限的情况
+//									{
+//										//显示第二行Err
+//										Clr_Shidu();
+//										if(Temperature_4ma<0)
+//										{
+//											write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+//											TemperatureDisplay_4ma=0-Temperature_4ma;
+//										}
+//										else
+//										{
+//											TemperatureDisplay_4ma=Temperature_4ma;
+//											write_addr_dat_n_char(7,0x08, 0);//不显示负号
+//										}
+//										Display_Shidu_2(26,8);//显示分位
+//										//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+//										Display_Shidu_2(28,8);//显示个位
+//										Display_Shidu_2(30,6);//显示十位		
+//									}
+//									*/	
+//									//else
+//											{
+//												Temperature_4ma--; 
+//												if(Temperature_4ma<-40) 
+//												Temperature_4ma=-40;
+//												
+//											
+//												//显示第二行
+//												Clr_Shidu();
+//												if(Temperature_4ma<0)
+//												{
+//													write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+//													TemperatureDisplay_4ma=0-Temperature_4ma;
+//												}
+//												else
+//												{
+//													TemperatureDisplay_4ma=Temperature_4ma;
+//													write_addr_dat_n_char(7,0x08, 0);//不显示负号
+//												}
+//												Display_Shidu_3(26,0);//显示分位
+//												write_addr_dat_n_char(28,0x01, 1);//P2
+//												//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+//												Display_Shidu_1(28,TemperatureDisplay_4ma%10);//显示个位
+//												Display_Shidu_3(30, TemperatureDisplay_4ma/10);//显示十位	
+//											/*		*/
+//											}
+//											break;
+//									}
+//						case 1:
+//									{
+//											if(Temperature_4ma>=Temperature_20ma)//下限大于上限的情况
+//											{	
+//												Clr_Shidu();
+//												if(Temperature_4ma<0)
+//												{
+//													write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+//													TemperatureDisplay_4ma=0-Temperature_4ma;
+//												}
+//												else
+//												{
+//													TemperatureDisplay_4ma=Temperature_4ma;
+//													write_addr_dat_n_char(7,0x08, 0);//不显示负号
+//												}
+//												//test 添加
+//												write_addr_dat_n_char(7,0x08, 0);//不显示负号
+//												
+//												//test 添加
+//												
+//												
+//												
+//												Display_Shidu_2(26,8);//显示分位
+//												//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+//												Display_Shidu_2(28,8);//显示个位
+//												Display_Shidu_2(30,6);//显示十位			
+//											}
+//											else
+//											{
+//											Temperature_4ma++;
+//											if(Temperature_4ma>80)
+//											Temperature_4ma=80;
+//											/*
+//											//显示第二行
+//											Clr_Shidu();
+//											Display_Shidu_3(26,0);//显示分位
+//											write_addr_dat_n_char(28,0x01, 1);//P2
+//											//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+//											Display_Shidu_1(28,TemperatureDisplay_4ma%10);//显示个位
+//											Display_Shidu_3(30, TemperatureDisplay_4ma/10);//显示十位
+//											*/	
+//											//显示第二行
+//											Clr_Shidu();
+//											if(Temperature_4ma<0)
+//											{
+//												write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+//												TemperatureDisplay_4ma=0-Temperature_4ma;
+//											}
+//											else
+//											{
+//												TemperatureDisplay_4ma=Temperature_4ma;
+//												write_addr_dat_n_char(7,0x08, 0);//不显示负号
+//											}
+//											Display_Shidu_3(26,0);//显示分位
+//											write_addr_dat_n_char(28,0x01, 1);//P2
+//											//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+//											Display_Shidu_1(28,TemperatureDisplay_4ma%10);//显示个位
+//											Display_Shidu_3(30, TemperatureDisplay_4ma/10);//显示十位	
+//											
+//											}
+//											break;
+//									}
+//					}		
 			}
-			case 20://C09温度20ma      18--20  CO.9--9C.1   ---AC.1
+			case 20://IP2
 			{
+					Clr_Wendu();
+					Display_Wendu_1(0, 1);//显示小数
+					write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+					Display_Wendu_2(2, 3);//显示个位
+					Display_Wendu_1(4, 9);//显示十位
+				
+					Clr_Shidu();
+					Display_Shidu_3(26,ip2%100%10);//显示个位
+					Display_Shidu_3(28,ip2%100/10);//显示十位
+					Display_Shidu_3(30,ip2/100);//显示百位	
+					
+					switch(UP_Dowm)
+					{
+						case 0:
+									{
+											ip2--;
+											if(ip2<1) 
+												ip2=255;
+											//显示第二行
+											Clr_Shidu();
+											Display_Shidu_3(26,ip2%100%10);//显示个位
+											Display_Shidu_3(28,ip2%100/10);//显示十位
+											Display_Shidu_3(30,ip2/100);//显示百位	
+											break;
+									}
+						case 1:
+									{
+											ip2++;
+											if(ip2>255) 
+												ip2=1;
+											//显示第二行
+											Clr_Shidu();
+											Display_Shidu_3(26,ip2%100%10);//显示个位
+											Display_Shidu_3(28,ip2%100/10);//显示十位
+											Display_Shidu_3(30,ip2/100);//显示百位	
+											break;
+									}
+					
+					}
+					break;
+				
+				
 					/*
 				  //显示第一行
 					Clr_Wendu();
@@ -1905,603 +1996,677 @@ void ModeSwitch(int mode,int UP_Dowm)//UP_Dowm：0：减小，1：增大
 					Display_CHARS(sheshidu,1);//显示温湿度的符号
 				  */
 				   //显示第一行
-					Clr_Wendu();
-					Display_Wendu_1(0, 1);//显示小数
-				  write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
-					//write_addr_dat_n_1bit(2,0x08, 1);//显示小数点
-					Display_Wendu_2(2, 3);//显示个位
-					//Display_Wendu_1(4, 9);//显示十位
-				  Display_Wendu_2(4, 7);//显示十位
-				
-				
-					Display_CHARS(sheshidu,1);//显示温湿度的符号
-				
-				 
-				  
-					//显示第二行
-					Clr_Shidu();
-					if(Temperature_20ma<0)
-					{
-					  write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
-						TemperatureDisplay_20ma=0-Temperature_20ma;
-					}
-					else
-					{
-						TemperatureDisplay_20ma=Temperature_20ma;
-						write_addr_dat_n_char(7,0x08, 0);//不显示负号
-					}
-					Display_Shidu_3(26,0);//显示分位
-					write_addr_dat_n_char(28,0x01, 1);//P2
-					//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-					Display_Shidu_1(28,TemperatureDisplay_20ma%10);//显示个位
-					Display_Shidu_3(30, TemperatureDisplay_20ma/10);//显示十位	
-		 /*			switch(UP_Dowm)
-					{
-						case 0:
-									{
-									if(Temperature_4ma>Temperature_20ma)//下限大于上限的情况
-									{
-										//显示第二行Err
-										Clr_Shidu();
-										if(Temperature_20ma<0)
-										{
-											write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
-											TemperatureDisplay_20ma=0-Temperature_20ma;
-										}
-										else
-										{
-											TemperatureDisplay_20ma=Temperature_20ma;
-											write_addr_dat_n_char(7,0x08, 0);//不显示负号
-										}
-										Display_Shidu_2(26,8);//显示分位
-										//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-										Display_Shidu_2(28,8);//显示个位
-										Display_Shidu_2(30,6);//显示十位		
-									}
-									else
-									{
-										Temperature_20ma--; 
-										if(Temperature_20ma<-40) 
-										Temperature_20ma=-40;
-										//显示第二行
-										Clr_Shidu();
-										if(Temperature_20ma<0)
-										{
-											write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
-											TemperatureDisplay_20ma=0-Temperature_20ma;
-										}
-										else
-										{
-											TemperatureDisplay_20ma=Temperature_20ma;
-											write_addr_dat_n_char(7,0x08, 0);//不显示负号
-										}
-										Display_Shidu_3(26,0);//显示分位
-										write_addr_dat_n_char(28,0x01, 1);//P2
-										//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-										Display_Shidu_1(28,TemperatureDisplay_20ma%10);//显示个位
-										Display_Shidu_3(30, TemperatureDisplay_20ma/10);//显示十位	
-									}
-									break;
-									}
-						case 1:
-									{
-									Temperature_20ma++;
-									if(Temperature_20ma>80)
-									Temperature_20ma=80;
-									//显示第二行
-									Clr_Shidu();
-									Display_Shidu_3(26,0);//显示分位
-									write_addr_dat_n_char(28,0x01, 1);//P2
-									//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-									Display_Shidu_1(28,TemperatureDisplay_20ma%10);//显示个位
-									Display_Shidu_3(30, TemperatureDisplay_20ma/10);//显示十位	
-									break;
-									}
-					}
-					
-					*/
-					switch(UP_Dowm)
-					{
-						case 0:
-									{
-									if(Temperature_4ma>=Temperature_20ma)//下限大于上限的情况
-									{
-										//显示第二行Err
-										Clr_Shidu();
-										if(Temperature_20ma<0)
-										{
-											write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
-											TemperatureDisplay_20ma=0-Temperature_20ma;
-										}
-										else
-										{
-											TemperatureDisplay_20ma=Temperature_20ma;
-											write_addr_dat_n_char(7,0x08, 0);//不显示负号
-										}
-										//test 添加
-										write_addr_dat_n_char(7,0x08, 0);//不显示负号
-										
-										//test 添加
-										
-										Display_Shidu_2(26,8);//显示分位
-										//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-										Display_Shidu_2(28,8);//显示个位
-										Display_Shidu_2(30,6);//显示十位		
-									}
-									else
-									{
-										Temperature_20ma--; 
-										if(Temperature_20ma<-40) 
-										Temperature_20ma=-40;
-										//显示第二行
-										Clr_Shidu();
-										if(Temperature_20ma<0)
-										{
-											write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
-											TemperatureDisplay_20ma=0-Temperature_20ma;
-										}
-										else
-										{
-											TemperatureDisplay_20ma=Temperature_20ma;
-											write_addr_dat_n_char(7,0x08, 0);//不显示负号
-										}
-										Display_Shidu_3(26,0);//显示分位
-										write_addr_dat_n_char(28,0x01, 1);//P2
-										//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-										Display_Shidu_1(28,TemperatureDisplay_20ma%10);//显示个位
-										Display_Shidu_3(30, TemperatureDisplay_20ma/10);//显示十位	
-									}
-									break;
-									}
-						case 1:
-									{
-									Temperature_20ma++;
-									if(Temperature_20ma>80)
-									Temperature_20ma=80;
-									//显示第二行
-									Clr_Shidu();
-									if(Temperature_20ma<0)
-									{
-										write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
-										TemperatureDisplay_20ma=0-Temperature_20ma;
-									}
-									else
-									{
-										TemperatureDisplay_20ma=Temperature_20ma;
-										write_addr_dat_n_char(7,0x08, 0);//不显示负号
-									}
-									
-									
-									
-									
-									Display_Shidu_3(26,0);//显示分位
-									write_addr_dat_n_char(28,0x01, 1);//P2
-									//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-									Display_Shidu_1(28,TemperatureDisplay_20ma%10);//显示个位
-									Display_Shidu_3(30, TemperatureDisplay_20ma/10);//显示十位	
-									break;
-									}
-					}
-					
-					break;
+//					Clr_Wendu();
+//					Display_Wendu_1(0, 1);//显示小数
+//					write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+//					Display_Wendu_2(2, 3);//显示个位
+//					Display_Wendu_1(4, 9);//显示十位
+//				
+//				
+//					Display_CHARS(sheshidu,1);//显示温湿度的符号
+//				
+//				 
+//				  
+//					//显示第二行
+//					Clr_Shidu();
+//					if(Temperature_20ma<0)
+//					{
+//					  write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+//						TemperatureDisplay_20ma=0-Temperature_20ma;
+//					}
+//					else
+//					{
+//						TemperatureDisplay_20ma=Temperature_20ma;
+//						write_addr_dat_n_char(7,0x08, 0);//不显示负号
+//					}
+//					Display_Shidu_3(26,0);//显示分位
+//					write_addr_dat_n_char(28,0x01, 1);//P2
+//					//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+//					Display_Shidu_1(28,TemperatureDisplay_20ma%10);//显示个位
+//					Display_Shidu_3(30, TemperatureDisplay_20ma/10);//显示十位	
+//		 /*			switch(UP_Dowm)
+//					{
+//						case 0:
+//									{
+//									if(Temperature_4ma>Temperature_20ma)//下限大于上限的情况
+//									{
+//										//显示第二行Err
+//										Clr_Shidu();
+//										if(Temperature_20ma<0)
+//										{
+//											write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+//											TemperatureDisplay_20ma=0-Temperature_20ma;
+//										}
+//										else
+//										{
+//											TemperatureDisplay_20ma=Temperature_20ma;
+//											write_addr_dat_n_char(7,0x08, 0);//不显示负号
+//										}
+//										Display_Shidu_2(26,8);//显示分位
+//										//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+//										Display_Shidu_2(28,8);//显示个位
+//										Display_Shidu_2(30,6);//显示十位		
+//									}
+//									else
+//									{
+//										Temperature_20ma--; 
+//										if(Temperature_20ma<-40) 
+//										Temperature_20ma=-40;
+//										//显示第二行
+//										Clr_Shidu();
+//										if(Temperature_20ma<0)
+//										{
+//											write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+//											TemperatureDisplay_20ma=0-Temperature_20ma;
+//										}
+//										else
+//										{
+//											TemperatureDisplay_20ma=Temperature_20ma;
+//											write_addr_dat_n_char(7,0x08, 0);//不显示负号
+//										}
+//										Display_Shidu_3(26,0);//显示分位
+//										write_addr_dat_n_char(28,0x01, 1);//P2
+//										//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+//										Display_Shidu_1(28,TemperatureDisplay_20ma%10);//显示个位
+//										Display_Shidu_3(30, TemperatureDisplay_20ma/10);//显示十位	
+//									}
+//									break;
+//									}
+//						case 1:
+//									{
+//									Temperature_20ma++;
+//									if(Temperature_20ma>80)
+//									Temperature_20ma=80;
+//									//显示第二行
+//									Clr_Shidu();
+//									Display_Shidu_3(26,0);//显示分位
+//									write_addr_dat_n_char(28,0x01, 1);//P2
+//									//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+//									Display_Shidu_1(28,TemperatureDisplay_20ma%10);//显示个位
+//									Display_Shidu_3(30, TemperatureDisplay_20ma/10);//显示十位	
+//									break;
+//									}
+//					}
+//					
+//					*/
+//					switch(UP_Dowm)
+//					{
+//						case 0:
+//									{
+//									if(Temperature_4ma>=Temperature_20ma)//下限大于上限的情况
+//									{
+//										//显示第二行Err
+//										Clr_Shidu();
+//										if(Temperature_20ma<0)
+//										{
+//											write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+//											TemperatureDisplay_20ma=0-Temperature_20ma;
+//										}
+//										else
+//										{
+//											TemperatureDisplay_20ma=Temperature_20ma;
+//											write_addr_dat_n_char(7,0x08, 0);//不显示负号
+//										}
+//										//test 添加
+//										write_addr_dat_n_char(7,0x08, 0);//不显示负号
+//										
+//										//test 添加
+//										
+//										Display_Shidu_2(26,8);//显示分位
+//										//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+//										Display_Shidu_2(28,8);//显示个位
+//										Display_Shidu_2(30,6);//显示十位		
+//									}
+//									else
+//									{
+//										Temperature_20ma--; 
+//										if(Temperature_20ma<-40) 
+//										Temperature_20ma=-40;
+//										//显示第二行
+//										Clr_Shidu();
+//										if(Temperature_20ma<0)
+//										{
+//											write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+//											TemperatureDisplay_20ma=0-Temperature_20ma;
+//										}
+//										else
+//										{
+//											TemperatureDisplay_20ma=Temperature_20ma;
+//											write_addr_dat_n_char(7,0x08, 0);//不显示负号
+//										}
+//										Display_Shidu_3(26,0);//显示分位
+//										write_addr_dat_n_char(28,0x01, 1);//P2
+//										//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+//										Display_Shidu_1(28,TemperatureDisplay_20ma%10);//显示个位
+//										Display_Shidu_3(30, TemperatureDisplay_20ma/10);//显示十位	
+//									}
+//									break;
+//									}
+//						case 1:
+//									{
+//									Temperature_20ma++;
+//									if(Temperature_20ma>80)
+//									Temperature_20ma=80;
+//									//显示第二行
+//									Clr_Shidu();
+//									if(Temperature_20ma<0)
+//									{
+//										write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+//										TemperatureDisplay_20ma=0-Temperature_20ma;
+//									}
+//									else
+//									{
+//										TemperatureDisplay_20ma=Temperature_20ma;
+//										write_addr_dat_n_char(7,0x08, 0);//不显示负号
+//									}
+//									
+//									
+//									
+//									
+//									Display_Shidu_3(26,0);//显示分位
+//									write_addr_dat_n_char(28,0x01, 1);//P2
+//									//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+//									Display_Shidu_1(28,TemperatureDisplay_20ma%10);//显示个位
+//									Display_Shidu_3(30, TemperatureDisplay_20ma/10);//显示十位	
+//									break;
+//									}
+//					}
+//					
+//					break;
 			}
-			case 21://C10湿度4ma       19--21  C1.0--9H.0   ---AH.0
+			case 21://IP3
 			{
-					/*
-				  //显示第一行
 					Clr_Wendu();
-					Display_Wendu_1(0, 0);//显示小数
-				  write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
-					//write_addr_dat_n_1bit(2,0x08, 1);//显示小数点
-					Display_Wendu_1(2, 1);//显示个位
-					Display_Wendu_2(4, 3);//显示十位
-					//write_addr_dat_n_char(28,0x01, 1);//P2
-					//Display_CHARS(sheshidu,1);//显示温湿度的符号
-				  */
-				  //显示第一行
-					Clr_Wendu();
-					Display_Wendu_1(0, 0);//显示小数
-				  write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
-					//write_addr_dat_n_1bit(2,0x08, 1);//显示小数点
-					Display_Wendu_2(2, 11);//显示个位
-					//Display_Wendu_1(4, 9);//显示十位
-				  Display_Wendu_2(4, 7);//显示十位
-
-					//write_addr_dat_n_char(28,0x01, 1);//P2
-					//Display_CHARS(sheshidu,1);//显示温湿度的符号
+					Display_Wendu_1(0, 2);//显示小数
+					write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+					Display_Wendu_2(2, 3);//显示个位
+					Display_Wendu_1(4, 9);//显示十位
 				
-					//显示第二行
 					Clr_Shidu();
-					if(Humtidy_4ma<0)
-					{
-					  write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
-						HumtidyDisplay_4ma=0-Humtidy_4ma;
-					}
-					else
-					{
-						HumtidyDisplay_4ma=Humtidy_4ma;
-						write_addr_dat_n_char(7,0x08, 0);//不显示负号
-					}
-					Display_Shidu_1(26,0);//显示分位
-					write_addr_dat_n_char(28,0x01, 1);//P2
-					//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-					Display_Shidu_1(28,HumtidyDisplay_4ma%10);//显示个位
-					Display_Shidu_3(30, HumtidyDisplay_4ma/10);//显示十位	
+					Display_Shidu_3(26,ip3%100%10);//显示个位
+					Display_Shidu_3(28,ip3%100/10);//显示十位
+					Display_Shidu_3(30,ip3/100);//显示百位	
 					
-					/*
 					switch(UP_Dowm)
 					{
 						case 0:
 									{
-									if(Humtidy_4ma>Humtidy_20ma)//下限大于上限的情况
-									{
-										//显示第二行Err
-										Clr_Shidu();
-										if(Humtidy_4ma<0)
-										{
-											write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
-											HumtidyDisplay_4ma=0-Humtidy_4ma;
-										}
-										else
-										{
-											HumtidyDisplay_4ma=Humtidy_4ma;
-											write_addr_dat_n_char(7,0x08, 0);//不显示负号
-										}
-										Display_Shidu_2(26,8);//显示分位
-										//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-										Display_Shidu_2(28,8);//显示个位
-										Display_Shidu_2(30,6);//显示十位		
-									}
-									else
-									{
-										Humtidy_4ma--; 
-										if(Humtidy_4ma<0) 
-										Humtidy_4ma=0;
-										//显示第二行
-										Clr_Shidu();
-										if(Humtidy_4ma<0)
-										{
-											write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
-											HumtidyDisplay_4ma=0-Humtidy_4ma;
-										}
-										else
-										{
-											HumtidyDisplay_4ma=Humtidy_4ma;
-											write_addr_dat_n_char(7,0x08, 0);//不显示负号
-										}
-										Display_Shidu_1(26,0);//显示分位
-										write_addr_dat_n_char(28,0x01, 1);//P2
-										//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-										Display_Shidu_1(28,HumtidyDisplay_4ma%10);//显示个位
-										Display_Shidu_3(30, HumtidyDisplay_4ma/10);//显示十位	
-									}
-									break;
-									}
-						case 1:
-									{
-									Humtidy_4ma++;
-									if(Humtidy_4ma>99)
-									Humtidy_4ma=9;
-									//显示第二行
-									Clr_Shidu();
-									Display_Shidu_1(26,0);//显示分位
-									write_addr_dat_n_char(28,0x01, 1);//P2
-									//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-									Display_Shidu_1(28,HumtidyDisplay_4ma%10);//显示个位
-									Display_Shidu_3(30, HumtidyDisplay_4ma/10);//显示十位	
-									break;
-									}
-					}
-					*/
-					switch(UP_Dowm)
-					{
-						case 0:
-									{
-								  /*
-									if(Humtidy_4ma>Humtidy_20ma)//下限大于上限的情况
-									{
-										//显示第二行Err
-										Clr_Shidu();
-										if(Humtidy_4ma<0)
-										{
-											write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
-											HumtidyDisplay_4ma=0-Humtidy_4ma;
-										}
-										else
-										{
-											HumtidyDisplay_4ma=Humtidy_4ma;
-											write_addr_dat_n_char(7,0x08, 0);//不显示负号
-										}
-										Display_Shidu_2(26,8);//显示分位
-										//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-										Display_Shidu_2(28,8);//显示个位
-										Display_Shidu_2(30,6);//显示十位		
-									}
-									else
-									*/
-									{
-										Humtidy_4ma--; 
-										if(Humtidy_4ma<0) 
-										Humtidy_4ma=0;
-										//显示第二行
-										Clr_Shidu();
-										if(Humtidy_4ma<0)
-										{
-											write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
-											HumtidyDisplay_4ma=0-Humtidy_4ma;
-										}
-										else
-										{
-											HumtidyDisplay_4ma=Humtidy_4ma;
-											write_addr_dat_n_char(7,0x08, 0);//不显示负号
-										}
-										Display_Shidu_1(26,0);//显示分位
-										write_addr_dat_n_char(28,0x01, 1);//P2
-										//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-										Display_Shidu_1(28,HumtidyDisplay_4ma%10);//显示个位
-										Display_Shidu_3(30, HumtidyDisplay_4ma/10);//显示十位	
-									}
-									break;
-									}
-						case 1:
-							    /*
-									{
-									Humtidy_4ma++;
-									if(Humtidy_4ma>99)
-									Humtidy_4ma=9;
-									//显示第二行
-									Clr_Shidu();
-									Display_Shidu_1(26,0);//显示分位
-									write_addr_dat_n_char(28,0x01, 1);//P2
-									//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-									Display_Shidu_1(28,HumtidyDisplay_4ma%10);//显示个位
-									Display_Shidu_3(30, HumtidyDisplay_4ma/10);//显示十位	
-									break;
-									}
-						     */
-						      if(Humtidy_4ma>=Humtidy_20ma)//下限大于上限的情况
-									{
-										//显示第二行Err
-										Clr_Shidu();
-										if(Humtidy_4ma<0)
-										{
-											write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
-											HumtidyDisplay_4ma=0-Humtidy_4ma;
-										}
-										else
-										{
-											HumtidyDisplay_4ma=Humtidy_4ma;
-											write_addr_dat_n_char(7,0x08, 0);//不显示负号
-										}
-										Display_Shidu_2(26,8);//显示分位
-										//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-										Display_Shidu_2(28,8);//显示个位
-										Display_Shidu_2(30,6);//显示十位		
-									}
-									else
-						      {
-											
-										  Humtidy_4ma++;
-											if(Humtidy_4ma>99)
-											Humtidy_4ma=9;
+											ip3--;
+											if(ip3<1) 
+												ip3=255;
 											//显示第二行
 											Clr_Shidu();
-											
-											write_addr_dat_n_char(7,0x08, 0);//不显示负号
-											
-											Display_Shidu_1(26,0);//显示分位
-											write_addr_dat_n_char(28,0x01, 1);//P2
-											//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-											Display_Shidu_1(28,HumtidyDisplay_4ma%10);//显示个位
-											Display_Shidu_3(30, HumtidyDisplay_4ma/10);//显示十位	
+											Display_Shidu_3(26,ip3%100%10);//显示个位
+											Display_Shidu_3(28,ip3%100/10);//显示十位
+											Display_Shidu_3(30,ip3/100);//显示百位	
 											break;
 									}
+						case 1:
+									{
+											ip3++;
+											if(ip3>255) 
+												ip3=1;
+											//显示第二行
+											Clr_Shidu();
+											Display_Shidu_3(26,ip3%100%10);//显示个位
+											Display_Shidu_3(28,ip3%100/10);//显示十位
+											Display_Shidu_3(30,ip3/100);//显示百位	
+											break;
+									}
+					
 					}
-					
-					
 					break;
+//					/*
+//				  //显示第一行
+//					Clr_Wendu();
+//					Display_Wendu_1(0, 0);//显示小数
+//				  write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+//					//write_addr_dat_n_1bit(2,0x08, 1);//显示小数点
+//					Display_Wendu_1(2, 1);//显示个位
+//					Display_Wendu_2(4, 3);//显示十位
+//					//write_addr_dat_n_char(28,0x01, 1);//P2
+//					//Display_CHARS(sheshidu,1);//显示温湿度的符号
+//				  */
+//				  //显示第一行
+//					Clr_Wendu();
+//					Display_Wendu_1(0, 2);//显示小数
+//					write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+//					Display_Wendu_2(2, 3);//显示个位
+//					Display_Wendu_1(4, 9);//显示十位
+
+//					//write_addr_dat_n_char(28,0x01, 1);//P2
+//					//Display_CHARS(sheshidu,1);//显示温湿度的符号
+//				
+//					//显示第二行
+//					Clr_Shidu();
+//					if(Humtidy_4ma<0)
+//					{
+//					  write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+//						HumtidyDisplay_4ma=0-Humtidy_4ma;
+//					}
+//					else
+//					{
+//						HumtidyDisplay_4ma=Humtidy_4ma;
+//						write_addr_dat_n_char(7,0x08, 0);//不显示负号
+//					}
+//					Display_Shidu_1(26,0);//显示分位
+//					write_addr_dat_n_char(28,0x01, 1);//P2
+//					//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+//					Display_Shidu_1(28,HumtidyDisplay_4ma%10);//显示个位
+//					Display_Shidu_3(30, HumtidyDisplay_4ma/10);//显示十位	
+//					
+//					/*
+//					switch(UP_Dowm)
+//					{
+//						case 0:
+//									{
+//									if(Humtidy_4ma>Humtidy_20ma)//下限大于上限的情况
+//									{
+//										//显示第二行Err
+//										Clr_Shidu();
+//										if(Humtidy_4ma<0)
+//										{
+//											write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+//											HumtidyDisplay_4ma=0-Humtidy_4ma;
+//										}
+//										else
+//										{
+//											HumtidyDisplay_4ma=Humtidy_4ma;
+//											write_addr_dat_n_char(7,0x08, 0);//不显示负号
+//										}
+//										Display_Shidu_2(26,8);//显示分位
+//										//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+//										Display_Shidu_2(28,8);//显示个位
+//										Display_Shidu_2(30,6);//显示十位		
+//									}
+//									else
+//									{
+//										Humtidy_4ma--; 
+//										if(Humtidy_4ma<0) 
+//										Humtidy_4ma=0;
+//										//显示第二行
+//										Clr_Shidu();
+//										if(Humtidy_4ma<0)
+//										{
+//											write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+//											HumtidyDisplay_4ma=0-Humtidy_4ma;
+//										}
+//										else
+//										{
+//											HumtidyDisplay_4ma=Humtidy_4ma;
+//											write_addr_dat_n_char(7,0x08, 0);//不显示负号
+//										}
+//										Display_Shidu_1(26,0);//显示分位
+//										write_addr_dat_n_char(28,0x01, 1);//P2
+//										//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+//										Display_Shidu_1(28,HumtidyDisplay_4ma%10);//显示个位
+//										Display_Shidu_3(30, HumtidyDisplay_4ma/10);//显示十位	
+//									}
+//									break;
+//									}
+//						case 1:
+//									{
+//									Humtidy_4ma++;
+//									if(Humtidy_4ma>99)
+//									Humtidy_4ma=9;
+//									//显示第二行
+//									Clr_Shidu();
+//									Display_Shidu_1(26,0);//显示分位
+//									write_addr_dat_n_char(28,0x01, 1);//P2
+//									//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+//									Display_Shidu_1(28,HumtidyDisplay_4ma%10);//显示个位
+//									Display_Shidu_3(30, HumtidyDisplay_4ma/10);//显示十位	
+//									break;
+//									}
+//					}
+//					*/
+//					switch(UP_Dowm)
+//					{
+//						case 0:
+//									{
+//								  /*
+//									if(Humtidy_4ma>Humtidy_20ma)//下限大于上限的情况
+//									{
+//										//显示第二行Err
+//										Clr_Shidu();
+//										if(Humtidy_4ma<0)
+//										{
+//											write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+//											HumtidyDisplay_4ma=0-Humtidy_4ma;
+//										}
+//										else
+//										{
+//											HumtidyDisplay_4ma=Humtidy_4ma;
+//											write_addr_dat_n_char(7,0x08, 0);//不显示负号
+//										}
+//										Display_Shidu_2(26,8);//显示分位
+//										//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+//										Display_Shidu_2(28,8);//显示个位
+//										Display_Shidu_2(30,6);//显示十位		
+//									}
+//									else
+//									*/
+//									{
+//										Humtidy_4ma--; 
+//										if(Humtidy_4ma<0) 
+//										Humtidy_4ma=0;
+//										//显示第二行
+//										Clr_Shidu();
+//										if(Humtidy_4ma<0)
+//										{
+//											write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+//											HumtidyDisplay_4ma=0-Humtidy_4ma;
+//										}
+//										else
+//										{
+//											HumtidyDisplay_4ma=Humtidy_4ma;
+//											write_addr_dat_n_char(7,0x08, 0);//不显示负号
+//										}
+//										Display_Shidu_1(26,0);//显示分位
+//										write_addr_dat_n_char(28,0x01, 1);//P2
+//										//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+//										Display_Shidu_1(28,HumtidyDisplay_4ma%10);//显示个位
+//										Display_Shidu_3(30, HumtidyDisplay_4ma/10);//显示十位	
+//									}
+//									break;
+//									}
+//						case 1:
+//							    /*
+//									{
+//									Humtidy_4ma++;
+//									if(Humtidy_4ma>99)
+//									Humtidy_4ma=9;
+//									//显示第二行
+//									Clr_Shidu();
+//									Display_Shidu_1(26,0);//显示分位
+//									write_addr_dat_n_char(28,0x01, 1);//P2
+//									//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+//									Display_Shidu_1(28,HumtidyDisplay_4ma%10);//显示个位
+//									Display_Shidu_3(30, HumtidyDisplay_4ma/10);//显示十位	
+//									break;
+//									}
+//						     */
+//						      if(Humtidy_4ma>=Humtidy_20ma)//下限大于上限的情况
+//									{
+//										//显示第二行Err
+//										Clr_Shidu();
+//										if(Humtidy_4ma<0)
+//										{
+//											write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+//											HumtidyDisplay_4ma=0-Humtidy_4ma;
+//										}
+//										else
+//										{
+//											HumtidyDisplay_4ma=Humtidy_4ma;
+//											write_addr_dat_n_char(7,0x08, 0);//不显示负号
+//										}
+//										Display_Shidu_2(26,8);//显示分位
+//										//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+//										Display_Shidu_2(28,8);//显示个位
+//										Display_Shidu_2(30,6);//显示十位		
+//									}
+//									else
+//						      {
+//											
+//										  Humtidy_4ma++;
+//											if(Humtidy_4ma>99)
+//											Humtidy_4ma=9;
+//											//显示第二行
+//											Clr_Shidu();
+//											
+//											write_addr_dat_n_char(7,0x08, 0);//不显示负号
+//											
+//											Display_Shidu_1(26,0);//显示分位
+//											write_addr_dat_n_char(28,0x01, 1);//P2
+//											//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+//											Display_Shidu_1(28,HumtidyDisplay_4ma%10);//显示个位
+//											Display_Shidu_3(30, HumtidyDisplay_4ma/10);//显示十位	
+//											break;
+//									}
+//					}
+//					
+//					
+//					break;
 			}
-			case 22://C11湿度20ma      20--22  C1.1--9H.1   ---AH.1
+			case 22://IP4
 			{
-					/*
-				  //显示第一行
 					Clr_Wendu();
-					Display_Wendu_1(0, 1);//显示小数
-				  write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
-					//write_addr_dat_n_1bit(2,0x08, 1);//显示小数点
-					Display_Wendu_1(2, 1);//显示个位
-					Display_Wendu_2(4, 3);//显示十位
-					//write_addr_dat_n_char(28,0x01, 1);//P2
-					//Display_CHARS(sheshidu,1);//显示温湿度的符号
-				  */
-				  //显示第一行
-					Clr_Wendu();
-					Display_Wendu_1(0, 1);//显示小数
-				  write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
-					//write_addr_dat_n_1bit(2,0x08, 1);//显示小数点
-					Display_Wendu_2(2, 11);//显示个位
-					//Display_Wendu_1(4, 9);//显示十位
-				  Display_Wendu_2(4, 7);//显示十位
+					Display_Wendu_1(0, 3);//显示小数
+					write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+					Display_Wendu_2(2, 3);//显示个位
+					Display_Wendu_1(4, 9);//显示十位
 				
-				
-					//write_addr_dat_n_char(28,0x01, 1);//P2
-					//Display_CHARS(sheshidu,1);//显示温湿度的符号
-				
-				
-					//显示第二行
 					Clr_Shidu();
-					if(Humtidy_20ma<0)
-					{
-					  write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
-						HumtidyDisplay_20ma=0-Humtidy_20ma;
-					}
-					else
-					{
-						HumtidyDisplay_20ma=Humtidy_20ma;
-						write_addr_dat_n_char(7,0x08, 0);//不显示负号
-					}
-					Display_Shidu_1(26,0);//显示分位
-					write_addr_dat_n_char(28,0x01, 1);//P2
-					//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-					Display_Shidu_1(28,HumtidyDisplay_20ma%10);//显示个位
-					Display_Shidu_3(30, HumtidyDisplay_20ma/10);//显示十位	
+					Display_Shidu_3(26,ip4%100%10);//显示个位
+					Display_Shidu_3(28,ip4%100/10);//显示十位
+					Display_Shidu_3(30,ip4/100);//显示百位	
 					
-					
-					/*
 					switch(UP_Dowm)
 					{
 						case 0:
 									{
-									if(Humtidy_4ma>Humtidy_20ma)//下限大于上限的情况
-									{
-										//显示第二行Err
-										Clr_Shidu();
-										if(Humtidy_20ma<0)
-										{
-											write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
-											HumtidyDisplay_20ma=0-Humtidy_20ma;
-										}
-										else
-										{
-											HumtidyDisplay_20ma=Humtidy_20ma;
-											write_addr_dat_n_char(7,0x08, 0);//不显示负号
-										}
-										Display_Shidu_2(26,8);//显示分位
-										//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-										Display_Shidu_2(28,8);//显示个位
-										Display_Shidu_2(30,6);//显示十位		
-									}
-									else
-									{
-										Humtidy_20ma--; 
-										if(Humtidy_20ma<0) 
-										Humtidy_20ma=0;
-										//显示第二行
-										Clr_Shidu();
-										if(Humtidy_20ma<0)
-										{
-											write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
-											HumtidyDisplay_20ma=0-Humtidy_20ma;
-										}
-										else
-										{
-											HumtidyDisplay_20ma=Humtidy_20ma;
-											write_addr_dat_n_char(7,0x08, 0);//不显示负号
-										}
-										Display_Shidu_1(26,0);//显示分位
-										write_addr_dat_n_char(28,0x01, 1);//P2
-										//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-										Display_Shidu_1(28,HumtidyDisplay_20ma%10);//显示个位
-										Display_Shidu_3(30, HumtidyDisplay_20ma/10);//显示十位	
-									}
-									break;
+											ip4--;
+											if(ip4<1) 
+												ip4=255;
+											//显示第二行
+											Clr_Shidu();
+											Display_Shidu_3(26,ip4%100%10);//显示个位
+											Display_Shidu_3(28,ip4%100/10);//显示十位
+											Display_Shidu_3(30,ip4/100);//显示百位	
+											break;
 									}
 						case 1:
 									{
-									Humtidy_20ma++;
-									if(Humtidy_20ma>99)
-									Humtidy_20ma=99;
-									//显示第二行
-									Clr_Shidu();
-									Display_Shidu_1(26,0);//显示分位
-									write_addr_dat_n_char(28,0x01, 1);//P2
-									//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-									Display_Shidu_1(28,HumtidyDisplay_20ma%10);//显示个位
-									Display_Shidu_3(30, HumtidyDisplay_20ma/10);//显示十位	
-									break;
+											ip4++;
+											if(ip4>255) 
+												ip4=1;
+											//显示第二行
+											Clr_Shidu();
+											Display_Shidu_3(26,ip4%100%10);//显示个位
+											Display_Shidu_3(28,ip4%100/10);//显示十位
+											Display_Shidu_3(30,ip4/100);//显示百位	
+											break;
 									}
+					
 					}
-					*/
-					switch(UP_Dowm)
-					{
-						case 0:
-									{
-									if(Humtidy_4ma>=Humtidy_20ma)//下限大于上限的情况
-									{
-										//显示第二行Err
-										Clr_Shidu();
-										
-										/*
-										if(Humtidy_20ma<0)
-										{
-											write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
-											HumtidyDisplay_20ma=0-Humtidy_20ma;
-										}
-										else
-										{
-											HumtidyDisplay_20ma=Humtidy_20ma;
-											write_addr_dat_n_char(7,0x08, 0);//不显示负号
-										}
-										*/
-										write_addr_dat_n_char(7,0x08, 0);//不显示负号
-										
-										
-										
-										Display_Shidu_2(26,8);//显示分位
-										//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-										Display_Shidu_2(28,8);//显示个位
-										Display_Shidu_2(30,6);//显示十位		
-									}
-									else
-									{
-										Humtidy_20ma--; 
-										if(Humtidy_20ma<0) 
-										Humtidy_20ma=0;
-										//显示第二行
-										Clr_Shidu();
-										if(Humtidy_20ma<0)
-										{
-											write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
-											HumtidyDisplay_20ma=0-Humtidy_20ma;
-										}
-										else
-										{
-											HumtidyDisplay_20ma=Humtidy_20ma;
-											write_addr_dat_n_char(7,0x08, 0);//不显示负号
-										}
-										Display_Shidu_1(26,0);//显示分位
-										write_addr_dat_n_char(28,0x01, 1);//P2
-										//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-										Display_Shidu_1(28,HumtidyDisplay_20ma%10);//显示个位
-										Display_Shidu_3(30, HumtidyDisplay_20ma/10);//显示十位	
-									}
-									break;
-									}
-						case 1:
-									{
-									Humtidy_20ma++;
-									if(Humtidy_20ma>99)
-									Humtidy_20ma=99;
-									//显示第二行
-									Clr_Shidu();
-									
-									if(Humtidy_20ma<0)
-									{
-										write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
-										HumtidyDisplay_20ma=0-Humtidy_20ma;
-									}
-									else
-									{
-										HumtidyDisplay_20ma=Humtidy_20ma;
-										write_addr_dat_n_char(7,0x08, 0);//不显示负号
-									}
-									
-									
-									
-									
-									
-									Display_Shidu_1(26,0);//显示分位
-									write_addr_dat_n_char(28,0x01, 1);//P2
-									//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-									Display_Shidu_1(28,HumtidyDisplay_20ma%10);//显示个位
-									Display_Shidu_3(30, HumtidyDisplay_20ma/10);//显示十位	
-									break;
-									}
-					}
-					
-					
-					
 					break;
+//					/*
+//				  //显示第一行
+//					Clr_Wendu();
+//					Display_Wendu_1(0, 1);//显示小数
+//				  write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+//					//write_addr_dat_n_1bit(2,0x08, 1);//显示小数点
+//					Display_Wendu_1(2, 1);//显示个位
+//					Display_Wendu_2(4, 3);//显示十位
+//					//write_addr_dat_n_char(28,0x01, 1);//P2
+//					//Display_CHARS(sheshidu,1);//显示温湿度的符号
+//				  */
+//				  //显示第一行
+//					Clr_Wendu();
+//					Display_Wendu_1(0, 3);//显示小数
+//					write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+//					Display_Wendu_2(2, 3);//显示个位
+//					Display_Wendu_1(4, 9);//显示十位
+//				
+//				
+//					//write_addr_dat_n_char(28,0x01, 1);//P2
+//					//Display_CHARS(sheshidu,1);//显示温湿度的符号
+//				
+//				
+//					//显示第二行
+//					Clr_Shidu();
+//					if(Humtidy_20ma<0)
+//					{
+//					  write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+//						HumtidyDisplay_20ma=0-Humtidy_20ma;
+//					}
+//					else
+//					{
+//						HumtidyDisplay_20ma=Humtidy_20ma;
+//						write_addr_dat_n_char(7,0x08, 0);//不显示负号
+//					}
+//					Display_Shidu_1(26,0);//显示分位
+//					write_addr_dat_n_char(28,0x01, 1);//P2
+//					//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+//					Display_Shidu_1(28,HumtidyDisplay_20ma%10);//显示个位
+//					Display_Shidu_3(30, HumtidyDisplay_20ma/10);//显示十位	
+//					
+//					
+//					/*
+//					switch(UP_Dowm)
+//					{
+//						case 0:
+//									{
+//									if(Humtidy_4ma>Humtidy_20ma)//下限大于上限的情况
+//									{
+//										//显示第二行Err
+//										Clr_Shidu();
+//										if(Humtidy_20ma<0)
+//										{
+//											write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+//											HumtidyDisplay_20ma=0-Humtidy_20ma;
+//										}
+//										else
+//										{
+//											HumtidyDisplay_20ma=Humtidy_20ma;
+//											write_addr_dat_n_char(7,0x08, 0);//不显示负号
+//										}
+//										Display_Shidu_2(26,8);//显示分位
+//										//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+//										Display_Shidu_2(28,8);//显示个位
+//										Display_Shidu_2(30,6);//显示十位		
+//									}
+//									else
+//									{
+//										Humtidy_20ma--; 
+//										if(Humtidy_20ma<0) 
+//										Humtidy_20ma=0;
+//										//显示第二行
+//										Clr_Shidu();
+//										if(Humtidy_20ma<0)
+//										{
+//											write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+//											HumtidyDisplay_20ma=0-Humtidy_20ma;
+//										}
+//										else
+//										{
+//											HumtidyDisplay_20ma=Humtidy_20ma;
+//											write_addr_dat_n_char(7,0x08, 0);//不显示负号
+//										}
+//										Display_Shidu_1(26,0);//显示分位
+//										write_addr_dat_n_char(28,0x01, 1);//P2
+//										//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+//										Display_Shidu_1(28,HumtidyDisplay_20ma%10);//显示个位
+//										Display_Shidu_3(30, HumtidyDisplay_20ma/10);//显示十位	
+//									}
+//									break;
+//									}
+//						case 1:
+//									{
+//									Humtidy_20ma++;
+//									if(Humtidy_20ma>99)
+//									Humtidy_20ma=99;
+//									//显示第二行
+//									Clr_Shidu();
+//									Display_Shidu_1(26,0);//显示分位
+//									write_addr_dat_n_char(28,0x01, 1);//P2
+//									//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+//									Display_Shidu_1(28,HumtidyDisplay_20ma%10);//显示个位
+//									Display_Shidu_3(30, HumtidyDisplay_20ma/10);//显示十位	
+//									break;
+//									}
+//					}
+//					*/
+//					switch(UP_Dowm)
+//					{
+//						case 0:
+//									{
+//									if(Humtidy_4ma>=Humtidy_20ma)//下限大于上限的情况
+//									{
+//										//显示第二行Err
+//										Clr_Shidu();
+//										
+//										/*
+//										if(Humtidy_20ma<0)
+//										{
+//											write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+//											HumtidyDisplay_20ma=0-Humtidy_20ma;
+//										}
+//										else
+//										{
+//											HumtidyDisplay_20ma=Humtidy_20ma;
+//											write_addr_dat_n_char(7,0x08, 0);//不显示负号
+//										}
+//										*/
+//										write_addr_dat_n_char(7,0x08, 0);//不显示负号
+//										
+//										
+//										
+//										Display_Shidu_2(26,8);//显示分位
+//										//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+//										Display_Shidu_2(28,8);//显示个位
+//										Display_Shidu_2(30,6);//显示十位		
+//									}
+//									else
+//									{
+//										Humtidy_20ma--; 
+//										if(Humtidy_20ma<0) 
+//										Humtidy_20ma=0;
+//										//显示第二行
+//										Clr_Shidu();
+//										if(Humtidy_20ma<0)
+//										{
+//											write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+//											HumtidyDisplay_20ma=0-Humtidy_20ma;
+//										}
+//										else
+//										{
+//											HumtidyDisplay_20ma=Humtidy_20ma;
+//											write_addr_dat_n_char(7,0x08, 0);//不显示负号
+//										}
+//										Display_Shidu_1(26,0);//显示分位
+//										write_addr_dat_n_char(28,0x01, 1);//P2
+//										//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+//										Display_Shidu_1(28,HumtidyDisplay_20ma%10);//显示个位
+//										Display_Shidu_3(30, HumtidyDisplay_20ma/10);//显示十位	
+//									}
+//									break;
+//									}
+//						case 1:
+//									{
+//									Humtidy_20ma++;
+//									if(Humtidy_20ma>99)
+//									Humtidy_20ma=99;
+//									//显示第二行
+//									Clr_Shidu();
+//									
+//									if(Humtidy_20ma<0)
+//									{
+//										write_addr_dat_n_char(7,0x08, 1);//显示负号//write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+//										HumtidyDisplay_20ma=0-Humtidy_20ma;
+//									}
+//									else
+//									{
+//										HumtidyDisplay_20ma=Humtidy_20ma;
+//										write_addr_dat_n_char(7,0x08, 0);//不显示负号
+//									}
+//									
+//									
+//									
+//									
+//									
+//									Display_Shidu_1(26,0);//显示分位
+//									write_addr_dat_n_char(28,0x01, 1);//P2
+//									//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+//									Display_Shidu_1(28,HumtidyDisplay_20ma%10);//显示个位
+//									Display_Shidu_3(30, HumtidyDisplay_20ma/10);//显示十位	
+//									break;
+//									}
+//					}
+//					
+//					
+//					
+//					break;
 			}
 			case 10://C12温度校准      21--10 C1.2--5C.0
 			{
@@ -2685,52 +2850,106 @@ void ModeSwitch(int mode,int UP_Dowm)//UP_Dowm：0：减小，1：增大
 					}
 					break;
 			}
-			case 23://剩余电量
+			case 23://端口号
 			{
-				//显示当前剩余电量
-					//显示第一行
-					Clr_Wendu();
-					Display_Wendu_2(0, 8);//显示小数
-					//write_addr_dat_n_1bit(2,0x08, 1);//显示小数点
-					Display_Wendu_2(2, 7);//显示个位
-					Display_Wendu_2(4, 1);//显示十位
-					//Display_CHARS(huashidu,1);//显示温湿度的符号
-					write_addr_dat_n_char(7,0x08, 0);//不显示负号
-					//显示第二行OFF
-					Clr_Shidu();
-					if((V_BAT*2)<Battery[0]){	
-						Display_Shidu_3(28,1);
-						Display_Shidu_3(26,0);}
-					else if((V_BAT*2)<Battery[1]&&(V_BAT*2)>=Battery[0]){
-						Display_Shidu_3(28,2);
-						Display_Shidu_3(26,0);}
-					else if((V_BAT*2)<Battery[2]&&(V_BAT*2)>=Battery[1]){
-						Display_Shidu_3(28,3);
-						Display_Shidu_3(26,0);}
-					else if((V_BAT*2)<Battery[3]&&(V_BAT*2)>=Battery[2]){
-						Display_Shidu_3(28,4);
-						Display_Shidu_3(26,0);}
-					else if((V_BAT*2)<Battery[4]&&(V_BAT*2)>=Battery[3]){
-						Display_Shidu_3(28,5);
-						Display_Shidu_3(26,0);}
-					else if((V_BAT*2)<Battery[5]&&(V_BAT*2)>=Battery[4]){
-						Display_Shidu_3(28,6);
-						Display_Shidu_3(26,0);}
-					else if((V_BAT*2)<Battery[6]&&(V_BAT*2)>=Battery[5]){
-						Display_Shidu_3(28,7);
-						Display_Shidu_3(26,0);}
-					else if((V_BAT*2)<Battery[7]&&(V_BAT*2)>=Battery[6]){
-						Display_Shidu_3(28,8);
-						Display_Shidu_3(26,0);}
-					else if((V_BAT*2)<Battery[8]&&(V_BAT*2)>=Battery[7]){
-						Display_Shidu_3(28,9);
-						Display_Shidu_3(26,0);}
-					else if((V_BAT*2)<Battery[9]&&(V_BAT*2)>=Battery[8]||(V_BAT*2>=Battery[9])){
-						Display_Shidu_3(30,1);
-						Display_Shidu_3(28,0);
-						Display_Shidu_3(26,0);}	
+				//显示第一行
+				Clr_Wendu();
+				Display_Wendu_1(0, 4);//显示小数
+				write_addr_dat_n_char(2,0x08, 1);//P1write_addr_dat_n_char(28,0x01, 1);//P2
+				Display_Wendu_2(2, 3);//显示个位
+				Display_Wendu_1(4, 9);//显示十位
+				
 
+				//显示第二行
+				Clr_Shidu();
+				Clr_Others();
+				Display_Others_1(11, port/10000);
+				Display_Others_1(13, port%10000/1000);
+				Display_Others_1(15, port%1000/100);
+				Display_Others_1(17, port%100/10);
+				Display_Others_1(19, port%10);
+//				Display_Shidu_3(26,port%100%10);//显示个位
+//				//write_addr_dat_n_1bit(28,0x00, 1);//不显示小数点
+//				Display_Shidu_3(28,  address%100/10);//显示十位
+//				Display_Shidu_3(30,  address/100);//显示百位	
+				switch(UP_Dowm)
+					{
+						case 0:
+									{
+											
+										   port--;
+											if(port<1) 
+											port=65535;
+											//显示第二行
+											Clr_Others();
+											Display_Others_1(11, port/10000);
+											Display_Others_1(13, port%10000/1000);
+											Display_Others_1(15, port%1000/100);
+											Display_Others_1(17, port%100/10);
+											Display_Others_1(19, port%10);
+											break;
+									}
+						case 1:
+									{
+											port++;
+											if(port>65535) 
+											port=1;
+											//显示第二行
+											Clr_Others();
+											Display_Others_1(11, port/10000);
+											Display_Others_1(13, port%10000/1000);
+											Display_Others_1(15, port%1000/100);
+											Display_Others_1(17, port%100/10);
+											Display_Others_1(19, port%10);
+											break;
+									}
+					
+					}
 					break;
+//				//显示当前剩余电量
+//					//显示第一行
+//					Clr_Wendu();
+//					Display_Wendu_2(0, 8);//显示小数
+//					//write_addr_dat_n_1bit(2,0x08, 1);//显示小数点
+//					Display_Wendu_2(2, 7);//显示个位
+//					Display_Wendu_2(4, 1);//显示十位
+//					//Display_CHARS(huashidu,1);//显示温湿度的符号
+//					write_addr_dat_n_char(7,0x08, 0);//不显示负号
+//					//显示第二行OFF
+//					Clr_Shidu();
+//					if((V_BAT*2)<Battery[0]){	
+//						Display_Shidu_3(28,1);
+//						Display_Shidu_3(26,0);}
+//					else if((V_BAT*2)<Battery[1]&&(V_BAT*2)>=Battery[0]){
+//						Display_Shidu_3(28,2);
+//						Display_Shidu_3(26,0);}
+//					else if((V_BAT*2)<Battery[2]&&(V_BAT*2)>=Battery[1]){
+//						Display_Shidu_3(28,3);
+//						Display_Shidu_3(26,0);}
+//					else if((V_BAT*2)<Battery[3]&&(V_BAT*2)>=Battery[2]){
+//						Display_Shidu_3(28,4);
+//						Display_Shidu_3(26,0);}
+//					else if((V_BAT*2)<Battery[4]&&(V_BAT*2)>=Battery[3]){
+//						Display_Shidu_3(28,5);
+//						Display_Shidu_3(26,0);}
+//					else if((V_BAT*2)<Battery[5]&&(V_BAT*2)>=Battery[4]){
+//						Display_Shidu_3(28,6);
+//						Display_Shidu_3(26,0);}
+//					else if((V_BAT*2)<Battery[6]&&(V_BAT*2)>=Battery[5]){
+//						Display_Shidu_3(28,7);
+//						Display_Shidu_3(26,0);}
+//					else if((V_BAT*2)<Battery[7]&&(V_BAT*2)>=Battery[6]){
+//						Display_Shidu_3(28,8);
+//						Display_Shidu_3(26,0);}
+//					else if((V_BAT*2)<Battery[8]&&(V_BAT*2)>=Battery[7]){
+//						Display_Shidu_3(28,9);
+//						Display_Shidu_3(26,0);}
+//					else if((V_BAT*2)<Battery[9]&&(V_BAT*2)>=Battery[8]||(V_BAT*2>=Battery[9])){
+//						Display_Shidu_3(30,1);
+//						Display_Shidu_3(28,0);
+//						Display_Shidu_3(26,0);}	
+
+//					break;
 			}
 			case 24://传感器选择
 			{
@@ -2742,6 +2961,7 @@ void ModeSwitch(int mode,int UP_Dowm)//UP_Dowm：0：减小，1：增大
 					Display_Wendu_1(4, 5);//显示十位
 					//Display_CHARS(huashidu,1);//显示温湿度的符号
 					//显示第二行
+				Clr_Others();
 					Clr_Shidu();
 					Display_Shidu_3(26,SensorSelected);//显示个
 					switch(UP_Dowm)
@@ -6698,7 +6918,7 @@ int main(void)
 	TIM4_init();         //RS485中断定时器
 	TIM5_Int_Init(999,7199);
 	BeepInit();          //蜂鸣器初始化
-	//ReadParameters();  //从EEPROM中读取关机前的l设置信息
+	ReadParameters();  //从EEPROM中读取关机前的l设置信息
 	
 	ReadParameters_wuxian();
 
@@ -6881,6 +7101,20 @@ int main(void)
 				NormalState=1;
 				OnlyDispalyTime=0;
 				key=0;
+				
+				sprintf(temp_nb,"AT+CIPSTART=\"TCP\",\"%d.%d.%d.%d\",%d\r\n",ip1,ip2,ip3,ip4,port);
+				
+				if(flag_ls_set_dangqian != flag_ls_set)
+				{
+					flag_ls_set_dangqian = flag_ls_set;
+					flag_state = 0;
+					flag_1s_nnn = 0;
+					timetick = 0;
+					flag_fasong = 0;
+				}
+				
+				TIM_Cmd(TIM2, ENABLE);
+				
 				StorageParameters();
 				Beep(100);         //蜂鸣器响一下10ms
 			}
@@ -7093,6 +7327,20 @@ int main(void)
 				NormalState=1;
 				OnlyDispalyTime=0;
 				key=0;//清除标志位
+				
+				sprintf(temp_nb,"AT+CIPSTART=\"TCP\",\"%d.%d.%d.%d\",%d\r\n",ip1,ip2,ip3,ip4,port);
+				
+				if(flag_ls_set_dangqian != flag_ls_set)
+				{
+					flag_ls_set_dangqian = flag_ls_set;
+					flag_state = 0;
+					flag_1s_nnn = 0;
+					timetick = 0;
+					flag_fasong = 0;
+				}
+				
+				TIM_Cmd(TIM2, ENABLE);
+				
 				//存储数据
 				StorageParameters();
 				write_addr_dat_n_char(7,0x08, 0);//不显示负号
@@ -7112,6 +7360,20 @@ int main(void)
 					Timing=0;
 					Timing_Enable=0;//关闭定时
 					DisplayTime_On=1;
+			
+					sprintf(temp_nb,"AT+CIPSTART=\"TCP\",\"%d.%d.%d.%d\",%d\r\n",ip1,ip2,ip3,ip4,port);
+				
+					if(flag_ls_set_dangqian != flag_ls_set)
+					{
+						flag_ls_set_dangqian = flag_ls_set;
+						flag_state = 0;
+						flag_1s_nnn = 0;
+						timetick = 0;
+						flag_fasong = 0;
+					}
+					
+					TIM_Cmd(TIM2, ENABLE);
+			
 					//存储数据
 					StorageParameters();
 					//DisplayTime();
@@ -7365,7 +7627,7 @@ int main(void)
 									adc100[l]=Get_Adc(ADC_Channel_11);
 								}
 								ADC_BAT=average(adc100 , 100, 20);
-								V_BAT=(float)ADC_BAT*(3.3/4096)*5.7+0.3;	
+								V_BAT=(float)ADC_BAT*(3.3/4096)*5.7;	
 								
 								
 								
@@ -7393,8 +7655,8 @@ int main(void)
 													//Storage(g_sht2x_param.TEMP_HM,g_sht2x_param.HUMI_HM,StorageMode);
 													//Storage(g_sht2x_param.TEMP_HM,g_sht2x_param.HUMI_HM,calendar.w_year%100,calendar.w_month,calendar.w_date,calendar.hour,calendar.min,calendar.sec,StorageMode);
 													Storage(Temperature_Load,Humidity_Load,calendar.w_year%100,calendar.w_month,calendar.w_date,calendar.hour,calendar.min,calendar.sec,StorageMode);
-													StorageParameters();
-													StorageParameters_wuxian();
+//													StorageParameters();
+//													StorageParameters_wuxian();
 													StorgeTiming=0;
 												}
 										}
@@ -7405,7 +7667,7 @@ int main(void)
 												//Storage(g_sht2x_param.TEMP_HM,g_sht2x_param.HUMI_HM,StorageMode);
 												//Storage(g_sht2x_param.TEMP_HM,g_sht2x_param.HUMI_HM,calendar.w_year%100,calendar.w_month,calendar.w_date,calendar.hour,calendar.min,calendar.sec,StorageMode);
 												Storage(Temperature_Load,Humidity_Load,calendar.w_year%100,calendar.w_month,calendar.w_date,calendar.hour,calendar.min,calendar.sec,StorageMode);
-												StorageParameters();
+//												StorageParameters();
 												StorgeTiming=0;
 										 }
 										}
@@ -7438,6 +7700,13 @@ int main(void)
 
 		}
 
+		if(flag_cunchu)//串口接收存储
+		{
+			flag_cunchu = 0;
+			
+			StorageParameters();
+		}
+		
 		//无线数据传输
 		if(flag_fasong == 1)
 		{
@@ -7463,37 +7732,41 @@ int main(void)
 						break;
 					case 3:
 						//Wifi_Startsend();
-						Nb_SendData(deviceidArr);
-						//Send_Str(deviceidArr);
+						//Nb_SendData("12345678");
+						TxData[0] = DeviceID/100 + 48;
+						TxData[1] = DeviceID/100%10 + 48;
+						TxData[2] = DeviceID%100 + 48;
+						TxData[3] = NULL;
+						
+						Nb_SendData(TxData);
 						break;
 				case 4:
-					Nb_SendData("S1:1*12.6,1:2*56.7E");
-//						NumToArr(TmpArr, (int)(Temperature_Load*10));
-//						NumToArr(HumArr, (int)(Humidity_Load*10));
-//						
-//						TxData[0] = 'S';
-//						TxData[1] = '1';
-//						TxData[2] = ':';
-//						TxData[3] = '1';
-//						TxData[4] = '*';
-//						TxData[5] = TmpArr[0];
-//						TxData[6] = TmpArr[1];
-//						TxData[7] = TmpArr[2];
-//						TxData[8] = TmpArr[3];
-//						TxData[9] = ',';
-//						TxData[10] = '1';
-//						TxData[11] = ':';
-//						TxData[12] = '2';
-//						TxData[13] = '*';
-//						TxData[14] = HumArr[0];
-//						TxData[15] = HumArr[1];
-//						TxData[16] = HumArr[2];
-//						TxData[17] = HumArr[3];
-//						TxData[18] = 'E';
-//						TxData[19] = NULL;
-//						
-//						CleanRXBUF();
-//						Nb_SendData(TxData);
+						NumToArr(TmpArr, (int)(Temperature_Load*10));
+						NumToArr(HumArr, (int)(Humidity_Load*10));
+						
+						TxData[0] = 'S';
+						TxData[1] = '1';
+						TxData[2] = ':';
+						TxData[3] = '1';
+						TxData[4] = '*';
+						TxData[5] = TmpArr[0];
+						TxData[6] = TmpArr[1];
+						TxData[7] = TmpArr[2];
+						TxData[8] = TmpArr[3];
+						TxData[9] = ',';
+						TxData[10] = '1';
+						TxData[11] = ':';
+						TxData[12] = '2';
+						TxData[13] = '*';
+						TxData[14] = HumArr[0];
+						TxData[15] = HumArr[1];
+						TxData[16] = HumArr[2];
+						TxData[17] = HumArr[3];
+						TxData[18] = 'E';
+						TxData[19] = NULL;
+						
+						CleanRXBUF();
+						Nb_SendData(TxData);
 						//Send_Str(TxData);
 						break;
 					case 5:

@@ -38,6 +38,7 @@ extern u16  flag_state;
 extern u16  flag_1s_nnn;
 extern u16 timetick;
 extern u8 flag_fasong;
+extern u16 flag_ls_set_dangqian;
 
 extern u8 ip1;
 extern u8 ip2;
@@ -52,8 +53,9 @@ extern char temp_nb[];
 extern char temp_lala[];
 extern char routerSet[];
 u32 flag_ls_set = 0;
-u8 wifiName[20] = {"Tcp"};
-u8 wifiPassword[20] = {"12345678"};
+u8 wifiName[20] = {0};
+u8 wifiPassword[20] = {0};
+u8 flag_cunchu = 0;
 
 
 
@@ -648,10 +650,7 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 			sprintf(temp_lala,"AT+CIPSTART=\"TCP\",\"%d.%d.%d.%d\",%d\r\n",RxData[2],RxData[3],RxData[4],RxData[5],(RxData[6]*256+RxData[7]));
 			//sprintf(temp_lala,"AT+CIPSTART=\"TCP\",\"%d.%d.%d.%d\",%d\r",RxData[2],RxData[3],RxData[4],RxData[5],(RxData[6]*256+RxData[7]));
 			//sprintf(temp_nb,"AT+SKTCONNECT=1,%d.%d.%d.%d,%d\r\n",RxData[2],RxData[3],RxData[4],RxData[5],(RxData[6]*256+RxData[7]));
-			flag_state = 0;
-			flag_1s_nnn = 0;
-			timetick = 0;
-			flag_fasong = 0;
+			flag_cunchu = 1;
 		}
 		
 		//将IP地址发送给上位机
@@ -745,10 +744,12 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 			}
 				
 			flag_ls_set = RxData[2]*256 + RxData[3];
+			flag_ls_set_dangqian = flag_ls_set;
 			flag_state = 0;
 			flag_1s_nnn = 0;
 			timetick = 0;
 			flag_fasong = 0;
+			flag_cunchu = 1;
 		}
 		
 		//读取数据上传时间间隔
