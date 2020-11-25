@@ -6667,7 +6667,7 @@ float average(u32 *adcArr , u16 num, u16 subtract)	//∂‘ ˝◊Èœ»¥”–°µΩ¥Û≈≈–Ú£¨»•Õ∑»
 	return 	(float)(add/(num-subtract*2));
 }
 int main(void)
-{ 
+ { 
 	u8 l=0;
 	u8 BUFFER_SIZE2;
 	
@@ -7463,36 +7463,43 @@ int main(void)
 					case 3:
 						//Wifi_Startsend();
 						//Nb_SendData("12345678");
+//						TxData[0] = deviceidArr[0];
+//						TxData[1] = deviceidArr[1];
+//						TxData[2] = deviceidArr[2];
+//						TxData[3] = deviceidArr[3];
+//						TxData[4] = deviceidArr[4];
+//						TxData[5] = NULL;					
 						Send_Str(deviceidArr);
 						break;
 				case 4:
-						NumToArr(TmpArr, (int)(Temperature_Load*10));
-						NumToArr(HumArr, (int)(Humidity_Load*10));
-						
-						TxData[0] = 'S';
-						TxData[1] = '1';
-						TxData[2] = ':';
-						TxData[3] = '1';
-						TxData[4] = '*';
-						TxData[5] = TmpArr[0];
-						TxData[6] = TmpArr[1];
-						TxData[7] = TmpArr[2];
-						TxData[8] = TmpArr[3];
-						TxData[9] = ',';
-						TxData[10] = '1';
-						TxData[11] = ':';
-						TxData[12] = '2';
-						TxData[13] = '*';
-						TxData[14] = HumArr[0];
-						TxData[15] = HumArr[1];
-						TxData[16] = HumArr[2];
-						TxData[17] = HumArr[3];
-						TxData[18] = 'E';
-						TxData[19] = NULL;
-						
-						CleanRXBUF();
-						//Nb_SendData(TxData);
-						Send_Str(TxData);
+					Send_Str("S1:1*12.6,1:2*56.7E");
+//						NumToArr(TmpArr, (int)(Temperature_Load*10));
+//						NumToArr(HumArr, (int)(Humidity_Load*10));
+//						
+//						TxData[0] = 'S';
+//						TxData[1] = '1';
+//						TxData[2] = ':';
+//						TxData[3] = '1';
+//						TxData[4] = '*';
+//						TxData[5] = TmpArr[0];
+//						TxData[6] = TmpArr[1];
+//						TxData[7] = TmpArr[2];
+//						TxData[8] = TmpArr[3];
+//						TxData[9] = ',';
+//						TxData[10] = '1';
+//						TxData[11] = ':';
+//						TxData[12] = '2';
+//						TxData[13] = '*';
+//						TxData[14] = HumArr[0];
+//						TxData[15] = HumArr[1];
+//						TxData[16] = HumArr[2];
+//						TxData[17] = HumArr[3];
+//						TxData[18] = 'E';
+//						TxData[19] = NULL;
+//						
+//						CleanRXBUF();
+//						//Nb_SendData(TxData);
+//						Send_Str(TxData);
 						break;
 					case 5:
 						//DisConnect();		

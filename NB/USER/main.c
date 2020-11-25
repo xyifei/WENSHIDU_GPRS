@@ -7467,32 +7467,33 @@ int main(void)
 						//Send_Str(deviceidArr);
 						break;
 				case 4:
-						NumToArr(TmpArr, (int)(Temperature_Load*10));
-						NumToArr(HumArr, (int)(Humidity_Load*10));
-						
-						TxData[0] = 'S';
-						TxData[1] = '1';
-						TxData[2] = ':';
-						TxData[3] = '1';
-						TxData[4] = '*';
-						TxData[5] = TmpArr[0];
-						TxData[6] = TmpArr[1];
-						TxData[7] = TmpArr[2];
-						TxData[8] = TmpArr[3];
-						TxData[9] = ',';
-						TxData[10] = '1';
-						TxData[11] = ':';
-						TxData[12] = '2';
-						TxData[13] = '*';
-						TxData[14] = HumArr[0];
-						TxData[15] = HumArr[1];
-						TxData[16] = HumArr[2];
-						TxData[17] = HumArr[3];
-						TxData[18] = 'E';
-						TxData[19] = NULL;
-						
-						CleanRXBUF();
-						Nb_SendData(TxData);
+					Nb_SendData("S1:1*12.6,1:2*56.7E");
+//						NumToArr(TmpArr, (int)(Temperature_Load*10));
+//						NumToArr(HumArr, (int)(Humidity_Load*10));
+//						
+//						TxData[0] = 'S';
+//						TxData[1] = '1';
+//						TxData[2] = ':';
+//						TxData[3] = '1';
+//						TxData[4] = '*';
+//						TxData[5] = TmpArr[0];
+//						TxData[6] = TmpArr[1];
+//						TxData[7] = TmpArr[2];
+//						TxData[8] = TmpArr[3];
+//						TxData[9] = ',';
+//						TxData[10] = '1';
+//						TxData[11] = ':';
+//						TxData[12] = '2';
+//						TxData[13] = '*';
+//						TxData[14] = HumArr[0];
+//						TxData[15] = HumArr[1];
+//						TxData[16] = HumArr[2];
+//						TxData[17] = HumArr[3];
+//						TxData[18] = 'E';
+//						TxData[19] = NULL;
+//						
+//						CleanRXBUF();
+//						Nb_SendData(TxData);
 						//Send_Str(TxData);
 						break;
 					case 5:

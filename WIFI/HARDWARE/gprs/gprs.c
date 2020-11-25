@@ -116,7 +116,7 @@ u8 Send_AT( char *Str, char *Str2)
 		delay_ms(1000);//延时等待回复
 		//    Delay(1000);//延时等待回复
 		Loop_Count++;
-		if(Loop_Count >= 10)
+		if(Loop_Count >= 5)
 		{
 			ReSend_Count++;
 			if(ReSend_Count < 3)
@@ -313,7 +313,7 @@ void Wifi_Connect(void)
   Send_AT("ATE0\r\n","OK");                                             //关闭回显
 	Send_AT("AT+CIPMODE=1\r\n","OK"); 
 	//Send_AT("AT+CIPSTART=\"TCP\",\"122.51.118.117\",50001\r\n","OK");
-	Send_AT("AT+CIPSTART=\"TCP\",\"103.46.128.21\",17354\r\n","OK");
+	Send_AT(temp_lala,"OK");
 	delay_ms(2000);
 	Send_AT("AT+CIPSEND\r\n","OK"); 
 	
