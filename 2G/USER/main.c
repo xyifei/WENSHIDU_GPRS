@@ -38,6 +38,7 @@ u8 ip2 = 0;
 u8 ip3 = 0;
 u8 ip4 = 0;
 u16 port = 0;
+u8 flag_lowpower = 0;
 
 //定时器变量
 u8  flag_1s=0;
@@ -1163,23 +1164,25 @@ void ModeSwitch(int mode,int UP_Dowm)//UP_Dowm：0：减小，1：增大
 									{
 											if(RemoteControl==0) 
 											{											
-											RemoteControl=1;
-											//显示第二行ON
-											Clr_Shidu();
-											Display_Shidu_2(26,10);
-											//write_addr_dat_n_1bit(28,0x01, 1);
-											Display_Shidu_3(28,  0);//
+												RemoteControl=1;
+												flag_lowpower=1;
+												//显示第二行ON
+												Clr_Shidu();
+												Display_Shidu_2(26,10);
+												//write_addr_dat_n_1bit(28,0x01, 1);
+												Display_Shidu_3(28,  0);//
 											}
 
 											else 
 											{
-											RemoteControl=0;
-											//显示第二行OFF
-											Clr_Shidu();
-											Display_Shidu_2(26,5);
-											//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-											Display_Shidu_2(28,  5);
-											Display_Shidu_3(30,0);
+												RemoteControl=0;
+												flag_lowpower=0;
+												//显示第二行OFF
+												Clr_Shidu();
+												Display_Shidu_2(26,5);
+												//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+												Display_Shidu_2(28,  5);
+												Display_Shidu_3(30,0);
 											}
 
 											break;
@@ -1188,24 +1191,26 @@ void ModeSwitch(int mode,int UP_Dowm)//UP_Dowm：0：减小，1：增大
 									{
 											if(RemoteControl==0) 
 											{											
-											RemoteControl=1;
-											//显示第二行ON
-											Clr_Shidu();
-											Display_Shidu_2(26,10);
-											//write_addr_dat_n_1bit(28,0x01, 1);
-											Display_Shidu_3(28,  0);//
-											//Display_Shidu_1(30, BaudRate/10000);//显示百位	
+												RemoteControl=1;
+												flag_lowpower=1;
+												//显示第二行ON
+												Clr_Shidu();
+												Display_Shidu_2(26,10);
+												//write_addr_dat_n_1bit(28,0x01, 1);
+												Display_Shidu_3(28,  0);//
+												//Display_Shidu_1(30, BaudRate/10000);//显示百位	
 											}
 
 											else 
 											{
-											RemoteControl=0;
-											//显示第二行OFF
-											Clr_Shidu();
-											Display_Shidu_2(26,5);
-											//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
-											Display_Shidu_2(28,  5);
-											Display_Shidu_3(30,0);
+												RemoteControl=0;
+												flag_lowpower=0;
+												//显示第二行OFF
+												Clr_Shidu();
+												Display_Shidu_2(26,5);
+												//write_addr_dat_n_1bit(28,0x01, 1);//显示小数点
+												Display_Shidu_2(28,  5);
+												Display_Shidu_3(30,0);
 											}
 
 											break;
@@ -6929,6 +6934,7 @@ int main(void)
 	else
 	ReadParameters();
 
+	timetick = flag_ls_set*60;
 	//GPIO_SetBits(GPIOC,GPIO_Pin_10);
 	//GPIO_ResetBits(GPIOC,GPIO_Pin_10);
 	//GPIO_ResetBits(GPIOB,GPIO_Pin_3);
@@ -6952,8 +6958,8 @@ int main(void)
 
 	//lcd_clr();		
 
-	GetRSSI();
-	DisplayRssi(RssiGrade);
+//	GetRSSI();
+//	DisplayRssi(RssiGrade);
 	GPIO_ResetBits(GPIOA,GPIO_Pin_1);
 	
 	//StorgeNum=50;
@@ -7390,291 +7396,294 @@ int main(void)
 							{
 								DisplayTime();   //显示底部其他
 							}
-							//正常显示
-							if(TimingReadSensor>=1)
-							//if(TimingReadSensor>2)
+							
+							if(flag_lowpower == 0)
 							{
+								//正常显示
+								if(TimingReadSensor>=1)
+								//if(TimingReadSensor>2)
+								{
 
-								Online--;
-								if(EEPROMDownloading!=0)EEPROMDownloading--;
-								/*
-								if(SensorSelected==1)
-								{
-										SHT2x_Test(); //读取SHT2x数据
-										Temperature_Load=g_sht2x_param.TEMP_HM+(float)(TemperatureCalibration)/10;
-										Humidity_Load=g_sht2x_param.HUMI_HM+(float)(HumtidyCalibration)/10;
-									
-		//									Temperature_Load=-28;
-		//									Humidity_Load=95;
-								}
-						
-								if(SensorSelected==3)
-								{
-										ReadDHT11();
-										Humidity_Load=tdata[0]+tdata[1]/10.0;
-										Temperature_Load=tdata[2]+tdata[3]/10.0;
-								}
-								
-								if(SensorSelected==4)
-								{
-										ReadDHT21();
-										Humidity_Load=(tdata[0]+tdata[1])/10.0;
-										Temperature_Load=(tdata[2]+tdata[3])/10.0;
-								}
-								
-								*/
-								if(SensorSelected==1)
-								{
-										SHT2x_Test(); //读取SHT2x数据
-										Temperature_Load=g_sht2x_param.TEMP_HM+(float)(TemperatureCalibration)/10;
-										Humidity_Load=g_sht2x_param.HUMI_HM+(float)(HumtidyCalibration)/10;
-									
-		//									Temperature_Load=-28;
-		//									Humidity_Load=95;
-										if((Humidity_Load)>100)
-										{
-											flag_chuanganqi=0;
-											Temperature_Load=0;
-											Humidity_Load=0;
-											//温度区域显示Err
-											//显示第一行SEL
-											Clr_Wendu();
-											Display_Wendu_2(0, 8);//显示小数
-											//write_addr_dat_n_1bit(2,0x08, 1);//显示小数点
-											Display_Wendu_2(2, 8);//显示个位
-											Display_Wendu_2(4, 6);//显示十位
-											//Display_CHARS(huashidu,1);//显示温湿度的符号
-											
-											
-											
-											//湿度区域显示1
-											//显示第二行
-											Clr_Shidu();
-											Display_Shidu_3(26,1);//显示个	
-										}
-										else
-										{
-											flag_chuanganqi=1;	
-										}
-										
-										
-								}
-								if(SensorSelected==2)
-								{
-										
-									
-		//									Temperature_Load=-28;
-		//									Humidity_Load=95;
-									 
-											flag_chuanganqi=0;
-											Temperature_Load=0;
-											Humidity_Load=0;
-											//温度区域显示Err
-											//显示第一行SEL
-											Clr_Wendu();
-											Display_Wendu_2(0, 8);//显示小数
-											//write_addr_dat_n_1bit(2,0x08, 1);//显示小数点
-											Display_Wendu_2(2, 8);//显示个位
-											Display_Wendu_2(4, 6);//显示十位
-											//Display_CHARS(huashidu,1);//显示温湿度的符号
-											
-											
-											
-											//湿度区域显示1
-											//显示第二行
-											Clr_Shidu();
-											Display_Shidu_3(26,2);//显示个	
-									
-										
-										
-										
-								}
-								if(SensorSelected==3)
-								{
-										ReadDHT11();
-										Humidity_Load=tdata[0]+tdata[1]/10.0;
-										Temperature_Load=tdata[2]+tdata[3]/10.0;
-									
-										if((Humidity_Load)==0)
-										{
-											flag_chuanganqi=0;
-											Temperature_Load=0;
-											Humidity_Load=0;
-											//温度区域显示Err
-											//显示第一行Err
-											Clr_Wendu();
-											Display_Wendu_2(0, 8);//显示小数
-											//write_addr_dat_n_1bit(2,0x08, 1);//显示小数点
-											Display_Wendu_2(2, 8);//显示个位
-											Display_Wendu_2(4, 6);//显示十位
-											//Display_CHARS(huashidu,1);//显示温湿度的符号
-											//湿度区域显示3
-											Clr_Shidu();
-											Display_Shidu_3(26,3);//显示个	
-										}
-										else
-										{	
-											flag_chuanganqi=1;
-										}
-									
-									
-									
-									
-								}
-								
-								if(SensorSelected==4)
-								{
-										ReadDHT21();
-										Humidity_Load=(tdata[0]+tdata[1])/10.0;
-										Temperature_Load=(tdata[2]+tdata[3])/10.0;
-										if((Humidity_Load)==0)
-										{
-											flag_chuanganqi=0;
-											Temperature_Load=0;
-											Humidity_Load=0;
-											//温度区域显示Err
-											//显示第一行Err
-											Clr_Wendu();
-											Display_Wendu_2(0, 8);//显示小数
-											//write_addr_dat_n_1bit(2,0x08, 1);//显示小数点
-											Display_Wendu_2(2, 8);//显示个位
-											Display_Wendu_2(4, 6);//显示十位
-											//Display_CHARS(huashidu,1);//显示温湿度的符号
-											//湿度区域显示4
-											Clr_Shidu();
-											Display_Shidu_3(26,4);//显示个	
-										}
-										else
-										{
-											flag_chuanganqi=1;
-										}
-								}
-								
-								
-																											
-								
-								if(flag_chuanganqi==1)//有传感器进行正常显示，否则在传感器检测中，显示传感器错误号
-								{
-									if(C_F)//加入C_F判断，摄氏度和华氏度转换
+									Online--;
+									if(EEPROMDownloading!=0)EEPROMDownloading--;
+									/*
+									if(SensorSelected==1)
 									{
-											Display_CHARS(huashidu,1);
-											Display_CHARS(sheshidu,0);
-											Temperature_Load_F=Temperature_Load*1.8+32;
-											Display_Wendu(Temperature_Load_F*10); //显示温度,*10传入可以保留小数
+											SHT2x_Test(); //读取SHT2x数据
+											Temperature_Load=g_sht2x_param.TEMP_HM+(float)(TemperatureCalibration)/10;
+											Humidity_Load=g_sht2x_param.HUMI_HM+(float)(HumtidyCalibration)/10;
+										
+			//									Temperature_Load=-28;
+			//									Humidity_Load=95;
+									}
+							
+									if(SensorSelected==3)
+									{
+											ReadDHT11();
+											Humidity_Load=tdata[0]+tdata[1]/10.0;
+											Temperature_Load=tdata[2]+tdata[3]/10.0;
+									}
+									
+									if(SensorSelected==4)
+									{
+											ReadDHT21();
+											Humidity_Load=(tdata[0]+tdata[1])/10.0;
+											Temperature_Load=(tdata[2]+tdata[3])/10.0;
+									}
+									
+									*/
+									if(SensorSelected==1)
+									{
+											SHT2x_Test(); //读取SHT2x数据
+											Temperature_Load=g_sht2x_param.TEMP_HM+(float)(TemperatureCalibration)/10;
+											Humidity_Load=g_sht2x_param.HUMI_HM+(float)(HumtidyCalibration)/10;
+										
+			//									Temperature_Load=-28;
+			//									Humidity_Load=95;
+											if((Humidity_Load)>100)
+											{
+												flag_chuanganqi=0;
+												Temperature_Load=0;
+												Humidity_Load=0;
+												//温度区域显示Err
+												//显示第一行SEL
+												Clr_Wendu();
+												Display_Wendu_2(0, 8);//显示小数
+												//write_addr_dat_n_1bit(2,0x08, 1);//显示小数点
+												Display_Wendu_2(2, 8);//显示个位
+												Display_Wendu_2(4, 6);//显示十位
+												//Display_CHARS(huashidu,1);//显示温湿度的符号
+												
+												
+												
+												//湿度区域显示1
+												//显示第二行
+												Clr_Shidu();
+												Display_Shidu_3(26,1);//显示个	
+											}
+											else
+											{
+												flag_chuanganqi=1;	
+											}
+											
+											
+									}
+									if(SensorSelected==2)
+									{
+											
+										
+			//									Temperature_Load=-28;
+			//									Humidity_Load=95;
+										 
+												flag_chuanganqi=0;
+												Temperature_Load=0;
+												Humidity_Load=0;
+												//温度区域显示Err
+												//显示第一行SEL
+												Clr_Wendu();
+												Display_Wendu_2(0, 8);//显示小数
+												//write_addr_dat_n_1bit(2,0x08, 1);//显示小数点
+												Display_Wendu_2(2, 8);//显示个位
+												Display_Wendu_2(4, 6);//显示十位
+												//Display_CHARS(huashidu,1);//显示温湿度的符号
+												
+												
+												
+												//湿度区域显示1
+												//显示第二行
+												Clr_Shidu();
+												Display_Shidu_3(26,2);//显示个	
+										
+											
+											
+											
+									}
+									if(SensorSelected==3)
+									{
+											ReadDHT11();
+											Humidity_Load=tdata[0]+tdata[1]/10.0;
+											Temperature_Load=tdata[2]+tdata[3]/10.0;
+										
+											if((Humidity_Load)==0)
+											{
+												flag_chuanganqi=0;
+												Temperature_Load=0;
+												Humidity_Load=0;
+												//温度区域显示Err
+												//显示第一行Err
+												Clr_Wendu();
+												Display_Wendu_2(0, 8);//显示小数
+												//write_addr_dat_n_1bit(2,0x08, 1);//显示小数点
+												Display_Wendu_2(2, 8);//显示个位
+												Display_Wendu_2(4, 6);//显示十位
+												//Display_CHARS(huashidu,1);//显示温湿度的符号
+												//湿度区域显示3
+												Clr_Shidu();
+												Display_Shidu_3(26,3);//显示个	
+											}
+											else
+											{	
+												flag_chuanganqi=1;
+											}
+										
+										
+										
+										
+									}
+									
+									if(SensorSelected==4)
+									{
+											ReadDHT21();
+											Humidity_Load=(tdata[0]+tdata[1])/10.0;
+											Temperature_Load=(tdata[2]+tdata[3])/10.0;
+											if((Humidity_Load)==0)
+											{
+												flag_chuanganqi=0;
+												Temperature_Load=0;
+												Humidity_Load=0;
+												//温度区域显示Err
+												//显示第一行Err
+												Clr_Wendu();
+												Display_Wendu_2(0, 8);//显示小数
+												//write_addr_dat_n_1bit(2,0x08, 1);//显示小数点
+												Display_Wendu_2(2, 8);//显示个位
+												Display_Wendu_2(4, 6);//显示十位
+												//Display_CHARS(huashidu,1);//显示温湿度的符号
+												//湿度区域显示4
+												Clr_Shidu();
+												Display_Shidu_3(26,4);//显示个	
+											}
+											else
+											{
+												flag_chuanganqi=1;
+											}
+									}
+									
+									
+																												
+									
+									if(flag_chuanganqi==1)//有传感器进行正常显示，否则在传感器检测中，显示传感器错误号
+									{
+										if(C_F)//加入C_F判断，摄氏度和华氏度转换
+										{
+												Display_CHARS(huashidu,1);
+												Display_CHARS(sheshidu,0);
+												Temperature_Load_F=Temperature_Load*1.8+32;
+												Display_Wendu(Temperature_Load_F*10); //显示温度,*10传入可以保留小数
+										}
+										else
+										{
+												Display_CHARS(sheshidu,1);
+												Display_CHARS(huashidu,0);
+												Display_Wendu(Temperature_Load*10); //显示温度,*10传入可以保留小数
+										}	
+																	
+			//								aa++;
+			//							if(aa>10)aa=0;
+									//Display_Wendu(Temperature_Load*10); //显示温度,*10传入可以保留小数
+										write_addr_dat_n_char(7,0x08, 0);//关闭下面一行的负号
+										Display_Shidu(Humidity_Load*10); //显示湿度
+									}
+									//Dac_Temp=(int)(13.333*Temperature_Load+933.333);
+									//Dac_Humi=(int)(16*Humidity_Load+400);
+			//int Adjust_Tem_4ma;
+			//int Adjust_Tem_20ma;
+			//int Adjust_Hum_4ma;
+			//int Adjust_Hum_20ma;
+			//int Adjust_Tem_5v;
+			//int Adjust_Hum_10v;
+			//							Dac_Temp=(Adjust_Tem_20ma-Adjust_Tem_4ma)/(float)(Temperature_20ma-Temperature_4ma)*Temperature_Load-(Adjust_Tem_20ma-Adjust_Tem_4ma)/(float)(Temperature_20ma-Temperature_4ma)*Temperature_4ma+Adjust_Tem_4ma;
+			//							if(Temperature_Load<Temperature_4ma)
+			//								Dac_Temp=Adjust_Tem_4ma;
+			//							else if(Temperature_Load>Temperature_20ma)
+			//								Dac_Temp=Adjust_Tem_20ma;			
+			//							Dac_Humi=(Adjust_Hum_20ma-Adjust_Hum_4ma)/(float)(Humtidy_20ma-Humtidy_4ma)*Humidity_Load-(Adjust_Hum_20ma-Adjust_Hum_4ma)/(float)(Humtidy_20ma-Humtidy_4ma)*Humtidy_4ma+Adjust_Hum_4ma;
+			//							if(Humidity_Load<Humtidy_4ma)
+			//								Dac_Humi=Adjust_Hum_4ma;
+			//							else if(Humidity_Load>Humtidy_20ma)
+			//								Dac_Humi=Adjust_Hum_20ma;	
+									if(flag_chuanganqi==1)//有传感器时候进行输出电压
+									{
+										Dac_Temp=(Adjust_Tem_5v-0)/(float)(Temperature_20ma-Temperature_4ma)*Temperature_Load-(Adjust_Tem_5v-0)/(float)(Temperature_20ma-Temperature_4ma)*Temperature_4ma;
+										if(Temperature_Load<Temperature_4ma)
+											Dac_Temp=0;
+										else if(Temperature_Load>Temperature_20ma)
+											Dac_Temp=Adjust_Tem_5v;			
+										Dac_Humi=Adjust_Hum_10v/(float)(Humtidy_20ma-Humtidy_4ma)*Humidity_Load-Adjust_Hum_10v/(float)(Humtidy_20ma-Humtidy_4ma)*Humtidy_4ma;
+										if(Humidity_Load<Humtidy_4ma)
+											Dac_Humi=0;
+										else if(Humidity_Load>Humtidy_20ma)
+											Dac_Humi=Adjust_Hum_10v;	
 									}
 									else
 									{
-											Display_CHARS(sheshidu,1);
-											Display_CHARS(huashidu,0);
-											Display_Wendu(Temperature_Load*10); //显示温度,*10传入可以保留小数
-									}	
-																
-		//								aa++;
-		//							if(aa>10)aa=0;
-								//Display_Wendu(Temperature_Load*10); //显示温度,*10传入可以保留小数
-									write_addr_dat_n_char(7,0x08, 0);//关闭下面一行的负号
-									Display_Shidu(Humidity_Load*10); //显示湿度
-								}
-								//Dac_Temp=(int)(13.333*Temperature_Load+933.333);
-								//Dac_Humi=(int)(16*Humidity_Load+400);
-		//int Adjust_Tem_4ma;
-		//int Adjust_Tem_20ma;
-		//int Adjust_Hum_4ma;
-		//int Adjust_Hum_20ma;
-		//int Adjust_Tem_5v;
-		//int Adjust_Hum_10v;
-		//							Dac_Temp=(Adjust_Tem_20ma-Adjust_Tem_4ma)/(float)(Temperature_20ma-Temperature_4ma)*Temperature_Load-(Adjust_Tem_20ma-Adjust_Tem_4ma)/(float)(Temperature_20ma-Temperature_4ma)*Temperature_4ma+Adjust_Tem_4ma;
-		//							if(Temperature_Load<Temperature_4ma)
-		//								Dac_Temp=Adjust_Tem_4ma;
-		//							else if(Temperature_Load>Temperature_20ma)
-		//								Dac_Temp=Adjust_Tem_20ma;			
-		//							Dac_Humi=(Adjust_Hum_20ma-Adjust_Hum_4ma)/(float)(Humtidy_20ma-Humtidy_4ma)*Humidity_Load-(Adjust_Hum_20ma-Adjust_Hum_4ma)/(float)(Humtidy_20ma-Humtidy_4ma)*Humtidy_4ma+Adjust_Hum_4ma;
-		//							if(Humidity_Load<Humtidy_4ma)
-		//								Dac_Humi=Adjust_Hum_4ma;
-		//							else if(Humidity_Load>Humtidy_20ma)
-		//								Dac_Humi=Adjust_Hum_20ma;	
-								if(flag_chuanganqi==1)//有传感器时候进行输出电压
-								{
-									Dac_Temp=(Adjust_Tem_5v-0)/(float)(Temperature_20ma-Temperature_4ma)*Temperature_Load-(Adjust_Tem_5v-0)/(float)(Temperature_20ma-Temperature_4ma)*Temperature_4ma;
-									if(Temperature_Load<Temperature_4ma)
+										//无传感器不进行电压输出
 										Dac_Temp=0;
-									else if(Temperature_Load>Temperature_20ma)
-										Dac_Temp=Adjust_Tem_5v;			
-									Dac_Humi=Adjust_Hum_10v/(float)(Humtidy_20ma-Humtidy_4ma)*Humidity_Load-Adjust_Hum_10v/(float)(Humtidy_20ma-Humtidy_4ma)*Humtidy_4ma;
-									if(Humidity_Load<Humtidy_4ma)
-										Dac_Humi=0;
-									else if(Humidity_Load>Humtidy_20ma)
-										Dac_Humi=Adjust_Hum_10v;	
-								}
-								else
-								{
-									//无传感器不进行电压输出
-									Dac_Temp=0;
-									Dac_Humi=0;	
+										Dac_Humi=0;	
+										
+									}
 									
-								}
-								
-		//							ADC_5V=Get_Adc_Average(ADC_Channel_13 ,30);
-		//							V_5V=(float)ADC_5V*(2.48/4096);
-		//							ADC_24V=Get_Adc_Average(ADC_Channel_12 ,30);
-		//							V_24V=(float)ADC_24V*(2.48/4096);
-								
-								
-								for(l=0;l<100;l++)
-								{
-									adc100[l]=Get_Adc(ADC_Channel_11);
-								}
-								ADC_BAT=average(adc100 , 100, 20);
-								V_BAT=(float)ADC_BAT*(3.3/4096)*5.7;	
-								
-								
-								
-								//DisplayTime();   //显示底部其他
-								if(flag_chuanganqi==1)//有传感器进行比较
-								{
-										WarningOrNot=Temperature_Warning_Data(Temperature_Load,Warning);
-										WarningOrNot=Humitidy_Warning_Data(Humidity_Load,Warning,WarningOrNot);
-								}
-								//显示电量
-		//							write_addr_dat_n_char(9,0x01, 1);//S0
-		//							write_addr_dat_n_char(8,0x02, 1);//S1
-		//							write_addr_dat_n_char(8,0x01, 1);//S2
-		//							write_addr_dat_n_char(7,0x01, 1);//S3
-								//显示横线
-		//							Display_CHARS(hengxian,1);
-		//							Display_CHARS(lixian,1);
+			//							ADC_5V=Get_Adc_Average(ADC_Channel_13 ,30);
+			//							V_5V=(float)ADC_5V*(2.48/4096);
+			//							ADC_24V=Get_Adc_Average(ADC_Channel_12 ,30);
+			//							V_24V=(float)ADC_24V*(2.48/4096);
+									
+									
+									for(l=0;l<100;l++)
+									{
+										adc100[l]=Get_Adc(ADC_Channel_11);
+									}
+									ADC_BAT=average(adc100 , 100, 20);
+									V_BAT=(float)ADC_BAT*(3.3/4096)*5.7;	
+									
+									
+									
+									//DisplayTime();   //显示底部其他
+									if(flag_chuanganqi==1)//有传感器进行比较
+									{
+											WarningOrNot=Temperature_Warning_Data(Temperature_Load,Warning);
+											WarningOrNot=Humitidy_Warning_Data(Humidity_Load,Warning,WarningOrNot);
+									}
+									//显示电量
+			//							write_addr_dat_n_char(9,0x01, 1);//S0
+			//							write_addr_dat_n_char(8,0x02, 1);//S1
+			//							write_addr_dat_n_char(8,0x01, 1);//S2
+			//							write_addr_dat_n_char(7,0x01, 1);//S3
+									//显示横线
+			//							Display_CHARS(hengxian,1);
+			//							Display_CHARS(lixian,1);
 
-								if(RecordMode==0&&EEPROMFull==0&&EEPROMDownloading==0)//允许记录模式
-								{
-										if(WarningOrNot==0)//数据正常，正常记录周期
-										{
-												if(StorgeTiming>=RecordTiming)
-												{
+									if(RecordMode==0&&EEPROMFull==0&&EEPROMDownloading==0)//允许记录模式
+									{
+											if(WarningOrNot==0)//数据正常，正常记录周期
+											{
+													if(StorgeTiming>=RecordTiming)
+													{
+														//Storage(g_sht2x_param.TEMP_HM,g_sht2x_param.HUMI_HM,StorageMode);
+														//Storage(g_sht2x_param.TEMP_HM,g_sht2x_param.HUMI_HM,calendar.w_year%100,calendar.w_month,calendar.w_date,calendar.hour,calendar.min,calendar.sec,StorageMode);
+														Storage(Temperature_Load,Humidity_Load,calendar.w_year%100,calendar.w_month,calendar.w_date,calendar.hour,calendar.min,calendar.sec,StorageMode);
+	//													StorageParameters();
+	//													StorageParameters_wuxian();
+														StorgeTiming=0;
+													}
+											}
+											else               //数据报警，报警周期
+											{
+											 if(StorgeTiming>=WarningTiming)   
+											 {
 													//Storage(g_sht2x_param.TEMP_HM,g_sht2x_param.HUMI_HM,StorageMode);
 													//Storage(g_sht2x_param.TEMP_HM,g_sht2x_param.HUMI_HM,calendar.w_year%100,calendar.w_month,calendar.w_date,calendar.hour,calendar.min,calendar.sec,StorageMode);
 													Storage(Temperature_Load,Humidity_Load,calendar.w_year%100,calendar.w_month,calendar.w_date,calendar.hour,calendar.min,calendar.sec,StorageMode);
-//													StorageParameters();
-//													StorageParameters_wuxian();
+	//												StorageParameters();
 													StorgeTiming=0;
-												}
-										}
-										else               //数据报警，报警周期
-										{
-										 if(StorgeTiming>=WarningTiming)   
-										 {
-												//Storage(g_sht2x_param.TEMP_HM,g_sht2x_param.HUMI_HM,StorageMode);
-												//Storage(g_sht2x_param.TEMP_HM,g_sht2x_param.HUMI_HM,calendar.w_year%100,calendar.w_month,calendar.w_date,calendar.hour,calendar.min,calendar.sec,StorageMode);
-												Storage(Temperature_Load,Humidity_Load,calendar.w_year%100,calendar.w_month,calendar.w_date,calendar.hour,calendar.min,calendar.sec,StorageMode);
-//												StorageParameters();
-												StorgeTiming=0;
-										 }
-										}
+											 }
+											}
+									}
+									//DisplayOthers();
+
+									TimingReadSensor=0;
 								}
-								//DisplayOthers();
-
-								TimingReadSensor=0;
-							}
-
+							}		
 
 		//						//Lemon
 							//dhtxx
@@ -7720,10 +7729,11 @@ int main(void)
 				{
 					case 1:
 						GPIO_SetBits(GPIOA,GPIO_Pin_1);
+						flag_lowpower=0;
 						break;
 					case 2:
 						GetRSSI();
-						DisplayRssi(RssiGrade);
+//						DisplayRssi(RssiGrade);
 						Connect();
 	//					Wifi_Connect();
 	//					Nb_Connect();
@@ -7773,6 +7783,7 @@ int main(void)
 						//Nb_DisConnect();
 						flag_fasong = 0;
 						flag_state = 0;
+						flag_lowpower=1;
 						GPIO_ResetBits(GPIOA,GPIO_Pin_1);
 						break;								 
 					default:

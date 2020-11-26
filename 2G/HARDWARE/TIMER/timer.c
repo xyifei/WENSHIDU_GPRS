@@ -191,7 +191,7 @@ void TIM2_IRQHandler(void) //设置为1s进一次中断
 		LED1=!LED1;
 		
 		timetick++;
-		if(timetick == (flag_ls_set_dangqian*60))
+		if(timetick >= (flag_ls_set_dangqian*60))
 		{
 			flag_fasong = 1;
 			flag_1s_nnn = 0;

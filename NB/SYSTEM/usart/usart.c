@@ -163,7 +163,7 @@ void uart1_init(u32 bound){
   USART_Init(USART1, &USART_InitStructure); //初始化串口1
   USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);//开启串口接受中断
   USART_Cmd(USART1, ENABLE);                    //使能串口1 
-
+	
 
 
 

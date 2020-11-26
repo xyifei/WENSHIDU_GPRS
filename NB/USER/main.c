@@ -6919,8 +6919,6 @@ int main(void)
 	TIM5_Int_Init(999,7199);
 	BeepInit();          //蜂鸣器初始化
 	ReadParameters();  //从EEPROM中读取关机前的l设置信息
-	
-	ReadParameters_wuxian();
 
 	if(ParameterRead[1]==ParameterRead[2]||ParameterRead[1]>0x04)
 	//if(ParameterRead[1]==ParameterRead[2]&&ParameterRead[1]==0xFF)
@@ -6930,6 +6928,8 @@ int main(void)
 	}
 	else
 	ReadParameters();
+	
+	timetick = flag_ls_set*60;
 
 	//GPIO_SetBits(GPIOC,GPIO_Pin_10);
 	//GPIO_ResetBits(GPIOC,GPIO_Pin_10);
@@ -6954,8 +6954,7 @@ int main(void)
 
 	//lcd_clr();		
 
-	GetRSSI();
-	DisplayRssi(RssiGrade);
+//	GetRSSI();
 	GPIO_ResetBits(GPIOA,GPIO_Pin_1);
 	
 	//StorgeNum=50;

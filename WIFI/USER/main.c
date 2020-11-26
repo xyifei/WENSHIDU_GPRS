@@ -6888,8 +6888,9 @@ float average(u32 *adcArr , u16 num, u16 subtract)	//∂‘ ˝◊Èœ»¥”–°µΩ¥Û≈≈–Ú£¨»•Õ∑»
 	return 	(float)(add/(num-subtract*2));
 }
 int main(void)
- { 
+{ 
 	u8 l=0;
+	u8 BUFFER_SIZE2;
 	
 	gpInit();
 	while(GPIO_ReadOutputDataBit(GPIOC,GPIO_Pin_11));
@@ -6951,8 +6952,8 @@ int main(void)
 
 	lcd_clr();		
 
-	GetRSSI_Wifi();
-	DisplayRssi(RssiGrade);
+//	GetRSSI_Wifi();
+//	DisplayRssi(RssiGrade);
 	GPIO_ResetBits(GPIOA,GPIO_Pin_1);
 	
 	//StorgeNum=50;

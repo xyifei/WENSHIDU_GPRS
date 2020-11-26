@@ -8,7 +8,7 @@ extern u8 timeout_flag; //超时标志位，为1表示超时
 u8 status_flag=1; //状态标志位1  //接收到Ok返回1
 u8 status_flag3=1; //状态标志位2
 u8 rssi = 0;
-u8 RssiGrade = 0;
+u8 RssiGrade = 3;
 
 char temp_lala[43] = {0};
 //char temp_lala[]={"AT+CIPSTART=\"TCP\",\"114.55.24.28\",50001\r"};
