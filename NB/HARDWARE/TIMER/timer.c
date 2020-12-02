@@ -109,7 +109,7 @@ void TIM2_Int_Init(u16 arr,u16 psc)
 //	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;  //先占优先级1级
 //	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;  //从优先级1级
 		NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;  //先占优先级1级
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 3;  //从优先级1级
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;  //从优先级1级
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE; //IRQ通道被使能
 	NVIC_Init(&NVIC_InitStructure);  //根据NVIC_InitStruct中指定的参数初始化外设NVIC寄存器
 
@@ -120,7 +120,7 @@ void TIM2_Int_Init(u16 arr,u16 psc)
 
 void TIM5_Int_Init(u16 arr,u16 psc)
 {
-    TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
+  TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
 	NVIC_InitTypeDef NVIC_InitStructure;
 
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM5, ENABLE); //时钟使能
@@ -201,7 +201,7 @@ void TIM2_IRQHandler(void) //设置为1s进一次中断
 		if(flag_fasong == 1)
 		{
 			flag_1s_nnn++;
-			if(flag_1s_nnn>=10)
+			if(flag_1s_nnn>=5)
 			{
 				flag_1s_nnn=0;
 				flag_1s=1;

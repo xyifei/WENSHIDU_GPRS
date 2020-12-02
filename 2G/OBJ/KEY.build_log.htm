@@ -27,6 +27,14 @@ Project File Date:  11/22/2020
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'KEY'
+compiling lcd.c...
+..\HARDWARE\LCD\lcd.c(830): warning:  #940-D: missing return statement at end of non-void function "getChr_Wendu" 
+  	}
+..\HARDWARE\LCD\lcd.c(843): warning:  #940-D: missing return statement at end of non-void function "getChr_Shidu" 
+  	}
+..\HARDWARE\LCD\lcd.c(856): warning:  #940-D: missing return statement at end of non-void function "getChr_Others" 
+  	}
+..\HARDWARE\LCD\lcd.c: 3 warnings, 0 errors
 compiling main.c...
 ..\HARDWARE\KEY\key.h(35): warning:  #1295-D: Deprecated declaration KEY_Scan - give arg types
   void KEY_Scan();  	//°´¼üÉ¨Ãèº¯Êý			
@@ -36,21 +44,21 @@ compiling main.c...
   #define SDA_OUT {GPIOB->CRL&=0XFFFF0FFF;GPIOB->CRL|=(u32)3<<12;}
 ..\HARDWARE\SD3078\sd3078.h(34): warning:  #1295-D: Deprecated declaration i2cInit - give arg types
   void i2cInit();
-main.c(6548): warning:  #940-D: missing return statement at end of non-void function "Temperature_Warning_Data" 
+main.c(6545): warning:  #940-D: missing return statement at end of non-void function "Temperature_Warning_Data" 
   }
-main.c(6664): warning:  #940-D: missing return statement at end of non-void function "Humitidy_Warning_Data" 
+main.c(6661): warning:  #940-D: missing return statement at end of non-void function "Humitidy_Warning_Data" 
   }
-main.c(7749): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "char *"
-  						Send_Str(TxData);
-main.c(7778): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "char *"
-  						Send_Str(TxData);
-main.c(6898): warning:  #177-D: variable "BUFFER_SIZE2"  was declared but never referenced
+main.c(7757): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "char *"
+  							Send_Str(TxData);
+main.c(7789): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "char *"
+  							Send_Str(TxData);
+main.c(6895): warning:  #177-D: variable "BUFFER_SIZE2"  was declared but never referenced
   	u8 BUFFER_SIZE2;
 main.c: 9 warnings, 0 errors
 linking...
-Program Size: Code=74266 RO-data=462 RW-data=1220 ZI-data=3124  
+Program Size: Code=74262 RO-data=462 RW-data=1220 ZI-data=3124  
 FromELF: creating hex file...
-"..\OBJ\KEY.axf" - 0 Error(s), 9 Warning(s).
+"..\OBJ\KEY.axf" - 0 Error(s), 12 Warning(s).
 
 <h2>Software Packages used:</h2>
 

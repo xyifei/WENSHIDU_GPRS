@@ -17,6 +17,8 @@ int j;
 u8 i;
 
 extern u8 DeviceID;
+extern u8 RssiGrade;
+extern int RemoteControl;
 
 extern u16 count;  //底部循环的计数器，定义在timer.c里
 
@@ -1147,16 +1149,22 @@ void DisplayTime(void)
 		}
 
 			Display_CHARS(hengxian,1);
-		if(Online==3)
-		{	
-				Display_CHARS(zaixian,1);
-				Display_CHARS(lixian,0);
-		}
-		else if(Online==0) 
-		{
-				Display_CHARS(zaixian,0);
-				Display_CHARS(lixian,1);
-		}
+//		if(RemoteControl)
+//		{	
+//			DisplayRssi(RssiGrade);
+////				Display_CHARS(zaixian,1);
+////				Display_CHARS(lixian,0);
+//		}
+//		else 
+//		{
+//			write_addr_dat_n_char(7,2,0);
+//			write_addr_dat_n_char(7,4,0);
+//			write_addr_dat_n_char(6,2,0);
+//			write_addr_dat_n_char(6,1,0);
+////				Display_CHARS(zaixian,0);
+////				Display_CHARS(lixian,1);
+//		}
+
 
 		
 		if(V_BAT>3.87)
@@ -1189,7 +1197,7 @@ void DisplayTime(void)
 			write_addr_dat_n_char(8,0x01, 0);//第二格电
 			write_addr_dat_n_char(8,0x02, 0);//第三格电
 		}	 
-			if(count>0&&count<10)  //显示地址
+			if(count>0&&count<5)  //显示地址
 			{
 				
 				Clr_Others();
@@ -1202,7 +1210,7 @@ void DisplayTime(void)
 				}
 
 			}
-			else if (count>=10&&count<20)//显示存储
+			else if (count>=5&&count<10)//显示存储
 			{
 				
 				Clr_Others();
@@ -1217,18 +1225,18 @@ void DisplayTime(void)
 				}
 
 			}
-			else if (count>=20&&count<30)  //显示模式
+			else if (count>=10&&count<15)  //显示模式
 			{
 				Clr_Others();
 				for(i=0;i<100;i++)
 				{
 					Display_CHARS(yicunchu,0);
 					Display_CHARS(moshi,1);
-					Display_Others_1(11, LCD_moshi%100/10);
-					Display_Others_1(13, LCD_moshi%10);
+					Display_Others_1(11, RemoteControl%100/10);
+					Display_Others_1(13, RemoteControl%10);
 				}
 			}
-			else if(count>=30&&count<40)   //显示年月日
+			else if(count>=15&&count<20)   //显示年月日
 			{
 					Clr_Others();
 					for(i=0;i<100;i++)
@@ -1246,7 +1254,7 @@ void DisplayTime(void)
 						Display_CHARS(youyiheng,1);
 					}
 			}
-			else if (count>=40&&count<50)    //显示时分秒时间
+			else if (count>=20&&count<25)    //显示时分秒时间
 			{
 					Clr_Others();
 					for(i=0;i<100;i++)
@@ -1264,7 +1272,7 @@ void DisplayTime(void)
 				
 			}
 		
-			else if (count>=50)
+			else if (count>=25)
 			{
 				count=0;
 			}

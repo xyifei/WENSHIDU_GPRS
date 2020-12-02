@@ -3,7 +3,7 @@
 <title>Static Call Graph - [..\OBJ\KEY.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image ..\OBJ\KEY.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Thu Nov 26 15:44:19 2020
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Fri Nov 27 20:22:54 2020
 <BR><P>
 <H3>Maximum Stack Usage =        224 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -211,8 +211,8 @@ Global Symbols
 <P><STRONG><a name="[1ce]"></a>__rt_lib_shutdown_user_alloc_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$0000000C))
 
 <P><STRONG><a name="[4f]"></a>__rt_entry</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry.o(.ARM.Collect$$rtentry$$00000000))
-<BR><BR>[Called By]<UL><LI><a href="#[50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload_rt2
-<LI><a href="#[4d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+<BR><BR>[Called By]<UL><LI><a href="#[4d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+<LI><a href="#[50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload_rt2
 </UL>
 
 <P><STRONG><a name="[1cf]"></a>__rt_entry_presh_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$00000002))
@@ -255,7 +255,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[49]"></a>SystemInit</STRONG> (Thumb, 78 bytes, Stack size 8 bytes, system_stm32f10x.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = SystemInit &rArr; SetSysClock &rArr; SetSysClockTo72
+<BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = SystemInit &rArr; SetSysClock &rArr; SetSysClockToHSE
 </UL>
 <BR>[Calls]<UL><LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetSysClock
 </UL>
@@ -505,7 +505,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[8c]"></a>ModeSwitch</STRONG> (Thumb, 9294 bytes, Stack size 16 bytes, main.o(.text))
+<P><STRONG><a name="[8c]"></a>ModeSwitch</STRONG> (Thumb, 9274 bytes, Stack size 16 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = ModeSwitch &rArr; Display_Wendu_2 &rArr; write_addr_dat_n_wendu &rArr; write_data_4bit
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_char
@@ -618,7 +618,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[5a]"></a>main</STRONG> (Thumb, 4836 bytes, Stack size 72 bytes, main.o(.text))
+<P><STRONG><a name="[5a]"></a>main</STRONG> (Thumb, 4908 bytes, Stack size 72 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 224 + Unknown Stack Size
 <LI>Call Chain = main &rArr; ReadParameters &rArr; ReadParameters_wuxian &rArr; __2sprintf &rArr; _printf_char_common &rArr; __printf
 </UL>
@@ -636,28 +636,28 @@ Global Symbols
 <LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM2_Int_Init
 <LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetTimeParameters
 <LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Send_Str
-<LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_Test
+<LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_Test
 <LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_Init
 <LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RelayInit
-<LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReadDHT21
-<LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReadDHT11
+<LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReadDHT21
+<LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReadDHT11
 <LI><a href="#[be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_Set
 <LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OnlyDisplayTime
 <LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_PriorityGroupConfig
 <LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LED_Init
 <LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;KEY_Scan
 <LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;KEY_Init
-<LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Get_Adc
+<LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Get_Adc
 <LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetRSSI
 <LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadOutputDataBit
 <LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTIX_Init
 <LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_Wendu_2
-<LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_Wendu
+<LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_Wendu
 <LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_Shidu_3
 <LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_Shidu_2
-<LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_Shidu
+<LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_Shidu
 <LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_CHARS
-<LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisplayTime
+<LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisplayTime
 <LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Connect
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Clr_Wendu
 <LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Clr_Shidu
@@ -679,6 +679,13 @@ Global Symbols
 <LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 <LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
 <LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisConnect
+<LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
+<LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2d
+<LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2d
+<LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
+<LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
+<LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
+<LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
 <LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cfrcmple
 <LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fmul
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cfcmple
@@ -686,18 +693,11 @@ Global Symbols
 <LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
 <LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2uiz
 <LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2iz
-<LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cfcmpeq
+<LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cfcmpeq
 <LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fdiv
 <LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fsub
 <LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fadd
-<LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
-<LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
-<LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2d
-<LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2d
-<LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
-<LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
-<LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
-<LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 </UL>
 <BR>[Called By]<UL><LI><a href="#[59]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
 </UL>
@@ -831,7 +831,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[cd]"></a>Get_Adc</STRONG> (Thumb, 46 bytes, Stack size 8 bytes, adc.o(.text))
+<P><STRONG><a name="[cc]"></a>Get_Adc</STRONG> (Thumb, 46 bytes, Stack size 8 bytes, adc.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = Get_Adc &rArr; ADC_RegularChannelConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_SoftwareStartConvCmd
@@ -850,7 +850,7 @@ Global Symbols
 <P><STRONG><a name="[e7]"></a>Get_Adc_Average</STRONG> (Thumb, 54 bytes, Stack size 144 bytes, adc.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Middle10Average
 <LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
-<LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Get_Adc
+<LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Get_Adc
 </UL>
 
 <P><STRONG><a name="[ec]"></a>SHT2x_Delay</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, sht2x.o(.text))
@@ -1059,13 +1059,13 @@ Global Symbols
 <LI><a href="#[ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_Delay
 <LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
 <LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
-<LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2f
-<LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
-<LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
+<LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
 <LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dsub
-<LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
+<LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
+<LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2f
+<LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 </UL>
-<BR>[Called By]<UL><LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_Test
+<BR>[Called By]<UL><LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_Test
 </UL>
 
 <P><STRONG><a name="[f7]"></a>SHT2x_MeasureHumiHM</STRONG> (Thumb, 156 bytes, Stack size 56 bytes, sht2x.o(.text))
@@ -1082,13 +1082,13 @@ Global Symbols
 <LI><a href="#[ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_Delay
 <LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
 <LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
-<LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2f
-<LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
-<LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
+<LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
 <LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dsub
-<LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
+<LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
+<LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2f
+<LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 </UL>
-<BR>[Called By]<UL><LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_Test
+<BR>[Called By]<UL><LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_Test
 </UL>
 
 <P><STRONG><a name="[f8]"></a>SHT2x_MeasureTempPoll</STRONG> (Thumb, 162 bytes, Stack size 56 bytes, sht2x.o(.text), UNUSED)
@@ -1099,11 +1099,11 @@ Global Symbols
 <LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_I2cWriteByte
 <LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_I2cStopCondition
 <LI><a href="#[ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_Delay
-<LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2f
-<LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
-<LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
+<LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
 <LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dsub
-<LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
+<LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
+<LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2f
+<LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 </UL>
 
 <P><STRONG><a name="[f9]"></a>SHT2x_MeasureHumiPoll</STRONG> (Thumb, 128 bytes, Stack size 56 bytes, sht2x.o(.text), UNUSED)
@@ -1114,11 +1114,11 @@ Global Symbols
 <LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_I2cWriteByte
 <LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_I2cStopCondition
 <LI><a href="#[ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_Delay
-<LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2f
-<LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
-<LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
+<LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
 <LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dsub
-<LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
+<LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
+<LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2f
+<LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 </UL>
 
 <P><STRONG><a name="[fa]"></a>SHT2x_ReadUserReg</STRONG> (Thumb, 46 bytes, Stack size 8 bytes, sht2x.o(.text), UNUSED)
@@ -1144,7 +1144,7 @@ Global Symbols
 <LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_I2cStopCondition
 </UL>
 
-<P><STRONG><a name="[c0]"></a>SHT2x_Test</STRONG> (Thumb, 20 bytes, Stack size 8 bytes, sht2x.o(.text))
+<P><STRONG><a name="[bf]"></a>SHT2x_Test</STRONG> (Thumb, 20 bytes, Stack size 8 bytes, sht2x.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = SHT2x_Test &rArr; SHT2x_MeasureHumiHM &rArr; SHT2x_I2cReadByte &rArr; SHT2x_SDA_INPUT &rArr; GPIO_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_MeasureHumiHM
@@ -1156,26 +1156,26 @@ Global Symbols
 <P><STRONG><a name="[fd]"></a>write_mode</STRONG> (Thumb, 152 bytes, Stack size 8 bytes, lcd.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = write_mode
 </UL>
-<BR>[Calls]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
+<BR>[Calls]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 <LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
-<LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
 </UL>
-<BR>[Called By]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_char
-<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_1bit
-<LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_init
-<LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;display_off
+<BR>[Called By]<UL><LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;display_off
 <LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_shidu
 <LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_wendu
 <LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_others
 <LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n
+<LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_char
+<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_1bit
+<LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_init
 </UL>
 
 <P><STRONG><a name="[ff]"></a>write_command</STRONG> (Thumb, 130 bytes, Stack size 16 bytes, lcd.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = write_command
 </UL>
-<BR>[Calls]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
+<BR>[Calls]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 <LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
-<LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
 </UL>
 <BR>[Called By]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_init
 </UL>
@@ -1183,23 +1183,23 @@ Global Symbols
 <P><STRONG><a name="[100]"></a>write_address</STRONG> (Thumb, 92 bytes, Stack size 16 bytes, lcd.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = write_address
 </UL>
-<BR>[Calls]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
+<BR>[Calls]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 <LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
-<LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
 </UL>
-<BR>[Called By]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_char
-<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_1bit
-<LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;display_off
+<BR>[Called By]<UL><LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;display_off
 <LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_shidu
 <LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_wendu
 <LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_others
 <LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n
+<LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_char
+<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_1bit
 </UL>
 
 <P><STRONG><a name="[101]"></a>write_data_8bit</STRONG> (Thumb, 92 bytes, Stack size 16 bytes, lcd.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
+<BR><BR>[Calls]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 <LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
-<LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
 </UL>
 <BR>[Called By]<UL><LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;display_off
 </UL>
@@ -1207,17 +1207,17 @@ Global Symbols
 <P><STRONG><a name="[102]"></a>write_data_4bit</STRONG> (Thumb, 86 bytes, Stack size 16 bytes, lcd.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = write_data_4bit
 </UL>
-<BR>[Calls]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
+<BR>[Calls]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 <LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
-<LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
 </UL>
-<BR>[Called By]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_char
-<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_1bit
-<LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;display_off
+<BR>[Called By]<UL><LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;display_off
 <LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_shidu
 <LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_wendu
 <LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_others
 <LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n
+<LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_char
+<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_1bit
 </UL>
 
 <P><STRONG><a name="[b4]"></a>ht1621_init</STRONG> (Thumb, 82 bytes, Stack size 8 bytes, lcd.o(.text))
@@ -1233,21 +1233,21 @@ Global Symbols
 <P><STRONG><a name="[b5]"></a>lcd_init</STRONG> (Thumb, 226 bytes, Stack size 8 bytes, lcd.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = lcd_init &rArr; write_command
 </UL>
-<BR>[Calls]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
-<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
-<LI><a href="#[ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_command
+<BR>[Calls]<UL><LI><a href="#[ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_command
 <LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_mode
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
+<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[104]"></a>WriteLcdram</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, lcd.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_char
-<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_1bit
-<LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_shidu
+<BR><BR>[Called By]<UL><LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_shidu
 <LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_wendu
 <LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_others
 <LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n
+<LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_char
+<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_1bit
 </UL>
 
 <P><STRONG><a name="[bb]"></a>lcd_clr</STRONG> (Thumb, 14 bytes, Stack size 8 bytes, lcd.o(.text))
@@ -1261,12 +1261,12 @@ Global Symbols
 <P><STRONG><a name="[105]"></a>write_addr_dat_n_others</STRONG> (Thumb, 184 bytes, Stack size 32 bytes, lcd.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = write_addr_dat_n_others &rArr; write_data_4bit
 </UL>
-<BR>[Calls]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
-<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
-<LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteLcdram
+<BR>[Calls]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteLcdram
 <LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_data_4bit
 <LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_address
 <LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_mode
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
+<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
 </UL>
 <BR>[Called By]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_Others_1
 </UL>
@@ -1281,10 +1281,10 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getChr_Others
 <LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_others
 </UL>
-<BR>[Called By]<UL><LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OnlyDisplayTime
-<LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisplayTime
+<BR>[Called By]<UL><LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_all
+<LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OnlyDisplayTime
+<LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisplayTime
 <LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ModeSwitch
-<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_all
 </UL>
 
 <P><STRONG><a name="[107]"></a>lcd_all</STRONG> (Thumb, 60 bytes, Stack size 8 bytes, lcd.o(.text), UNUSED)
@@ -1294,15 +1294,15 @@ Global Symbols
 <P><STRONG><a name="[93]"></a>write_addr_dat_n_1bit</STRONG> (Thumb, 72 bytes, Stack size 24 bytes, lcd.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = write_addr_dat_n_1bit &rArr; write_data_4bit
 </UL>
-<BR>[Calls]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
-<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
-<LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteLcdram
+<BR>[Calls]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteLcdram
 <LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_data_4bit
 <LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_address
 <LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_mode
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
+<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
 </UL>
-<BR>[Called By]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_Wendu
-<LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_Shidu
+<BR>[Called By]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_Wendu
+<LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_Shidu
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ModeSwitch2
 <LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ModeSwitch1
 <LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ModeSwitch
@@ -1311,12 +1311,12 @@ Global Symbols
 <P><STRONG><a name="[108]"></a>write_addr_dat_n_wendu</STRONG> (Thumb, 158 bytes, Stack size 32 bytes, lcd.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = write_addr_dat_n_wendu &rArr; write_data_4bit
 </UL>
-<BR>[Calls]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
-<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
-<LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteLcdram
+<BR>[Calls]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteLcdram
 <LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_data_4bit
 <LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_address
 <LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_mode
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
+<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
 </UL>
 <BR>[Called By]<UL><LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_Wendu_2
 <LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_Wendu_1
@@ -1326,12 +1326,12 @@ Global Symbols
 <P><STRONG><a name="[109]"></a>write_addr_dat_n_shidu</STRONG> (Thumb, 158 bytes, Stack size 32 bytes, lcd.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = write_addr_dat_n_shidu &rArr; write_data_4bit
 </UL>
-<BR>[Calls]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
-<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
-<LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteLcdram
+<BR>[Calls]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteLcdram
 <LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_data_4bit
 <LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_address
 <LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_mode
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
+<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
 </UL>
 <BR>[Called By]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_Shidu_3
 <LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_Shidu_1
@@ -1340,23 +1340,23 @@ Global Symbols
 <P><STRONG><a name="[8f]"></a>write_addr_dat_n_char</STRONG> (Thumb, 102 bytes, Stack size 32 bytes, lcd.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = write_addr_dat_n_char &rArr; write_data_4bit
 </UL>
-<BR>[Calls]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
-<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
-<LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteLcdram
+<BR>[Calls]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteLcdram
 <LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_data_4bit
 <LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_address
 <LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_mode
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
+<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
 </UL>
-<BR>[Called By]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_Wendu
+<BR>[Called By]<UL><LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisplayRssi
+<LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_Wendu
 <LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_CHARS
-<LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisplayTime
+<LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisplayTime
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Clr_Wendu
 <LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Clr_Shidu
 <LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ModeSwitch2
 <LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ModeSwitch1
 <LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ModeSwitch
-<LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisplayRssi
 </UL>
 
 <P><STRONG><a name="[10a]"></a>getChr_Wendu</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, lcd.o(.text))
@@ -1369,7 +1369,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getChr_Wendu
 <LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_wendu
 </UL>
-<BR>[Called By]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_Wendu
+<BR>[Called By]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_Wendu
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ModeSwitch2
 <LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ModeSwitch1
 <LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ModeSwitch
@@ -1418,7 +1418,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getChr_Shidu
 <LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_shidu
 </UL>
-<BR>[Called By]<UL><LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_Shidu
+<BR>[Called By]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_Shidu
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ModeSwitch2
 <LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ModeSwitch1
 <LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ModeSwitch
@@ -1429,24 +1429,24 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_char
 </UL>
-<BR>[Called By]<UL><LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OnlyDisplayTime
-<LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisplayTime
+<BR>[Called By]<UL><LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisplayOthers
+<LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OnlyDisplayTime
+<LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisplayTime
 <LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Humitidy_Warning_Data
 <LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Temperature_Warning_Data
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ModeSwitch2
 <LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ModeSwitch1
 <LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ModeSwitch
-<LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisplayOthers
 </UL>
 
 <P><STRONG><a name="[10c]"></a>display_off</STRONG> (Thumb, 154 bytes, Stack size 8 bytes, lcd.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
-<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
-<LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_data_4bit
+<BR><BR>[Calls]<UL><LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_data_4bit
 <LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_data_8bit
 <LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_address
 <LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_mode
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
+<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
 </UL>
 
 <P><STRONG><a name="[10d]"></a>Clr_Wendu2</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, lcd.o(.text))
@@ -1454,7 +1454,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n
 </UL>
-<BR>[Called By]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_Wendu
+<BR>[Called By]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_Wendu
 </UL>
 
 <P><STRONG><a name="[10e]"></a>Clr_Wendu1</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, lcd.o(.text))
@@ -1462,17 +1462,17 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n
 </UL>
-<BR>[Called By]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_Wendu
+<BR>[Called By]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_Wendu
 </UL>
 
-<P><STRONG><a name="[cb]"></a>Display_Wendu</STRONG> (Thumb, 424 bytes, Stack size 24 bytes, lcd.o(.text))
+<P><STRONG><a name="[ca]"></a>Display_Wendu</STRONG> (Thumb, 424 bytes, Stack size 24 bytes, lcd.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = Display_Wendu &rArr; Display_Wendu_1 &rArr; write_addr_dat_n_wendu &rArr; write_data_4bit
 </UL>
-<BR>[Calls]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_char
+<BR>[Calls]<UL><LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Clr_Wendu1
+<LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Clr_Wendu2
+<LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_char
 <LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_1bit
 <LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_Wendu_1
-<LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Clr_Wendu1
-<LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Clr_Wendu2
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -1480,17 +1480,17 @@ Global Symbols
 <P><STRONG><a name="[91]"></a>Clr_Shidu</STRONG> (Thumb, 34 bytes, Stack size 8 bytes, lcd.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = Clr_Shidu &rArr; write_addr_dat_n_char &rArr; write_data_4bit
 </UL>
-<BR>[Calls]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_char
-<LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n
+<BR>[Calls]<UL><LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n
+<LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_char
 </UL>
-<BR>[Called By]<UL><LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_Shidu
+<BR>[Called By]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_Shidu
 <LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ModeSwitch2
 <LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ModeSwitch1
 <LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ModeSwitch
 </UL>
 
-<P><STRONG><a name="[cc]"></a>Display_Shidu</STRONG> (Thumb, 112 bytes, Stack size 24 bytes, lcd.o(.text))
+<P><STRONG><a name="[cb]"></a>Display_Shidu</STRONG> (Thumb, 112 bytes, Stack size 24 bytes, lcd.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = Display_Shidu &rArr; Display_Shidu_1 &rArr; write_addr_dat_n_shidu &rArr; write_data_4bit
 </UL>
 <BR>[Calls]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_1bit
@@ -1504,8 +1504,8 @@ Global Symbols
 <P><STRONG><a name="[8d]"></a>Clr_Wendu</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, lcd.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = Clr_Wendu &rArr; write_addr_dat_n_char &rArr; write_data_4bit
 </UL>
-<BR>[Calls]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_char
-<LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n
+<BR>[Calls]<UL><LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n
+<LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_char
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ModeSwitch2
@@ -1519,7 +1519,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n
 </UL>
 <BR>[Called By]<UL><LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OnlyDisplayTime
-<LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisplayTime
+<LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisplayTime
 <LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ModeSwitch
 </UL>
 
@@ -1550,22 +1550,22 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_char
 </UL>
-<BR>[Called By]<UL><LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisplayTime
+<BR>[Called By]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisplayTime
 </UL>
 
-<P><STRONG><a name="[bf]"></a>DisplayTime</STRONG> (Thumb, 1414 bytes, Stack size 16 bytes, lcd.o(.text))
+<P><STRONG><a name="[cd]"></a>DisplayTime</STRONG> (Thumb, 1410 bytes, Stack size 16 bytes, lcd.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = DisplayTime &rArr; Display_Others_1 &rArr; write_addr_dat_n_others &rArr; write_data_4bit
 </UL>
-<BR>[Calls]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_char
+<BR>[Calls]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_Get
+<LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisplayRssi
+<LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_char
 <LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_Others_1
 <LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_CHARS
 <LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Clr_Others
 <LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_Cmd
-<LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_Get
-<LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisplayRssi
-<LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 <LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cdrcmple
 <LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cdcmple
+<LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -1577,9 +1577,9 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_time_from_sd30xx
 </UL>
-<BR>[Called By]<UL><LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetTimeParameters
-<LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisplayTime
-<LI><a href="#[10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_IRQHandler
+<BR>[Called By]<UL><LI><a href="#[10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_IRQHandler
+<LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetTimeParameters
+<LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisplayTime
 </UL>
 
 <P><STRONG><a name="[10]"></a>RTC_IRQHandler</STRONG> (Thumb, 40 bytes, Stack size 8 bytes, rtc.o(.text))
@@ -1636,23 +1636,23 @@ Global Symbols
 <P><STRONG><a name="[11c]"></a>StartDHT11</STRONG> (Thumb, 76 bytes, Stack size 8 bytes, dhxx.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = StartDHT11 &rArr; DHT_PortOUT &rArr; GPIO_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
-<LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DHT_PortOUT
+<BR>[Calls]<UL><LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DHT_PortOUT
 <LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DHT_PortIN
 <LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
+<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
 </UL>
-<BR>[Called By]<UL><LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReadDHT11
+<BR>[Called By]<UL><LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReadDHT11
 </UL>
 
 <P><STRONG><a name="[11d]"></a>StartDHT21</STRONG> (Thumb, 76 bytes, Stack size 8 bytes, dhxx.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = StartDHT21 &rArr; DHT_PortOUT &rArr; GPIO_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
-<LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DHT_PortOUT
+<BR>[Calls]<UL><LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DHT_PortOUT
 <LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DHT_PortIN
 <LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
+<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
 </UL>
-<BR>[Called By]<UL><LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReadDHT21
+<BR>[Called By]<UL><LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReadDHT21
 </UL>
 
 <P><STRONG><a name="[11e]"></a>com</STRONG> (Thumb, 108 bytes, Stack size 16 bytes, dhxx.o(.text))
@@ -1660,11 +1660,11 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
 </UL>
-<BR>[Called By]<UL><LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReadDHT21
-<LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReadDHT11
+<BR>[Called By]<UL><LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReadDHT21
+<LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReadDHT11
 </UL>
 
-<P><STRONG><a name="[c1]"></a>ReadDHT11</STRONG> (Thumb, 108 bytes, Stack size 8 bytes, dhxx.o(.text))
+<P><STRONG><a name="[c0]"></a>ReadDHT11</STRONG> (Thumb, 108 bytes, Stack size 8 bytes, dhxx.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = ReadDHT11 &rArr; StartDHT11 &rArr; DHT_PortOUT &rArr; GPIO_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;com
@@ -1673,7 +1673,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[c7]"></a>ReadDHT21</STRONG> (Thumb, 108 bytes, Stack size 8 bytes, dhxx.o(.text))
+<P><STRONG><a name="[c6]"></a>ReadDHT21</STRONG> (Thumb, 108 bytes, Stack size 8 bytes, dhxx.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = ReadDHT21 &rArr; StartDHT21 &rArr; DHT_PortOUT &rArr; GPIO_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;com
@@ -1920,8 +1920,8 @@ Global Symbols
 <P><STRONG><a name="[144]"></a>IIC_Wait_Ack</STRONG> (Thumb, 84 bytes, Stack size 8 bytes, myiic.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = IIC_Wait_Ack &rArr; IIC_Stop
 </UL>
-<BR>[Calls]<UL><LI><a href="#[146]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IIC_Stop
-<LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
+<BR>[Calls]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
+<LI><a href="#[146]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IIC_Stop
 </UL>
 <BR>[Called By]<UL><LI><a href="#[147]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AT24CXX_WriteOneByte
 <LI><a href="#[141]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AT24CXX_ReadOneByte
@@ -1955,9 +1955,9 @@ Global Symbols
 <P><STRONG><a name="[145]"></a>IIC_Read_Byte</STRONG> (Thumb, 98 bytes, Stack size 16 bytes, myiic.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = IIC_Read_Byte &rArr; IIC_NAck
 </UL>
-<BR>[Calls]<UL><LI><a href="#[14c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IIC_NAck
+<BR>[Calls]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
+<LI><a href="#[14c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IIC_NAck
 <LI><a href="#[14b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IIC_Ack
-<LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
 </UL>
 <BR>[Called By]<UL><LI><a href="#[141]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AT24CXX_ReadOneByte
 </UL>
@@ -1997,57 +1997,57 @@ Global Symbols
 <P><STRONG><a name="[151]"></a>i2cStart</STRONG> (Thumb, 74 bytes, Stack size 8 bytes, sd3078.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = i2cStart
 </UL>
-<BR>[Calls]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
+<BR>[Calls]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 <LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
-<LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
 </UL>
-<BR>[Called By]<UL><LI><a href="#[15b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteOff
+<BR>[Called By]<UL><LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_time_to_sd30xx
+<LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_time_from_sd30xx
+<LI><a href="#[15b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteOff
 <LI><a href="#[15a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteOn
 <LI><a href="#[159]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cReadBytes
 <LI><a href="#[158]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cWriteBytes
-<LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_time_to_sd30xx
-<LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_time_from_sd30xx
 </UL>
 
 <P><STRONG><a name="[152]"></a>i2cStop</STRONG> (Thumb, 74 bytes, Stack size 8 bytes, sd3078.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = i2cStop
 </UL>
-<BR>[Calls]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
+<BR>[Calls]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 <LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
-<LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
 </UL>
-<BR>[Called By]<UL><LI><a href="#[15b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteOff
+<BR>[Called By]<UL><LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_time_to_sd30xx
+<LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_time_from_sd30xx
+<LI><a href="#[15b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteOff
 <LI><a href="#[15a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteOn
 <LI><a href="#[159]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cReadBytes
 <LI><a href="#[158]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cWriteBytes
 <LI><a href="#[153]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cWaitAck
-<LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_time_to_sd30xx
-<LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_time_from_sd30xx
 </UL>
 
 <P><STRONG><a name="[153]"></a>i2cWaitAck</STRONG> (Thumb, 100 bytes, Stack size 8 bytes, sd3078.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = i2cWaitAck &rArr; i2cStop
 </UL>
-<BR>[Calls]<UL><LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
+<BR>[Calls]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
+<LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
 <LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 <LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
 <LI><a href="#[152]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cStop
-<LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
 </UL>
-<BR>[Called By]<UL><LI><a href="#[15b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteOff
+<BR>[Called By]<UL><LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_time_to_sd30xx
+<LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_time_from_sd30xx
+<LI><a href="#[15b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteOff
 <LI><a href="#[15a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteOn
 <LI><a href="#[159]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cReadBytes
 <LI><a href="#[158]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cWriteBytes
-<LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_time_to_sd30xx
-<LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_time_from_sd30xx
 </UL>
 
 <P><STRONG><a name="[154]"></a>i2cAck</STRONG> (Thumb, 76 bytes, Stack size 8 bytes, sd3078.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = i2cAck
 </UL>
-<BR>[Calls]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
+<BR>[Calls]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 <LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
-<LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
 </UL>
 <BR>[Called By]<UL><LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cReadByte
 </UL>
@@ -2055,9 +2055,9 @@ Global Symbols
 <P><STRONG><a name="[155]"></a>i2cNoAck</STRONG> (Thumb, 76 bytes, Stack size 8 bytes, sd3078.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = i2cNoAck
 </UL>
-<BR>[Calls]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
+<BR>[Calls]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 <LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
-<LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
 </UL>
 <BR>[Called By]<UL><LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cReadByte
 </UL>
@@ -2065,30 +2065,30 @@ Global Symbols
 <P><STRONG><a name="[156]"></a>i2cSendByte</STRONG> (Thumb, 114 bytes, Stack size 16 bytes, sd3078.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = i2cSendByte
 </UL>
-<BR>[Calls]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
+<BR>[Calls]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 <LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
-<LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
 </UL>
-<BR>[Called By]<UL><LI><a href="#[15b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteOff
+<BR>[Called By]<UL><LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_time_to_sd30xx
+<LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_time_from_sd30xx
+<LI><a href="#[15b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteOff
 <LI><a href="#[15a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteOn
 <LI><a href="#[159]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cReadBytes
 <LI><a href="#[158]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cWriteBytes
-<LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_time_to_sd30xx
-<LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_time_from_sd30xx
 </UL>
 
 <P><STRONG><a name="[157]"></a>i2cReadByte</STRONG> (Thumb, 106 bytes, Stack size 16 bytes, sd3078.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = i2cReadByte &rArr; i2cNoAck
 </UL>
-<BR>[Calls]<UL><LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
+<BR>[Calls]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
+<LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
 <LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 <LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
 <LI><a href="#[155]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cNoAck
 <LI><a href="#[154]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cAck
-<LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
 </UL>
-<BR>[Called By]<UL><LI><a href="#[159]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cReadBytes
-<LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_time_from_sd30xx
+<BR>[Called By]<UL><LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_time_from_sd30xx
+<LI><a href="#[159]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cReadBytes
 </UL>
 
 <P><STRONG><a name="[158]"></a>i2cWriteBytes</STRONG> (Thumb, 92 bytes, Stack size 24 bytes, sd3078.o(.text), UNUSED)
@@ -2246,8 +2246,8 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[162]"></a>Nb_SendData</STRONG> (Thumb, 210 bytes, Stack size 184 bytes, gprs.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[15c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Send_AT
-<LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<BR><BR>[Calls]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<LI><a href="#[15c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Send_AT
 </UL>
 
 <P><STRONG><a name="[7e]"></a>Wifi_Setrouter</STRONG> (Thumb, 20 bytes, Stack size 8 bytes, gprs.o(.text))
@@ -2282,7 +2282,15 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[fe]"></a>delay_us</STRONG> (Thumb, 72 bytes, Stack size 0 bytes, delay.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cReadByte
+<BR><BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;com
+<LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartDHT21
+<LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartDHT11
+<LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_data_4bit
+<LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_data_8bit
+<LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_address
+<LI><a href="#[ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_command
+<LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_mode
+<LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cReadByte
 <LI><a href="#[156]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cSendByte
 <LI><a href="#[155]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cNoAck
 <LI><a href="#[154]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cAck
@@ -2296,18 +2304,12 @@ Global Symbols
 <LI><a href="#[142]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IIC_Start
 <LI><a href="#[143]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IIC_Send_Byte
 <LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IIC_Read_Byte
-<LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;com
-<LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartDHT21
-<LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartDHT11
-<LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_data_4bit
-<LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_data_8bit
-<LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_address
-<LI><a href="#[ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_command
-<LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_mode
 </UL>
 
 <P><STRONG><a name="[82]"></a>delay_ms</STRONG> (Thumb, 72 bytes, Stack size 0 bytes, delay.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Get_Adc_Average
+<BR><BR>[Called By]<UL><LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartDHT21
+<LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartDHT11
+<LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Get_Adc_Average
 <LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;KEY_Scan
 <LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Connect
 <LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Storage
@@ -2322,8 +2324,6 @@ Global Symbols
 <LI><a href="#[160]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Nb_Connect
 <LI><a href="#[15c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Send_AT
 <LI><a href="#[147]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AT24CXX_WriteOneByte
-<LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartDHT21
-<LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartDHT11
 </UL>
 
 <P><STRONG><a name="[5f]"></a>_sys_exit</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, usart.o(.text))
@@ -2533,7 +2533,9 @@ Global Symbols
 <P><STRONG><a name="[89]"></a>GPIO_Init</STRONG> (Thumb, 278 bytes, Stack size 24 bytes, stm32f10x_gpio.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = GPIO_Init
 </UL>
-<BR>[Called By]<UL><LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_SCL_INPUT
+<BR>[Called By]<UL><LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DHT_PortOUT
+<LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DHT_PortIN
+<LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_SCL_INPUT
 <LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_SDA_INPUT
 <LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_SCL_OUTPUT
 <LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_SDA_OUTPUT
@@ -2552,8 +2554,6 @@ Global Symbols
 <LI><a href="#[140]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IIC_Init
 <LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sEE_LowLevel_Init
 <LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sEE_LowLevel_DeInit
-<LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DHT_PortOUT
-<LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DHT_PortIN
 </UL>
 
 <P><STRONG><a name="[1d9]"></a>GPIO_StructInit</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, stm32f10x_gpio.o(.text), UNUSED)
@@ -2579,7 +2579,17 @@ Global Symbols
 <P><STRONG><a name="[1da]"></a>GPIO_ReadOutputData</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, stm32f10x_gpio.o(.text), UNUSED)
 
 <P><STRONG><a name="[76]"></a>GPIO_SetBits</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f10x_gpio.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_MeasureHumiHM
+<BR><BR>[Called By]<UL><LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;display_off
+<LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_shidu
+<LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_wendu
+<LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_others
+<LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_data_4bit
+<LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_data_8bit
+<LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_address
+<LI><a href="#[ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_command
+<LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_mode
+<LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n
+<LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_MeasureHumiHM
 <LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_MeasureTempHM
 <LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_I2cReadByte
 <LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_I2cNoAcknowledge
@@ -2605,7 +2615,10 @@ Global Symbols
 <LI><a href="#[153]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cWaitAck
 <LI><a href="#[152]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cStop
 <LI><a href="#[151]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cStart
-<LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;display_off
+</UL>
+
+<P><STRONG><a name="[7a]"></a>GPIO_ResetBits</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f10x_gpio.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;display_off
 <LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_shidu
 <LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_wendu
 <LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_others
@@ -2615,10 +2628,7 @@ Global Symbols
 <LI><a href="#[ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_command
 <LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_mode
 <LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n
-</UL>
-
-<P><STRONG><a name="[7a]"></a>GPIO_ResetBits</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f10x_gpio.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_I2cReadByte
+<LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_I2cReadByte
 <LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_I2cNoAcknowledge
 <LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_I2cAcknowledge
 <LI><a href="#[ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_I2cStartCondition
@@ -2644,16 +2654,6 @@ Global Symbols
 <LI><a href="#[152]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cStop
 <LI><a href="#[151]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cStart
 <LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTI15_10_IRQHandler
-<LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;display_off
-<LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_shidu
-<LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_wendu
-<LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n_others
-<LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_data_4bit
-<LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_data_8bit
-<LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_address
-<LI><a href="#[ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_command
-<LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_mode
-<LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_addr_dat_n
 </UL>
 
 <P><STRONG><a name="[1db]"></a>GPIO_WriteBit</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, stm32f10x_gpio.o(.text), UNUSED)
@@ -2904,7 +2904,8 @@ Global Symbols
 <P><STRONG><a name="[da]"></a>NVIC_Init</STRONG> (Thumb, 100 bytes, Stack size 16 bytes, misc.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = NVIC_Init
 </UL>
-<BR>[Called By]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart2_init
+<BR>[Called By]<UL><LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_NVIC_Config
+<LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart2_init
 <LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart1_init
 <LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM5_Int_Init
 <LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM4_init
@@ -2913,7 +2914,6 @@ Global Symbols
 <LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTIX_Init
 <LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sEE_LowLevel_Init
 <LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sEE_LowLevel_DeInit
-<LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_NVIC_Config
 </UL>
 
 <P><STRONG><a name="[20c]"></a>NVIC_SetVectorTable</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, misc.o(.text), UNUSED)
@@ -2995,7 +2995,7 @@ Global Symbols
 <LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM4_init
 <LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM3_Int_Init
 <LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM2_Int_Init
-<LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisplayTime
+<LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisplayTime
 <LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ModeSwitch
 <LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM4_IRQHandler
@@ -3220,7 +3220,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[e4]"></a>ADC_SoftwareStartConvCmd</STRONG> (Thumb, 22 bytes, Stack size 0 bytes, stm32f10x_adc.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Get_Adc
+<BR><BR>[Called By]<UL><LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Get_Adc
 </UL>
 
 <P><STRONG><a name="[255]"></a>ADC_GetSoftwareStartConvStatus</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, stm32f10x_adc.o(.text), UNUSED)
@@ -3232,13 +3232,13 @@ Global Symbols
 <P><STRONG><a name="[e3]"></a>ADC_RegularChannelConfig</STRONG> (Thumb, 184 bytes, Stack size 20 bytes, stm32f10x_adc.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = ADC_RegularChannelConfig
 </UL>
-<BR>[Called By]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Get_Adc
+<BR>[Called By]<UL><LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Get_Adc
 </UL>
 
 <P><STRONG><a name="[258]"></a>ADC_ExternalTrigConvCmd</STRONG> (Thumb, 22 bytes, Stack size 0 bytes, stm32f10x_adc.o(.text), UNUSED)
 
 <P><STRONG><a name="[e6]"></a>ADC_GetConversionValue</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, stm32f10x_adc.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Get_Adc
+<BR><BR>[Called By]<UL><LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Get_Adc
 </UL>
 
 <P><STRONG><a name="[259]"></a>ADC_GetDualModeConversionValue</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, stm32f10x_adc.o(.text), UNUSED)
@@ -3272,7 +3272,7 @@ Global Symbols
 <P><STRONG><a name="[267]"></a>ADC_TempSensorVrefintCmd</STRONG> (Thumb, 64 bytes, Stack size 0 bytes, stm32f10x_adc.o(.text), UNUSED)
 
 <P><STRONG><a name="[e5]"></a>ADC_GetFlagStatus</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f10x_adc.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Get_Adc
+<BR><BR>[Called By]<UL><LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Get_Adc
 </UL>
 
 <P><STRONG><a name="[268]"></a>ADC_ClearFlag</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32f10x_adc.o(.text), UNUSED)
@@ -3626,7 +3626,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[59]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
 </UL>
 
-<P><STRONG><a name="[c5]"></a>__aeabi_d2f</STRONG> (Thumb, 0 bytes, Stack size 32 bytes, d2f.o(x$fpl$d2f))
+<P><STRONG><a name="[c4]"></a>__aeabi_d2f</STRONG> (Thumb, 0 bytes, Stack size 32 bytes, d2f.o(x$fpl$d2f))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = __aeabi_d2f
 </UL>
 <BR>[Called By]<UL><LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_MeasureHumiPoll
@@ -3641,23 +3641,23 @@ Global Symbols
 <LI><a href="#[191]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dnaninf
 </UL>
 
-<P><STRONG><a name="[c4]"></a>__aeabi_dadd</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, daddsub_clz.o(x$fpl$dadd))
+<P><STRONG><a name="[c3]"></a>__aeabi_dadd</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, daddsub_clz.o(x$fpl$dadd))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = __aeabi_dadd
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[192]"></a>_dadd</STRONG> (Thumb, 332 bytes, Stack size 16 bytes, daddsub_clz.o(x$fpl$dadd), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[194]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dretinf
+<BR><BR>[Calls]<UL><LI><a href="#[193]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dsub1
+<LI><a href="#[194]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dretinf
 <LI><a href="#[191]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dnaninf
-<LI><a href="#[193]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dsub1
 </UL>
 
 <P><STRONG><a name="[197]"></a>__fpl_dcmp_Inf</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, dcmpi.o(x$fpl$dcmpinf), UNUSED)
 <BR><BR>[Called By]<UL><LI><a href="#[196]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dcmple
 </UL>
 
-<P><STRONG><a name="[c3]"></a>__aeabi_ddiv</STRONG> (Thumb, 0 bytes, Stack size 32 bytes, ddiv.o(x$fpl$ddiv))
+<P><STRONG><a name="[c2]"></a>__aeabi_ddiv</STRONG> (Thumb, 0 bytes, Stack size 32 bytes, ddiv.o(x$fpl$ddiv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = __aeabi_ddiv
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -3668,13 +3668,13 @@ Global Symbols
 <LI><a href="#[191]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dnaninf
 </UL>
 
-<P><STRONG><a name="[c8]"></a>__aeabi_i2d</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, dflt_clz.o(x$fpl$dflt))
+<P><STRONG><a name="[c7]"></a>__aeabi_i2d</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, dflt_clz.o(x$fpl$dflt))
 <BR><BR>[Called By]<UL><LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[296]"></a>_dflt</STRONG> (Thumb, 46 bytes, Stack size 0 bytes, dflt_clz.o(x$fpl$dflt), UNUSED)
 
-<P><STRONG><a name="[c2]"></a>__aeabi_ui2d</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, dflt_clz.o(x$fpl$dfltu))
+<P><STRONG><a name="[c1]"></a>__aeabi_ui2d</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, dflt_clz.o(x$fpl$dfltu))
 <BR><BR>[Called By]<UL><LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
@@ -3683,7 +3683,7 @@ Global Symbols
 <P><STRONG><a name="[113]"></a>__aeabi_cdcmple</STRONG> (Thumb, 0 bytes, Stack size 32 bytes, dleqf.o(x$fpl$dleqf))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = __aeabi_cdcmple
 </UL>
-<BR>[Called By]<UL><LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisplayTime
+<BR>[Called By]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisplayTime
 </UL>
 
 <P><STRONG><a name="[196]"></a>_dcmple</STRONG> (Thumb, 120 bytes, Stack size 32 bytes, dleqf.o(x$fpl$dleqf), UNUSED)
@@ -3695,7 +3695,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[199]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_drcmple
 </UL>
 
-<P><STRONG><a name="[ca]"></a>__aeabi_dmul</STRONG> (Thumb, 0 bytes, Stack size 32 bytes, dmul.o(x$fpl$dmul))
+<P><STRONG><a name="[c9]"></a>__aeabi_dmul</STRONG> (Thumb, 0 bytes, Stack size 32 bytes, dmul.o(x$fpl$dmul))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = __aeabi_dmul
 </UL>
 <BR>[Called By]<UL><LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_MeasureHumiPoll
@@ -3720,16 +3720,16 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[194]"></a>__fpl_dretinf</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, dretinf.o(x$fpl$dretinf), UNUSED)
-<BR><BR>[Called By]<UL><LI><a href="#[19d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_f2d
-<LI><a href="#[198]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dmul
+<BR><BR>[Called By]<UL><LI><a href="#[198]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dmul
 <LI><a href="#[195]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_ddiv
 <LI><a href="#[192]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dadd
+<LI><a href="#[19d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_f2d
 </UL>
 
 <P><STRONG><a name="[112]"></a>__aeabi_cdrcmple</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, drleqf.o(x$fpl$drleqf))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = __aeabi_cdrcmple
 </UL>
-<BR>[Called By]<UL><LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisplayTime
+<BR>[Called By]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisplayTime
 </UL>
 
 <P><STRONG><a name="[199]"></a>_drcmple</STRONG> (Thumb, 108 bytes, Stack size 16 bytes, drleqf.o(x$fpl$drleqf), UNUSED)
@@ -3746,18 +3746,18 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[19b]"></a>_dsub</STRONG> (Thumb, 464 bytes, Stack size 32 bytes, daddsub_clz.o(x$fpl$dsub), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[191]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dnaninf
-<LI><a href="#[19c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dadd1
+<BR><BR>[Calls]<UL><LI><a href="#[19c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dadd1
+<LI><a href="#[191]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dnaninf
 </UL>
 
-<P><STRONG><a name="[c9]"></a>__aeabi_f2d</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, f2d.o(x$fpl$f2d))
+<P><STRONG><a name="[c8]"></a>__aeabi_f2d</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, f2d.o(x$fpl$f2d))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = __aeabi_f2d
 </UL>
 <BR>[Called By]<UL><LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_MeasureHumiPoll
 <LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_MeasureTempPoll
 <LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_MeasureHumiHM
 <LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SHT2x_MeasureTempHM
-<LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisplayTime
+<LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisplayTime
 <LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
@@ -3800,7 +3800,7 @@ Global Symbols
 <LI><a href="#[19e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_fnaninf
 </UL>
 
-<P><STRONG><a name="[c6]"></a>__aeabi_cfcmpeq</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, feqf.o(x$fpl$feqf))
+<P><STRONG><a name="[c5]"></a>__aeabi_cfcmpeq</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, feqf.o(x$fpl$feqf))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = __aeabi_cfcmpeq
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -3860,7 +3860,7 @@ Global Symbols
 <P><STRONG><a name="[9b]"></a>__aeabi_cfcmple</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, fleqf.o(x$fpl$fleqf))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = __aeabi_cfcmple
 </UL>
-<BR>[Called By]<UL><LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_Shidu
+<BR>[Called By]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Display_Shidu
 <LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Humitidy_Warning_Data
 <LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Temperature_Warning_Data
@@ -3907,10 +3907,10 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[190]"></a>__fpl_fretinf</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, fretinf.o(x$fpl$fretinf), UNUSED)
-<BR><BR>[Called By]<UL><LI><a href="#[1a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fmul
+<BR><BR>[Called By]<UL><LI><a href="#[18f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_d2f
+<LI><a href="#[1a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fmul
 <LI><a href="#[1a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fdiv
 <LI><a href="#[19f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fadd
-<LI><a href="#[18f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_d2f
 </UL>
 
 <P><STRONG><a name="[9c]"></a>__aeabi_cfrcmple</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, frleqf.o(x$fpl$frleqf))
@@ -3952,16 +3952,16 @@ Global Symbols
 <H3>
 Local Symbols
 </H3>
-<P><STRONG><a name="[61]"></a>SetSysClockTo72</STRONG> (Thumb, 214 bytes, Stack size 12 bytes, system_stm32f10x.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = SetSysClockTo72
+<P><STRONG><a name="[61]"></a>SetSysClockToHSE</STRONG> (Thumb, 160 bytes, Stack size 12 bytes, system_stm32f10x.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = SetSysClockToHSE
 </UL>
 <BR>[Called By]<UL><LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetSysClock
 </UL>
 
 <P><STRONG><a name="[60]"></a>SetSysClock</STRONG> (Thumb, 8 bytes, Stack size 8 bytes, system_stm32f10x.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = SetSysClock &rArr; SetSysClockTo72
+<BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = SetSysClock &rArr; SetSysClockToHSE
 </UL>
-<BR>[Calls]<UL><LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetSysClockTo72
+<BR>[Calls]<UL><LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetSysClockToHSE
 </UL>
 <BR>[Called By]<UL><LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemInit
 </UL>
@@ -3969,19 +3969,19 @@ Local Symbols
 <P><STRONG><a name="[103]"></a>write_addr_dat_n</STRONG> (Thumb, 72 bytes, Stack size 24 bytes, lcd.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = write_addr_dat_n &rArr; write_data_4bit
 </UL>
-<BR>[Calls]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
-<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
-<LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteLcdram
+<BR>[Calls]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteLcdram
 <LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_data_4bit
 <LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_address
 <LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_mode
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
+<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
 </UL>
-<BR>[Called By]<UL><LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_clr
+<BR>[Called By]<UL><LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Clr_Wendu1
+<LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Clr_Wendu2
+<LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_clr
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Clr_Wendu
 <LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Clr_Shidu
 <LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Clr_Others
-<LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Clr_Wendu1
-<LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Clr_Wendu2
 </UL>
 
 <P><STRONG><a name="[114]"></a>RTC_NVIC_Config</STRONG> (Thumb, 32 bytes, Stack size 8 bytes, rtc.o(.text), UNUSED)

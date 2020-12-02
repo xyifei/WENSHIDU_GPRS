@@ -275,8 +275,12 @@ void StorageParameters_wuxian(void)
 void ReadParameters(void)
 {
 		uint16_t BUFFER_SIZE1;
+		
+		ReadParameters_wuxian();
+	
 		BUFFER_SIZE1=50;
 		NumDataRead=BUFFER_SIZE1;
+	
 		EEPROM1024Part(0);
 		//sEE_ReadBuffer(ParameterRead,0,(uint16_t *)(&BUFFER_SIZE1));
 		AT24CXX_Read(0,ParameterRead,BUFFER_SIZE1);
@@ -362,8 +366,6 @@ void ReadParameters(void)
 			Adjust_Hum_10v=2000;
 		}
 		else{Adjust_Hum_10v=ParameterRead[44]+10*ParameterRead[45]+100*ParameterRead[46]+1000*ParameterRead[47];}
-		
-		ReadParameters_wuxian();
 }
 //按下确认键或超时返回时
 void StorageParameters(void)
@@ -452,7 +454,7 @@ void gpInit(void)
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
-	GPIO_SetBits(GPIOA,GPIO_Pin_1);
+	GPIO_ResetBits(GPIOA,GPIO_Pin_1);
 
 	GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_5;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
@@ -6913,10 +6915,10 @@ int main(void)
 	ht1621_init();				//ht1621初始化
 	lcd_init();					//LCD初始化	
 	//RTC_Init();					//RTC初始化，中断优先级：00
-	TIM3_Int_Init(9999,7199);//1s，只控制红灯闪烁，可以不用 /中断优先级11
-	TIM2_Int_Init(9999,7199);//0.5s，LCD底部循环和绿灯闪烁的定时器 //中断优先级01
+	TIM3_Int_Init(9999,799);//1s，只控制红灯闪烁，可以不用 /中断优先级11
+	TIM2_Int_Init(9999,799);//0.5s，LCD底部循环和绿灯闪烁的定时器 //中断优先级01
 	TIM4_init();         //RS485中断定时器
-	TIM5_Int_Init(999,7199);
+	TIM5_Int_Init(999,799);
 	BeepInit();          //蜂鸣器初始化
 	ReadParameters();  //从EEPROM中读取关机前的l设置信息
 
@@ -6952,10 +6954,12 @@ int main(void)
 	//		else 
 	//			GPIO_SetBits(GPIOC,GPIO_Pin_10);
 
-	//lcd_clr();		
+//	lcd_all();
+//	lcd_clr();		
 
 //	GetRSSI();
 	GPIO_ResetBits(GPIOA,GPIO_Pin_1);
+	Display_CHARS(lixian,1);
 	
 	//StorgeNum=50;
 
@@ -7101,7 +7105,7 @@ int main(void)
 				OnlyDispalyTime=0;
 				key=0;
 				
-				sprintf(temp_nb,"AT+CIPSTART=\"TCP\",\"%d.%d.%d.%d\",%d\r\n",ip1,ip2,ip3,ip4,port);
+				sprintf(temp_nb,"AT+SKTCONNECT=1,%d.%d.%d.%d,%d\r\n",ip1,ip2,ip3,ip4,port);
 				
 				if(flag_ls_set_dangqian != flag_ls_set)
 				{
@@ -7111,6 +7115,8 @@ int main(void)
 					timetick = 0;
 					flag_fasong = 0;
 				}
+				
+				Display_CHARS(lixian,1);
 				
 				TIM_Cmd(TIM2, ENABLE);
 				
@@ -7327,7 +7333,7 @@ int main(void)
 				OnlyDispalyTime=0;
 				key=0;//清除标志位
 				
-				sprintf(temp_nb,"AT+CIPSTART=\"TCP\",\"%d.%d.%d.%d\",%d\r\n",ip1,ip2,ip3,ip4,port);
+				sprintf(temp_nb,"AT+SKTCONNECT=1,%d.%d.%d.%d,%d\r\n",ip1,ip2,ip3,ip4,port);
 				
 				if(flag_ls_set_dangqian != flag_ls_set)
 				{
@@ -7337,6 +7343,8 @@ int main(void)
 					timetick = 0;
 					flag_fasong = 0;
 				}
+				
+				Display_CHARS(lixian,1);
 				
 				TIM_Cmd(TIM2, ENABLE);
 				
@@ -7360,7 +7368,7 @@ int main(void)
 					Timing_Enable=0;//关闭定时
 					DisplayTime_On=1;
 			
-					sprintf(temp_nb,"AT+CIPSTART=\"TCP\",\"%d.%d.%d.%d\",%d\r\n",ip1,ip2,ip3,ip4,port);
+					sprintf(temp_nb,"AT+SKTCONNECT=1,%d.%d.%d.%d,%d\r\n",ip1,ip2,ip3,ip4,port);
 				
 					if(flag_ls_set_dangqian != flag_ls_set)
 					{
@@ -7370,6 +7378,8 @@ int main(void)
 						timetick = 0;
 						flag_fasong = 0;
 					}
+
+					Display_CHARS(lixian,1);
 					
 					TIM_Cmd(TIM2, ENABLE);
 			
@@ -7387,10 +7397,6 @@ int main(void)
 		}
 		if(NormalState==1)
 		{	
-							if(DisplayTime_On==1)
-							{
-								DisplayTime();   //显示底部其他
-							}
 							//正常显示
 							if(TimingReadSensor>=1)
 							//if(TimingReadSensor>2)
@@ -7698,6 +7704,11 @@ int main(void)
 							//lcd_all();  //测试用，不用打开
 
 		}
+		
+		if(DisplayTime_On==1)
+		{
+			DisplayTime();   //显示底部其他
+		}
 
 		if(flag_cunchu)//串口接收存储
 		{
@@ -7720,61 +7731,82 @@ int main(void)
 				switch(flag_state)
 				{
 					case 1:
-						GPIO_SetBits(GPIOA,GPIO_Pin_1);
+						if(RemoteControl)
+						{
+							GPIO_SetBits(GPIOA,GPIO_Pin_1);
+							Display_CHARS(zaixian,1);
+							Display_CHARS(lixian,0);
+						}
+						
 						break;
 					case 2:
-						GetRSSI();
-						DisplayRssi(RssiGrade);
-//						Connect();
-//					Wifi_Connect();
-						Nb_Connect();
+						if(RemoteControl)
+						{
+							GetRSSI();
+							Nb_Connect();
+						}
+						
 						break;
 					case 3:
-						//Wifi_Startsend();
-						//Nb_SendData("12345678");
-						TxData[0] = DeviceID/100 + 48;
-						TxData[1] = DeviceID/100%10 + 48;
-						TxData[2] = DeviceID%100 + 48;
-						TxData[3] = NULL;
+						if(RemoteControl)
+						{
+							TxData[0] = DeviceID/100 + 48;
+							TxData[1] = DeviceID/100%10 + 48;
+							TxData[2] = DeviceID%100 + 48;
+							TxData[3] = NULL;
+							
+							Nb_SendData(TxData);
+							//Wifi_Startsend();
+							//Nb_SendData("12345678");
+						}
 						
-						Nb_SendData(TxData);
 						break;
 				case 4:
-						NumToArr(TmpArr, (int)(Temperature_Load*10));
-						NumToArr(HumArr, (int)(Humidity_Load*10));
+						if(RemoteControl)
+						{
+							NumToArr(TmpArr, (int)(Temperature_Load*10));
+							NumToArr(HumArr, (int)(Humidity_Load*10));
+							
+							TxData[0] = 'S';
+							TxData[1] = '1';
+							TxData[2] = ':';
+							TxData[3] = '1';
+							TxData[4] = '*';
+							TxData[5] = TmpArr[0];
+							TxData[6] = TmpArr[1];
+							TxData[7] = TmpArr[2];
+							TxData[8] = TmpArr[3];
+							TxData[9] = ',';
+							TxData[10] = '1';
+							TxData[11] = ':';
+							TxData[12] = '2';
+							TxData[13] = '*';
+							TxData[14] = HumArr[0];
+							TxData[15] = HumArr[1];
+							TxData[16] = HumArr[2];
+							TxData[17] = HumArr[3];
+							TxData[18] = 'E';
+							TxData[19] = NULL;
+							
+							CleanRXBUF();
+							Nb_SendData(TxData);
+							//Send_Str(TxData);
+						}
 						
-						TxData[0] = 'S';
-						TxData[1] = '1';
-						TxData[2] = ':';
-						TxData[3] = '1';
-						TxData[4] = '*';
-						TxData[5] = TmpArr[0];
-						TxData[6] = TmpArr[1];
-						TxData[7] = TmpArr[2];
-						TxData[8] = TmpArr[3];
-						TxData[9] = ',';
-						TxData[10] = '1';
-						TxData[11] = ':';
-						TxData[12] = '2';
-						TxData[13] = '*';
-						TxData[14] = HumArr[0];
-						TxData[15] = HumArr[1];
-						TxData[16] = HumArr[2];
-						TxData[17] = HumArr[3];
-						TxData[18] = 'E';
-						TxData[19] = NULL;
-						
-						CleanRXBUF();
-						Nb_SendData(TxData);
-						//Send_Str(TxData);
 						break;
 					case 5:
-						//DisConnect();		
-						//Wifi_DisConnect();	
-						Nb_DisConnect();
-						flag_fasong = 0;
+						if(RemoteControl)
+						{
+							//DisConnect();		
+							//Wifi_DisConnect();	
+							Nb_DisConnect();
+							GPIO_ResetBits(GPIOA,GPIO_Pin_1);
+							Display_CHARS(lixian,1);
+							Display_CHARS(zaixian,0);
+						}
 						flag_state = 0;
-						GPIO_ResetBits(GPIOA,GPIO_Pin_1);
+						flag_fasong = 0;
+						
 						break;								 
 					default:
 						break;

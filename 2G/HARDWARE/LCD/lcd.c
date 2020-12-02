@@ -1149,19 +1149,22 @@ void DisplayTime(void)
 		}
 
 			Display_CHARS(hengxian,1);
-		if(Online==3)
+		if(RemoteControl)
 		{	
-				Display_CHARS(zaixian,1);
-				Display_CHARS(lixian,0);
+			DisplayRssi(RssiGrade);
+//				Display_CHARS(zaixian,1);
+//				Display_CHARS(lixian,0);
 		}
-		else if(Online==0) 
+		else 
 		{
-				Display_CHARS(zaixian,0);
-				Display_CHARS(lixian,1);
+			write_addr_dat_n_char(7,2,0);
+			write_addr_dat_n_char(7,4,0);
+			write_addr_dat_n_char(6,2,0);
+			write_addr_dat_n_char(6,1,0);
+//				Display_CHARS(zaixian,0);
+//				Display_CHARS(lixian,1);
 		}
-		
-		DisplayRssi(RssiGrade);
-		
+	
 		if(V_BAT>3.87)
 		{		
 				write_addr_dat_n_char(9,0x01, 1);//电池框
@@ -1191,7 +1194,8 @@ void DisplayTime(void)
 			write_addr_dat_n_char(7,0x01, 0);//第一格电
 			write_addr_dat_n_char(8,0x01, 0);//第二格电
 			write_addr_dat_n_char(8,0x02, 0);//第三格电
-		}	 
+		}	
+		 
 			if(count>0&&count<5)  //显示地址
 			{
 				

@@ -777,7 +777,7 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 //				Wifi_DisConnect();
 //			else if(flag_state == 0)
 				GPIO_SetBits(GPIOA,GPIO_Pin_1);
-			delay_ms(500);
+			delay_ms(1000);
 			
 			for(i=0;i<Rec_counter-4;i++)
 			{
@@ -798,7 +798,7 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 //				Wifi_DisConnect();
 //			else if(flag_state == 0)
 				GPIO_SetBits(GPIOA,GPIO_Pin_1);
-			delay_ms(500);
+			delay_ms(1000);
 			
 			for(i=0;i<Rec_counter-4;i++)
 			{
